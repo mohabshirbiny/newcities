@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('register', 'Api\PlayerController@register');
+Route::post('login', 'Api\PlayerController@authenticate');
+
+Route::group(['middleware' => ['jwt.verify']], function () {
+    Route::get("profile", "Api\PlayerController@getAuthenticatedUser");
+    Route::post("update-profile", "Api\PlayerController@updateProfile");
+    Route::post("change-password", "Api\PlayerController@changePassword");
+    Route::get("logout", "Api\PlayerController@logout");
 });
