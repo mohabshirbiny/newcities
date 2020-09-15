@@ -25,9 +25,9 @@ class CreateArticlesTable extends Migration
             $table->unsignedBigInteger("city_id");
             $table->string("body_en");
             $table->string("body_ar");
-            $table->string("author");
-            $table->string("vendor");
-            $table->string("compound");
+            $table->string("author_id");
+            $table->string("vendor_id");
+            $table->string("compound_id");
             $table->timestamps();
         });
     }

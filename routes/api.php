@@ -23,3 +23,9 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post("change-password", "Api\PlayerController@changePassword");
     Route::get("logout", "Api\PlayerController@logout");
 });
+
+Route::get("get-article-categories", "Api\ArticleCategoryController@getAll");
+Route::get("get-article-category/{id}", "Api\ArticleController@getOne");
+
+Route::get("get-articles", "Api\ArticleController@getAll");
+Route::get("get-article/{id}", "Api\ArticleController@getOne");
