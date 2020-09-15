@@ -29,6 +29,7 @@ class ComposerStaticInitbc7b5e456008fb3f0af7ec42d5d0e3d3
         'b6ec61354e97f32c0ae683041c78392a' => __DIR__ . '/..' . '/scrivo/highlight.php/HighlightUtilities/functions.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
         '0b47d6d4a00ca9112ba3953b49e7c9a4' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/helper.php',
+        '87ec9ed23ab309c46819ad3d8c71a554' => __DIR__ . '/../..' . '/app/Helpers/ApiResponse.php',
     );
 
     public static $prefixLengthsPsr4 = array (
