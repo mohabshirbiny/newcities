@@ -14,12 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('register', 'Api\PlayerController@register');
-Route::post('login', 'Api\PlayerController@authenticate');
+Route::post('register', 'Api\CustomerController@register');
+Route::post('login', 'Api\CustomerController@login');
+Route::post('verfiy', 'Api\CustomerController@customerVerify');
 
 Route::group(['middleware' => ['jwt.verify']], function () {
-    Route::get("profile", "Api\PlayerController@getAuthenticatedUser");
-    Route::post("update-profile", "Api\PlayerController@updateProfile");
-    Route::post("change-password", "Api\PlayerController@changePassword");
-    Route::get("logout", "Api\PlayerController@logout");
+    Route::get("profile", "Api\CustomerController@getAuthenticatedUser");
+    Route::post("update-profile", "Api\CustomerController@updateProfile");
+    Route::post("change-password", "Api\CustomerController@changePassword");
+    Route::get("logout", "Api\CustomerController@logout");
 });
