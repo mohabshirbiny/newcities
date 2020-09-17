@@ -43,12 +43,12 @@ return [
 
         'api' => [
             'driver' => 'jwt',
-            'provider' => 'players',
+            'provider' => 'customers',
         ],
 
-        'players' => [
+        'customers' => [
             'driver' => 'jwt',
-            'provider' => 'players',
+            'provider' => 'customers',
         ],
     ],
 
@@ -75,9 +75,9 @@ return [
             'model' => App\User::class,
         ],
 
-        'players' => [
+        'customers' => [
             'driver' => 'eloquent',
-            'model' => App\Player::class,
+            'model' => App\Customer::class,
         ],
 
 
