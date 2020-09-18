@@ -15,7 +15,7 @@ class ArticleCategoryController extends Controller
 
     public function getOne($id)
     {
-        $details = ArticleCategory::with("article")->find($id);
+        $details = ArticleCategory::with("articles")->find($id);
         return api_response(1, "Category retreived successfully.", $details);
     }
 }

@@ -10,6 +10,6 @@ class Article extends Model
 
     public function article_category()
     {
-        return $this->belongsTo(ArticleCategory::class, "product_id", "id");
+        return $this->belongsTo(ArticleCategory::class);
     }
 }

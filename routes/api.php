@@ -30,3 +30,6 @@ Route::get("get-article-category/{id}", "Api\ArticleController@getOne");
 
 Route::get("get-articles", "Api\ArticleController@getAll");
 Route::get("get-article/{id}", "Api\ArticleController@getOne");
+
+Route::get("get-vendor-categories", "Api\VendorCategoryController@getAll");
+Route::get("get-vendor-category/{id}", "Api\VendorCategoryController@getOne");
