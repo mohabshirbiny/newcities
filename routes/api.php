@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 Route::post('register', 'Api\CustomerController@register');
 Route::post('login', 'Api\CustomerController@login');
@@ -30,3 +29,18 @@ Route::get("get-article-category/{id}", "Api\ArticleController@getOne");
 
 Route::get("get-articles", "Api\ArticleController@getAll");
 Route::get("get-article/{id}", "Api\ArticleController@getOne");
+
+Route::get("get-vendor-categories", "Api\VendorCategoryController@getAll");
+Route::get("get-vendor-category/{id}", "Api\VendorCategoryController@getOne");
+
+Route::get("get-event-categories", "Api\EventCategoryController@getAll");
+Route::get("get-event-category/{id}", "Api\EventCategoryController@getOne");
+
+Route::get("get-event-organizers", "Api\EventOrganizerController@getAll");
+Route::get("get-event-organizer/{id}", "Api\EventOrganizerController@getOne");
+
+Route::get("get-event-sponsors", "Api\EventSponsorController@getAll");
+Route::get("get-event-sponsor/{id}", "Api\EventSponsorController@getOne");
+
+Route::get("get-events", "Api\EventController@getAll");
+Route::get("get-events/{id}", "Api\EventController@getOne");
