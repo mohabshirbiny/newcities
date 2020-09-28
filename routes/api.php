@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('register', 'Api\CustomerController@register');
+
 Route::post('login', 'Api\CustomerController@login');
 Route::post('verfiy', 'Api\CustomerController@customerVerify');
 
@@ -23,6 +23,13 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post("update-profile", "Api\CustomerController@updateProfile");
     Route::post("change-password", "Api\CustomerController@changePassword");
     Route::get("logout", "Api\CustomerController@logout");
+
+    // tenders
+    Route::get("get-tender-categories", "Api\TenderCategoryController@getAll")->name('tenders.category.all');
+    Route::get("get-tender-category/{id}", "Api\TenderCategoryController@getOne")->name('tenders.category.one');
+    Route::get("get-tenders", "Api\TenderController@getAll")->name('tenders.all');
+    Route::get("get-tender/{id}", "Api\TenderController@getOne")->name('tenders.one');
+
 });
 
 Route::get("get-article-categories", "Api\ArticleCategoryController@getAll");
