@@ -28,6 +28,12 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get("get-tender-category/{id}", "Api\TenderCategoryController@getOne")->name('tenders.category.one');
     Route::get("get-tenders", "Api\TenderController@getAll")->name('tenders.all');
     Route::get("get-tender/{id}", "Api\TenderController@getOne")->name('tenders.one');
+    
+    // offers
+    Route::get("get-offer-categories", "Api\OfferCategoryController@getAll")->name('offers.category.all');
+    Route::get("get-offer-category/{id}", "Api\OfferCategoryController@getOne")->name('offers.category.one');
+    Route::get("get-offers", "Api\OfferController@getAll")->name('offers.all');
+    Route::get("get-offer/{id}", "Api\OfferController@getOne")->name('offers.one');
 
 });
 
