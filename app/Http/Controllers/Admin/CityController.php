@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\City;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -13,9 +14,26 @@ class CityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view("admin.articles.index");
+        if ($request->wantsJson() || $request->ajax()) {
+            
+            $query = City::query();                                        
+            
+            return DataTables::of($query)
+                ->addColumn("actions", function($record) {
+                    $edit_link = route("cities.edit", $record->id);
+                    $delete_link = route("cities.destroy", $record->id);
+                    $actions = "
+                        <a href='$edit_link' class='badge bg-warning'>Edit</a>
+                        <a href='$delete_link' class='badge bg-danger'>Delete</a>
+                    ";
+                    return $actions;
+                })
+            ->rawColumns(['actions'])->make(true);
+        } else {
+            return view("admin.cities.index");
+        } 
     }
 
     /**
@@ -25,7 +43,7 @@ class CityController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.cities.create");
     }
 
     /**
@@ -36,7 +54,37 @@ class CityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+
+
+        $this->validate($request, [
+            "name_ar" => "required|string",
+            "name_en" => "required|string",
+            "cover" => "required",
+            "logo" => "required",
+            "about_ar" => "required",
+            "about_en" => "required",
+            "contact_details" => "required",
+            "social_links" => "required",
+        ]);
+
+        $requestData = $request->except(['logo' , 'cover']);
+
+        $cityData = [
+
+            'cover'  => 'tst',
+            'logo'  => 'tst',
+            'contact_details'  => serialize($request->contact_details ),
+            'social_links'     => serialize($request->social_links ),
+        ];
+        
+        $cityData = array_merge($requestData , $cityData);
+            // dd($cityData);
+        $city = City::create($cityData);
+
+        return redirect()->route('cities.index')->withSuccess( 'تم انشاء المدينة بنجاح !');
+
+        dd($request->all());
     }
 
     /**
@@ -47,7 +95,7 @@ class CityController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect()->route('cities.index')->withSuccess( 'تم انشاء المدينة بنجاح !');
     }
 
     /**
@@ -58,7 +106,7 @@ class CityController extends Controller
      */
     public function edit($id)
     {
-        //
+        return redirect()->route('cities.index')->withSuccess( 'تم انشاء المدينة بنجاح !');
     }
 
     /**
