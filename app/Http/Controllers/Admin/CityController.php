@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\City;
 use App\Http\Controllers\Controller;
+use App\Traits\UploadFiles;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class CityController extends Controller
 {
+    use UploadFiles;
     /**
      * Display a listing of the resource.
      *
@@ -56,7 +58,7 @@ class CityController extends Controller
     {
         
 
-
+        // dd($request->all());
         $this->validate($request, [
             "name_ar" => "required|string",
             "name_en" => "required|string",
@@ -69,11 +71,15 @@ class CityController extends Controller
         ]);
 
         $requestData = $request->except(['logo' , 'cover']);
+        
+        // send files to rename and upload
+        $logo = $this->uploadFile($request->logo , 'City','logo','image','city_files');
+        $cover = $this->uploadFile($request->cover , 'City','cover','image','city_files');
 
         $cityData = [
 
             'cover'  => 'tst',
-            'logo'  => 'tst',
+            'logo'  => $logo,
             'contact_details'  => serialize($request->contact_details ),
             'social_links'     => serialize($request->social_links ),
         ];
@@ -84,7 +90,6 @@ class CityController extends Controller
 
         return redirect()->route('cities.index')->withSuccess( 'تم انشاء المدينة بنجاح !');
 
-        dd($request->all());
     }
 
     /**

@@ -19,15 +19,19 @@ trait UploadFiles
      * 
      * @return @String 
      */
-    public function uploadFile($file , $object , $fileType , $folder,$hight=null,$width=null){
+    public function uploadFile($file , $object, $objectFileType , $fileType , $folder,$hight=null,$width=null){
 
-        $fileName = $fileType."_".$object."_".time().'.'.$file->getClientOriginalExtension();
+        $fileName = $fileType."_".$object."_".$objectFileType."_".time().'.'.$file->getClientOriginalExtension();
 
-        
+
         if ($fileType == 'image') {
 
-            $image_resize = Image::make($file->getRealPath());              
-            $image_resize->resize($hight, $width);
+            $image_resize = Image::make($file->getRealPath());  
+            
+            if ($hight && $width) {
+                $image_resize->resize($hight, $width);
+            }            
+            
             
             if (!file_exists(public_path('images/'.$folder))) {
                 mkdir(public_path('images/'.$folder), 777, true);

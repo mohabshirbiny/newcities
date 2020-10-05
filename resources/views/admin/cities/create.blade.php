@@ -23,7 +23,7 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('cities.store') }}">
+                            <form role="form" id="quickForm" method="post" action="{{ route('cities.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
                                     
