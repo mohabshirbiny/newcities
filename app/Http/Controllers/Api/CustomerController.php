@@ -21,11 +21,11 @@ class CustomerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'mobile' => 'required|regex:/(01)[0-9]{9}/',
+            'mobile' => 'required|regex:/(01)[0-9]{9}/|max:11',
         ]);
 
         if ($validator->fails()) {
-            return APIResponseController::respond(1,$validator->errors()->toArray(),[],422); 
+            return APIResponseController::respond(0,'validation error',[],422); 
         }
 
         $customer = Customer::where('mobile',$request->mobile)->first();
@@ -52,36 +52,36 @@ class CustomerController extends Controller
         
         $response = $this->sendVerificationSMS($customer);
 
-        return APIResponseController::respond(1,[],["customer" => $customer],200); 
+        return APIResponseController::respond(1,"login",["customer" => $customer],200); 
         
     }
 
     public function customerVerify(Request $request){
 
         $validator = Validator::make($request->all(), [
-                'mobile' => 'required|regex:/(01)[0-9]{9}/',
+                'mobile' => 'required|regex:/(01)[0-9]{9}/|max:11',
                 'code'  =>  'required|integer|min:6',
             ]);
 
         if ($validator->fails()) {
-            return APIResponseController::respond(0,$validator->errors()->toArray(),[],422); 
+            return APIResponseController::respond(0,'Validation error',[],422); 
         }
         
         $customer = Customer::where('mobile',$request->mobile)->first();
 
         if(!$customer){
-            return APIResponseController::respond(0,['error'=>'هذا الرقم غير مسجل لدينا من فضلك قم بتسجيل بياناتك'],[],422); 
+            return APIResponseController::respond(0,'هذا الرقم غير مسجل لدينا من فضلك قم بتسجيل بياناتك',[],422); 
         }
 
         if($customer->verification_code == $request->code ){
             
             $token = auth('api')->fromUser($customer);
 
-            return APIResponseController::respond(1,[],["customer" => $customer,'token' => $token],200); 
+            return APIResponseController::respond(1,'customer data',["customer" => $customer,'token' => $token],200); 
 
         }else{
             // if code is wrong
-            return APIResponseController::respond(0,['error'=>'wrong code'],[],422); 
+            return APIResponseController::respond(0,'wrong code',[],422); 
         }
 
     }
@@ -90,21 +90,21 @@ class CustomerController extends Controller
     {
         try {
             if (!$user = auth('api')->user()) {
-                return APIResponseController::respond(0,['User not found'],[],401); 
+                return APIResponseController::respond(0,'User not found',[],401); 
             }
         } catch (TokenExpiredException $e) {
-            return APIResponseController::respond(0,['Token is expired'],[],500); 
+            return APIResponseController::respond(0,'Token is expired',[],500); 
         } catch (TokenInvalidException $e) {
-            return APIResponseController::respond(0,['Token is invalid'],[],500); 
+            return APIResponseController::respond(0,'Token is invalid',[],500); 
         } catch (JWTException $e) {
-            return APIResponseController::respond(0,['Token is absent'],[],500); 
+            return APIResponseController::respond(0,'Token is absent',[],500); 
         }
 
         $user = auth('api')->user();
 
         $token = auth('api')->fromUser($user);
 
-        return APIResponseController::respond(1,['Profile details'],["user" => $user, "token" => $token]); 
+        return APIResponseController::respond(1,'Profile details',["user" => $user, "token" => $token]); 
     }
 
     public function updateProfile(Request $request)
@@ -125,7 +125,7 @@ class CustomerController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return APIResponseController::respond(2002,$validator->errors()->toArray(),[],422); 
+            return APIResponseController::respond(0,'Vaidation error',[],422); 
         }
 
         $customer = Customer::find($user->id);
@@ -138,13 +138,14 @@ class CustomerController extends Controller
 
         $new_updated_Customer = Customer::find($user->id);
 
-        return APIResponseController::respond(1,['Profile updated'],["customer" => $user, "token" => $token]); 
+        return APIResponseController::respond(1,'Profile updated',["customer" => $user, "token" => $token]); 
     }
 
     public function logout()
     {
         auth("api")->logout();
-        return response()->json(["status" => 1, "message" => "Successfully logged out", "data" => (object) []]);
+        return APIResponseController::respond(1,'Successfully logged out',[],200); 
+        
     }
 
     public function sendVerificationSMS($customer){

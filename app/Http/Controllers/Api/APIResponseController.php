@@ -9,20 +9,20 @@ use Illuminate\Support\Facades\Response;
 
 class APIResponseController extends Controller
 {
-    public static function respond($status,$message=[],$data=[],$httpCode=200){
+    public static function respond($status,$message,$data=[],$httpCode=200){
         
         $return=[];
         
         $return['status']= $status;
-        $return['message']= [];
-        $return['data']= [];
+        $return['message']= $message;
+        // $return['data']= [];
 
-        foreach ($message as $key => $value) {
-            $return['message'][$key]=$value;
-        }
+        // foreach ($message as $key => $value) {
+        //     $return['message'][$key]=$value;
+        // }
 
         foreach ($data as $key => $value) {
-            $return['data'][$key]=$value;
+            $return[$key]=$value;
         }
 
         return Response::json($return, $httpCode, array(), JSON_PRETTY_PRINT);
