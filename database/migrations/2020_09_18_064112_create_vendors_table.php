@@ -17,14 +17,12 @@ class CreateVendorsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('vendor_category_id');
             $table->foreign('vendor_category_id')->references('id')->on('vendor_categories');
-            $table->string("title_en");
-            $table->string("title_ar");
+            $table->string("name");
             $table->string("logo");
             $table->string("cover");
             $table->string("gallery");
             $table->string("location_url");
-            $table->string("about_en");
-            $table->string("about_ar");
+            $table->string("about");
             $table->text("contact_details");
             $table->text("social_media");
             $table->unsignedBigInteger("city_id");

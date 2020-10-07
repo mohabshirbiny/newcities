@@ -15,8 +15,7 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string("title_en");
-            $table->string("title_ar");
+            $table->string("name");
             $table->date("date_from");
             $table->date("date_to");
             $table->time("time_from");
@@ -27,8 +26,7 @@ class CreateEventsTable extends Migration
             $table->text("address");
             $table->string("cover");
             $table->text("gallery");
-            $table->text("about_en");
-            $table->text("about_ar");
+            $table->text("about");
             $table->unsignedBigInteger("city_id");
             $table->unsignedBigInteger("event_category_id")->nullable();
             $table->unsignedBigInteger("event_organizer_id")->nullable();

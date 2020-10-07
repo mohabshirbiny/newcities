@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEventOrganizersTable extends Migration
+class CreateCompoundsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,18 @@ class CreateEventOrganizersTable extends Migration
      */
     public function up()
     {
-        Schema::create('event_organizers', function (Blueprint $table) {
+        Schema::create('compounds', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string("name");
             $table->string("logo");
-            $table->string("phone");
-            $table->string("website");
+            $table->text("location_url");
+            $table->text("contact_details");
+            $table->text("about");
+            $table->text("cover");
+            $table->text("social_media");
+            $table->text("gallery");
+            $table->boolean("use_facilities")->default(false);
+            $table->unsignedBigInteger("city_id")->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +36,6 @@ class CreateEventOrganizersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('event_organizers');
+        Schema::dropIfExists('compounds');
     }
 }
