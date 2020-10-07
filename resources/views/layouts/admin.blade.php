@@ -7,21 +7,21 @@
         <!-- Tell the browser to be responsive to screen width -->
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="{{ asset('admin/plugins/fontawesome-free/css/all.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('admin_assets/plugins/fontawesome-free/css/all.min.css') }}" />
         <!-- Ionicons -->
         <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
         <!-- Tempusdominus Bbootstrap 4 -->
-        <link rel="stylesheet" href="{{ asset('admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('admin_assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}" />
         <!-- iCheck -->
-        <link rel="stylesheet" href="{{ asset('admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('admin_assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" />
         <!-- JQVMap -->
-        <link rel="stylesheet" href="{{ asset('admin/plugins/jqvmap/jqvmap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('admin_assets/plugins/jqvmap/jqvmap.min.css') }}" />
         <!-- Theme style -->
-        <link rel="stylesheet" href="{{ asset('admin/dist/css/adminlte.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('admin_assets/dist/css/adminlte.min.css') }}" />
         <!-- overlayScrollbars -->
-        <link rel="stylesheet" href="{{ asset('admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('admin_assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}" />
         <!-- Daterange picker -->
-        <link rel="stylesheet" href="{{ asset('admin/plugins/daterangepicker/daterangepicker.css') }}" />
+        <link rel="stylesheet" href="{{ asset('admin_assets/plugins/daterangepicker/daterangepicker.css') }}" />
         <!-- Google Font: Source Sans Pro -->
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" />
 
@@ -66,7 +66,7 @@
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
                 <a href="index3.html" class="brand-link">
-                    <img src="{{ asset('admin/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8;" />
+                    <img src="{{ asset('admin_assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8;" />
                     <span class="brand-text font-weight-light">Real State</span>
                 </a>
 
@@ -103,6 +103,20 @@
                                     <p>Articles</p>
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('city-districts.index') }}" class="nav-link @if(request()->segment(2) == 'city-categories') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Cities Categories</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('cities.index') }}" class="nav-link @if(request()->segment(2) == 'cities') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Cities</p>
+                                </a>
+                            </li>
                             
                         </ul>
                     </nav>
@@ -124,15 +138,15 @@
         <!-- ./wrapper -->
 
         <!-- jQuery -->
-        <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('admin_assets/plugins/jquery/jquery.min.js') }}"></script>
         <!-- jQuery UI 1.11.4 -->
-        <script src="{{ asset('admin/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+        <script src="{{ asset('admin_assets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
         <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
         <script>
             $.widget.bridge("uibutton", $.ui.button);
         </script>
         <!-- Bootstrap 4 -->
-        <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('admin_assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         
 
         <!-- DataTables -->
@@ -142,14 +156,14 @@
         @yield("js")
 
         <!-- AdminLTE App -->
-        <script src="{{ asset('admin/dist/js/adminlte.js') }}"></script>
+        <script src="{{ asset('admin_assets/dist/js/adminlte.js') }}"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="{{ asset('admin/dist/js/demo.js') }}"></script>
+        <script src="{{ asset('admin_assets/dist/js/demo.js') }}"></script>
 
         <script>
             const is_country_set = "{{ session()->has('country_details') ?? 0 }}";
         </script>
-        <script src="{{ asset('admin/custom/general.js') }}"></script>
+        <script src="{{ asset('admin_assets/custom/general.js') }}"></script>
         
         <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
 

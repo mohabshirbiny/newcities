@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCityDistrictsTable extends Migration
+class CreateAttachmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateCityDistrictsTable extends Migration
      */
     public function up()
     {
-        Schema::create('city_districts', function (Blueprint $table) {
+        Schema::create('attachments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string("name_ar");
-            $table->string("name_en");
-            $table->string("city_id");
-            $table->string("location_url");
+            $table->string('path');
+            $table->string('file_type');
+            $table->string('attachment_type');
+            $table->string('model_type');
+            $table->string('model_id');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateCityDistrictsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('city_districts');
+        Schema::dropIfExists('attachments');
     }
 }

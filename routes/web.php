@@ -14,18 +14,22 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'admin'], function () {
+Route::get('/', 'HomeController@index')->name('dashboard');
+
+Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'], function () {
+
+    Route::get('/', 'Admin\AdminController@index')->name('dashboard');
+
     Route::get('article-categories/grid', 'Admin\ArticleCategoryController@grid')->name("article-categories.grid");
     Route::resource('article-categories', 'Admin\ArticleCategoryController');
 
     Route::get('articles/grid', 'Admin\ArticleController@grid')->name("articles.grid");
     Route::resource('articles', 'Admin\ArticleController');
+
+    Route::resource('city-districts', 'Admin\CityDistrictController');
+
+    Route::resource('cities', 'Admin\CityController');
 });
