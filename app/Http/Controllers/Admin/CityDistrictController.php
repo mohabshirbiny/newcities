@@ -1,8 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\City;
+use App\CityDistrict;
+use App\Http\Controllers\Controller;
+use App\Traits\UploadFiles;
+use Yajra\DataTables\Facades\DataTables;
 
 class CityDistrictController extends Controller
 {
@@ -11,9 +16,26 @@ class CityDistrictController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->wantsJson() || $request->ajax()) {
+            
+            $query = CityDistrict::query();                                        
+            
+            return DataTables::of($query)
+                ->addColumn("actions", function($record) {
+                    $edit_link = route("city-districts.edit", $record->id);
+                    $delete_link = route("city-districts.destroy", $record->id);
+                    $actions = "
+                        <a href='$edit_link' class='badge bg-warning'>Edit</a>
+                        <a href='$delete_link' class='badge bg-danger'>Delete</a>
+                    ";
+                    return $actions;
+                })
+            ->rawColumns(['actions'])->make(true);
+        } else {
+            return view("admin.cities_districts.index");
+        }
     }
 
     /**
@@ -23,7 +45,8 @@ class CityDistrictController extends Controller
      */
     public function create()
     {
-        //
+        $cities = City::query()->select('id','name_en','name_ar')->get();
+        return view("admin.cities_districts.create",compact('cities'));
     }
 
     /**
@@ -34,7 +57,16 @@ class CityDistrictController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "name_ar" => "required|string",
+            "name_en" => "required|string",
+            "location_url" => "required",
+            "city_id" => "required",
+        ]);
+
+        $cityDistrict = CityDistrict::create($request->all());
+
+        return redirect()->route('cities.index')->withSuccess( 'تم انشاء المدينة بنجاح !');
     }
 
     /**
@@ -56,8 +88,9 @@ class CityDistrictController extends Controller
      */
     public function edit($id)
     {
-        //
-    }
+        $cityDistrict = CityDistrict::findorfail($id);                                        
+        dd($cityDistrict->city);
+    }   
 
     /**
      * Update the specified resource in storage.

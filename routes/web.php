@@ -29,9 +29,7 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::get('articles/grid', 'Admin\ArticleController@grid')->name("articles.grid");
     Route::resource('articles', 'Admin\ArticleController');
 
-    Route::get('city-categories/grid', 'Admin\CityCategoryController@grid')->name("city-categories.grid");
-    Route::resource('city-categories', 'Admin\CityCategoryController');
+    Route::resource('city-districts', 'Admin\CityDistrictController');
 
-    Route::get('cities/grid', 'Admin\CityController@grid')->name("cities.grid");
     Route::resource('cities', 'Admin\CityController');
 });

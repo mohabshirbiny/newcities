@@ -105,7 +105,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="{{ route('city-categories.index') }}" class="nav-link @if(request()->segment(2) == 'city-categories') active @endif">
+                                <a href="{{ route('city-districts.index') }}" class="nav-link @if(request()->segment(2) == 'city-categories') active @endif">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>Cities Categories</p>
                                 </a>
