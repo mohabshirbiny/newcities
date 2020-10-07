@@ -23,7 +23,7 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('cities.store') }}">
+                            <form role="form" id="quickForm" method="post" action="{{ route('cities.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
                                     
@@ -49,7 +49,7 @@
                                             <label for="exampleInputFile">Logo</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
-                                                    <input type="file" name='logo' class="custom-file-input" id="exampleInputFile" >
+                                                    <input type="file" name='logo' class="custom-file-input" id="exampleInputFile" accept="image/*">
                                                     <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                                     @if ($errors->has('logo'))
                                                 <span class="text-danger">{{ $errors->first('logo') }}</span>
@@ -61,7 +61,7 @@
                                             <label for="exampleInputFile">Cover</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
-                                                    <input type="file" name='cover' class="custom-file-input" id="exampleInputFile" >
+                                                    <input type="file" name='cover' class="custom-file-input" id="exampleInputFile" accept="image/*">
                                                     <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                                     @if ($errors->has('cover'))
                                                 <span class="text-danger">{{ $errors->first('cover') }}</span>
