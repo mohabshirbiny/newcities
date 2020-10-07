@@ -88,8 +88,11 @@ class CityDistrictController extends Controller
      */
     public function edit($id)
     {
-        $cityDistrict = CityDistrict::findorfail($id);                                        
-        dd($cityDistrict->city);
+        $cityDistrict = CityDistrict::findorfail($id); 
+        
+        $cities = City::query()->select('id','name_en','name_ar')->get();
+        
+        return view("admin.cities_districts.edit",compact('cities','cityDistrict'));        
     }   
 
     /**
@@ -101,7 +104,18 @@ class CityDistrictController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $cityDistrict = CityDistrict::findorfail($id); 
+
+        $this->validate($request, [
+            "name_ar" => "required|string",
+            "name_en" => "required|string",
+            "location_url" => "required",
+            "city_id" => "required",
+        ]);
+
+        $cityDistrict->update($request->all());
+
+        return redirect()->route('city-districts.index')->withSuccess( 'district updated');
     }
 
     /**
@@ -112,6 +126,10 @@ class CityDistrictController extends Controller
      */
     public function destroy($id)
     {
-        //
+        dd($id);
+        $article_category = CityDistrict::findorfail($id);
+        $article_category->delete();
+
+        return redirect(route("city-districts.index"))->with("success_message", "Article category has been deleted successfully.");
     }
 }

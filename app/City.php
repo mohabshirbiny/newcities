@@ -20,6 +20,11 @@ class City extends Model
 
     protected $appends = ['logo_path','cover_path'];
 
+
+    public function districts(){
+        return $this->hasMany(CityDistrict::class);
+    }
+
     public function getLogoPathAttribute(){
         $imageUrl = url('images/city_files/'.$this->logo);
         return $imageUrl;

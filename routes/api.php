@@ -23,6 +23,12 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post("change-password", "Api\CustomerController@changePassword");
     Route::get("logout", "Api\CustomerController@logout");
 
+    // cities
+    Route::get("get-city-districts/{city_id}", "Api\CityDistrictController@getAll")->name('cities.districts.all');
+    Route::get("get-city-district/{id}", "Api\CityDistrictController@getOne")->name('cities.districts.one');
+    Route::get("get-cities", "Api\CityController@getAll")->name('cities.all');
+    Route::get("get-city/{id}", "Api\CityController@getOne")->name('cities.one');
+
     // tenders
     Route::get("get-tender-categories", "Api\TenderCategoryController@getAll")->name('tenders.category.all');
     Route::get("get-tender-category/{id}", "Api\TenderCategoryController@getOne")->name('tenders.category.one');
