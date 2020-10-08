@@ -27,11 +27,13 @@ class City extends Model
 
     public function getLogoPathAttribute(){
         $imageUrl = url('images/city_files/'.$this->logo);
+        $imageUrl = url('public/images/city_files/'.$this->logo);
         return $imageUrl;
     }
 
     public function getCoverPathAttribute(){
         $imageUrl = url('images/city_files/'.$this->cover);
+        $imageUrl = url('public/images/city_files/'.$this->cover);
         return $imageUrl;
     }
 
