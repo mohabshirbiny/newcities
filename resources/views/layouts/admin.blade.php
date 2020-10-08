@@ -117,6 +117,21 @@
                                     <p>Cities</p>
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('offers-categories.index') }}" class="nav-link @if(request()->segment(2) == 'offers-categories') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Offers Categories</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('offers.index') }}" class="nav-link @if(request()->segment(2) == 'offers') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Offers</p>
+                                </a>
+                            </li>
+                            
                             
                         </ul>
                     </nav>
