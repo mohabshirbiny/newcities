@@ -34,7 +34,7 @@ trait UploadFiles
             
             
             if (!file_exists(public_path('images/'.$folder))) {
-                mkdir(public_path('images/'.$folder), 777, true);
+                mkdir(public_path('images/'.$folder), 0755, true);
             }
             
             $path = public_path('images/'.$folder.'/'.$fileName);
