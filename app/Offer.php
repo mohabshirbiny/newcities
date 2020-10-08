@@ -21,7 +21,13 @@ class Offer extends Model
         'offer_category_id',
     ];
 
-    protected $appends = ["title_en" , 'title_ar'];
+    protected $appends = [
+        "title_en" ,
+        'title_ar',
+        "description_en" ,
+        'description_ar',
+        'image_path'
+    ];
 
     public function offer_category()
     {
@@ -36,6 +42,21 @@ class Offer extends Model
     public function getTitleArAttribute()
     {
         return unserialize($this->title)['ar'];
+    }
+
+    public function getDescriptionEnAttribute()
+    {
+        return unserialize($this->description)['en'];
+    }
+
+    public function getDescriptionArAttribute()
+    {
+        return unserialize($this->description)['ar'];
+    }
+
+    public function getImagePathAttribute(){
+        $imageUrl = url('images/offer_files/'.$this->image);
+        return $imageUrl;
     }
 
 }

@@ -79,7 +79,7 @@ class OfferCategoryController extends Controller
              //dd($OfferCategoryData);
         $offerCategory = OfferCategory::create($OfferCategoryData);
 
-        return redirect()->route('offers.categories.index')->withSuccess( 'Offer category created !');
+        return redirect()->route('offers-categories.index')->withSuccess( 'Offer category created !');
     }
 
     /**

@@ -79,18 +79,19 @@ class OfferController extends Controller
         // send files to rename and upload
         $image = $this->uploadFile($request->image , 'Offer','image','image','offer_files');
 
-        $cityData = [
+        $offerData = [
 
             'image'  => $image,
             'title'  => serialize($request->title ),
             'description'     => serialize($request->description ),
+            'product_id'     => '0',
         ];
         
-        $cityData = array_merge($requestData , $cityData);
-             dd($cityData);
-        $city = Offer::create($cityData);
+        $offerData = array_merge($requestData , $offerData);
+            //  dd($offerData);
+        $offer = Offer::create($offerData);
 
-        return redirect()->route('cities.index')->withSuccess( 'تم انشاء المدينة بنجاح !');
+        return redirect()->route('offers.index')->withSuccess( 'offer created !');
     }
 
     /**
@@ -112,7 +113,10 @@ class OfferController extends Controller
      */
     public function edit($id)
     {
-        //
+        $OfferCategories = OfferCategory::query()->select(['id','name'])->get();                                        
+
+        $offer = Offer::findorfail($id);
+        return view("admin.offers.edit", compact("OfferCategories",'offer'));
     }
 
     /**
@@ -124,7 +128,48 @@ class OfferController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $offer = Offer::findorfail($id);
+
+        $this->validate($request, [
+            "offer_category_id" => "required|integer",
+            "vendor_id" => "required|integer",
+            "title.ar" => "required",
+            "title.en" => "required",
+            "image" => "file",
+            "price_before" => "required",
+            "price_after" => "required",
+            "discount_percentage" => "required",
+            "description.ar" => "required",
+            "description.en" => "required",
+            "expiration_date" => "required|date",
+            "url" => "required|url",
+            "order_tel_number" => "required",
+        ]);
+
+        $requestData = $request->except(['image']);
+        $offerData= [];
+
+        if ($request->image) { 
+            // send files to rename and upload
+            $newImage = $this->uploadFile($request->image , 'Offer','image','image','offer_files');
+            $offerData['image'] = $newImage;
+        }else{
+            $offerData['image'] = $offer->image;
+        }
+
+        $offerData = array_merge($offerData,[
+            'title'  => serialize($request->title ),
+            'description'     => serialize($request->description ),
+            'product_id'     => '0',
+        ]);
+        
+        $offerData = array_merge($requestData , $offerData);
+            //  dd($offerData);
+        $offer->update($offerData);
+
+        return redirect()->route('offers.index')->withSuccess( 'offer updated !');
+    
+    
     }
 
     /**

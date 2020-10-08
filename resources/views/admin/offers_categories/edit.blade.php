@@ -47,7 +47,7 @@
                                     
                                     <div class="row">
                                         <div class="form-group col-md-3">
-                                            <img src="{{$offerCategory->icon_path}}" alt="">
+                                            <img src="{{$offerCategory->icon_path}}" alt="" style="max-width: 100px;max-height: 100px;">
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="exampleInputFile">Icon</label>

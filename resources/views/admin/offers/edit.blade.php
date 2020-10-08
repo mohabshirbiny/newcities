@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "Edit city")
+@section("page_title", "Edit offer")
 @section("content")
 
     <div class="content-wrapper">
@@ -19,176 +19,135 @@
                         <!-- jquery validation -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Edit city</h3>
+                                <h3 class="card-title">Edit offer</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('cities.update', $city->id) }}" enctype="multipart/form-data">
+                            <form role="form" id="quickForm" method="post" action="{{ route('offers.update', $offer->id) }}" enctype="multipart/form-data">
                                 @csrf
                                 @method("PUT")
                                 <div class="card-body">
-                                    
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Offer category</label>
+                                        <select name="offer_category_id" class="form-control">
+                                            <option value="">Select Offer Category</option>
+                                            @foreach ($OfferCategories as $OfferCategory)
+                                                <option value="{{ $OfferCategory->id }}" @if ($OfferCategory->id == $offer->offer_category_id ) selected='selected' @endif>{{ $OfferCategory->name_en . " - " . $OfferCategory->name_ar }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Vendor</label>
+                                        <select name="vendor_id" class="form-control">
+                                            <option value="">Select Vendor</option>
+                                            @foreach ($OfferCategories as $OfferCategory)
+                                                <option value="{{ $OfferCategory->id }}" @if ($OfferCategory->id == $offer->offer_category_id ) selected='selected' @endif>{{ $OfferCategory->name_en . " - " . $OfferCategory->name_ar }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="row">
                                         <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">name (ar)</label>
-                                            <input type="text" name="name_ar" value='{{$city->name_ar}}' class="form-control" placeholder="Enter title ar" />
+                                            <label for="exampleInputEmail1">title (ar)</label>
+                                            <input type="text" name="title[ar]" value='{{$offer->title_ar}}' class="form-control" placeholder="Enter title ar" />
                                             @if ($errors->has('name_ar'))
-                                                <span class="text-danger">{{ $errors->first('name_ar') }}</span>
+                                                <span class="text-danger">{{ $errors->first('title.ar') }}</span>
                                             @endif
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">name (en)</label>
-                                            <input type="text" name="name_en" value='{{$city->name_en}}' class="form-control" placeholder="Enter title en" />
-                                            @if ($errors->has('name_en'))
-                                                <span class="text-danger">{{ $errors->first('name_en') }}</span>
+                                            <label for="exampleInputEmail1">title (en)</label>
+                                            <input type="text" name="title[en]" value='{{$offer->title_en}}' class="form-control" placeholder="Enter title en" />
+                                            @if ($errors->has('title.en'))
+                                                <span class="text-danger">{{ $errors->first('title.en') }}</span>
                                             @endif
                                         </div>
                                     </div>
                                     
                                     <div class="row">
                                         <div class="form-group col-md-3">
-                                            <img src="{{$city->logo_path}}" alt="">
+                                            <img src="{{$offer->image_path}}" alt="" style="max-width: 100px;max-height: 100px;">
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="exampleInputFile">Logo</label>
+                                            <label for="exampleInputFile">image</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
-                                                    <input type="file" name='logo' class="custom-file-input" id="exampleInputFile" accept="image/*">
+                                                    <input type="file" name='image' class="custom-file-input" id="exampleInputFile" accept="image/*">
                                                     <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                    @if ($errors->has('logo'))
-                                                <span class="text-danger">{{ $errors->first('logo') }}</span>
+                                                    @if ($errors->has('image'))
+                                                <span class="text-danger">{{ $errors->first('image') }}</span>
                                             @endif
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <img src="{{$city->cover_path}}" alt="">
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label for="exampleInputFile">Cover</label>
-                                            <div class="input-group">
-                                                <div class="custom-file">
-                                                    <input type="file" name='cover' class="custom-file-input" id="exampleInputFile" accept="image/*">
-                                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                    @if ($errors->has('cover'))
-                                                <span class="text-danger">{{ $errors->first('cover') }}</span>
-                                            @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">about (en)</label>
-                                            <textarea name="about_en" class="form-control" id="" cols="30" rows="2">{{$city->about_en}}</textarea>
-                                            @if ($errors->has('about_en'))
-                                                <span class="text-danger">{{ $errors->first('about_en') }}</span>
-                                            @endif
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">About (ar)</label>
-                                            <textarea name="about_ar" class="form-control" id="" cols="30" rows="2">{{$city->about_ar}}</textarea>
-                                            @if ($errors->has('about_ar'))
-                                                <span class="text-danger">{{ $errors->first('about_ar') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Email </label>
-                                            <input type="email" value='{{$city->contact_details['email']}}' name="contact_details[email]" class="form-control" placeholder="Enter Email" />
-                                            @if ($errors->has('contact_details'))
-                                                <span class="text-danger">{{ $errors->first('contact_details') }}</span>
-                                            @endif
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Website</label>
-                                            <input type="url" value='{{$city->contact_details['website']}}' name="contact_details[website]" class="form-control" placeholder="Enter Website" />
-                                            @if ($errors->has('name_ar'))
-                                                <span class="text-danger">{{ $errors->first('name_ar') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Mobile </label>
-                                            <input type="number" value="{{$city->contact_details['mobile']}}" name="contact_details[mobile]" class="form-control" placeholder="Enter Mobile" />
-                                            @if ($errors->has('name_ar'))
-                                                <span class="text-danger">{{ $errors->first('name_ar') }}</span>
-                                            @endif
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Telephone</label>
-                                            <input type="text" value="{{$city->contact_details['telephone']}}" name="contact_details[telephone]" class="form-control" placeholder="Enter Telephone" />
-                                            @if ($errors->has('name_ar'))
-                                                <span class="text-danger">{{ $errors->first('name_ar') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Address</label>
-                                            <input type="text value="{{$city->contact_details['address']}}" name="contact_details[address]" class="form-control" placeholder="Enter Address " />
-                                            @if ($errors->has('name_ar'))
-                                                <span class="text-danger">{{ $errors->first('name_ar') }}</span>
-                                            @endif
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">whatsapp</label>
-                                            <input type="text" value="{{$city->contact_details['whatsapp']}}" name="contact_details[whatsapp]" class="form-control" placeholder="Enter whatsapp" />
-                                            @if ($errors->has('name_ar'))
-                                                <span class="text-danger">{{ $errors->first('name_ar') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Facebook </label>
-                                            <input type="text" value="{{$city->social_links['facebook']}}" name="social_links[facebook]" class="form-control" placeholder="Enter Facebook " />
-                                            @if ($errors->has('name_ar'))
-                                                <span class="text-danger">{{ $errors->first('name_ar') }}</span>
-                                            @endif
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">twitter </label>
-                                            <input type="text" value="{{$city->social_links['twitter']}}" name="social_links[twitter]" class="form-control" placeholder="Enter twitter " />
-                                            @if ($errors->has('name_ar'))
-                                                <span class="text-danger">{{ $errors->first('name_ar') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Instagram</label>
-                                            <input type="text" value="{{$city->social_links['instagram']}}" name="social_links[instagram]" class="form-control" placeholder="Enter Instagram  " />
-                                            @if ($errors->has('name_ar'))
-                                                <span class="text-danger">{{ $errors->first('name_ar') }}</span>
-                                            @endif
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">YouTube</label>
-                                            <input type="text" value="{{$city->social_links['youTube']}}" name="social_links[youTube]" class="form-control" placeholder="Enter YouTube" />
-                                            @if ($errors->has('name_ar'))
-                                                <span class="text-danger">{{ $errors->first('name_ar') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Location url</label>
-                                            <input type="text" value="{{$city->location_url}}" name="location_url" class="form-control" placeholder="Enter location url  " />
-                                            @if ($errors->has('location_url'))
-                                                <span class="text-danger">{{ $errors->first('location_url') }}</span>
-                                            @endif
                                         </div>
                                         
                                     </div>
 
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">description (en)</label>
+                                            <textarea name="description[en]" class="form-control" id="" cols="30" rows="2">{{$offer->description_en}}</textarea>
+                                            @if ($errors->has('description.en'))
+                                                <span class="text-danger">{{ $errors->first('description.en') }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">description (ar)</label>
+                                            <textarea name="description[ar]" class="form-control" id="" cols="30" rows="2">{{$offer->description_ar}}</textarea>
+                                            @if ($errors->has('description.ar'))
+                                                <span class="text-danger">{{ $errors->first('description.ar') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">price before </label>
+                                            <input type="number" value='{{$offer->price_before}}' name="price_before" class="form-control" placeholder="Enter price before" />
+                                            @if ($errors->has('price_before'))
+                                                <span class="text-danger">{{ $errors->first('price_before') }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">price after</label>
+                                            <input type="number" value='{{$offer->price_after}}' name="price_after" class="form-control" placeholder="Enter price after" />
+                                            @if ($errors->has('price_after'))
+                                                <span class="text-danger">{{ $errors->first('price_after') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">expiration date </label>
+                                            <input type="date" value='{{$offer->expiration_date}}' name="expiration_date" class="form-control" placeholder="Enter expiration date" />
+                                            @if ($errors->has('expiration_date'))
+                                                <span class="text-danger">{{ $errors->first('expiration_date') }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">order Telephone number</label>
+                                            <input type="text" value='{{$offer->order_tel_number}}' name="order_tel_number" class="form-control" placeholder="Enter Telephone" />
+                                            @if ($errors->has('order_tel_number'))
+                                                <span class="text-danger">{{ $errors->first('order_tel_number') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">discount_percentage</label>
+                                            <input type="number" value="{{$offer->discount_percentage}}" name="discount_percentage" class="form-control" placeholder="Enter discount percentage " />
+                                            @if ($errors->has('discount_percentage'))
+                                                <span class="text-danger">{{ $errors->first('discount_percentage') }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">URL</label>
+                                            <input type="url" value="{{$offer->url}}" name="url" class="form-control" placeholder="Enter location url  " />
+                                            @if ($errors->has('url'))
+                                                <span class="text-danger">{{ $errors->first('url') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
 
 
                                 </div>
