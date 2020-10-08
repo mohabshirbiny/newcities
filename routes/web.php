@@ -32,4 +32,8 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::resource('city-districts', 'Admin\CityDistrictController');
 
     Route::resource('cities', 'Admin\CityController');
+
+    Route::resource('tender-categories', 'Admin\TenderCategoryController');
+
+    Route::resource('tenders', 'Admin\TenderController');
 });

@@ -105,9 +105,9 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="{{ route('city-districts.index') }}" class="nav-link @if(request()->segment(2) == 'city-categories') active @endif">
+                                <a href="{{ route('city-districts.index') }}" class="nav-link @if(request()->segment(2) == 'city-districts') active @endif">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Cities Categories</p>
+                                    <p>Cities Districts</p>
                                 </a>
                             </li>
 
@@ -115,6 +115,20 @@
                                 <a href="{{ route('cities.index') }}" class="nav-link @if(request()->segment(2) == 'cities') active @endif">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>Cities</p>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a href="{{ route('tenders.index') }}" class="nav-link @if(request()->segment(2) == 'tenders') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Tenders</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('tender-categories.index') }}" class="nav-link @if(request()->segment(2) == 'tender-categories') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Tender Categories</p>
                                 </a>
                             </li>
                             
