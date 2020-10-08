@@ -46,7 +46,7 @@ class OfferController extends Controller
      */
     public function create()
     {
-        $OfferCategories = OfferCategory::query()->select(['id','name'])->get();                                        
+        $OfferCategories = OfferCategory::query()->select(['id','name'])->get();
         return view("admin.offers.create",compact('OfferCategories'));
     }
 
