@@ -126,7 +126,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('tender-categories.index') }}" class="nav-link @if(request()->segment(2) == 'tender-categories') active @endif">
+                                <a href="{{ route('tenders-categories.index') }}" class="nav-link @if(request()->segment(2) == 'tender-categories') active @endif">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>Tender Categories</p>
                                 </a>

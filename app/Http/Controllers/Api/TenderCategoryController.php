@@ -10,13 +10,19 @@ class TenderCategoryController extends Controller
 {
     public function getAll()
     {
-        $records = TenderCategory::all();
-        return APIResponseController::respond(1, ["Categories retreived successfully."], $records,200); 
+        
+        $records = TenderCategory::get();
+        
+        return APIResponseController::respond(1, "Categories retreived successfully.", ['tender_categories' => $records],200); 
     }
 
     public function getOne($id)
     {
+        if(!TenderCategory::find($id)){
+            return APIResponseController::respond(0,'no Tender Category with this id',[],404); 
+        }
+
         $details = TenderCategory::with("tenders")->find($id);
-        return APIResponseController::respond(1,[ "Categories retreived successfully."],["data" => $details],200); 
+        return APIResponseController::respond(1, "Categories retreived successfully.",["tender_category" => $details],200); 
     }
 }

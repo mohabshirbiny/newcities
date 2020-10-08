@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "Tenders")
+@section("page_title", "Offers")
 @section("content")
 
     <div class="content-wrapper">
@@ -21,7 +21,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     View all tenders
-                                    <a class="btn btn-info btn-sm text-right" href="{{ route('tenders.create') }}">+ Add New</a>
+                                    <a class="btn btn-info btn-sm text-right" href="{{ route('tenders-categories.create') }}">+ Add New</a>
                                 </h3>
                             </div>
                             <!-- /.card-header -->
@@ -30,8 +30,8 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Title (en)</th>
-                                            <th>Title (ar)</th>
+                                            <th>Name (en)</th>
+                                            <th>Name (ar)</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -59,11 +59,11 @@ $(function() {
     $('#example2').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '{!! route('tenders.index') !!}',
+        ajax: '{!! route('tenders-categories.index') !!}',
         columns: [
             { data: 'id', name: 'id' },
-            { data: 'title_en', name: 'title_en' },
-            { data: 'title_ar', name: 'title_ar' },
+            { data: 'name_en', name: 'name_en' },
+            { data: 'name_ar', name: 'name_ar' },
             { data: 'actions', name: 'actions' },
         ]
     });

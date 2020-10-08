@@ -40,7 +40,7 @@
                                         <select name="tender_category_id" class="form-control">
                                             <option value="">Select Category</option>
                                             @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->title_en . " - " . $category->title_ar }}</option>
+                                                <option value="{{ $category->id }}">{{ $category->name_en . " - " . $category->name_ar }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -142,14 +142,14 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Book value </label>
-                                            <input type="text" {{old('book_value')}} name="book_value" class="form-control" placeholder="Enter Book value" />
+                                            <input type="text" value="{{old('book_value')}}" name="book_value" class="form-control" placeholder="Enter Book value" />
                                             @if ($errors->has('book_value'))
                                                 <span class="text-danger">{{ $errors->first('book_value') }}</span>
                                             @endif
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Insurance Value</label>
-                                            <input type="text" {{old('insurance_value')}} name="insurance_value" class="form-control" placeholder="Enter Insurance Value" />
+                                            <input type="text" value="{{old('insurance_value')}}" name="insurance_value" class="form-control" placeholder="Enter Insurance Value" />
                                             @if ($errors->has('insurance_value'))
                                                 <span class="text-danger">{{ $errors->first('insurance_value') }}</span>
                                             @endif

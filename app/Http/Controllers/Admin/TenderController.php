@@ -12,6 +12,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class TenderController extends Controller
 {
+    use UploadFiles;
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +47,7 @@ class TenderController extends Controller
      */
     public function create()
     {
-        $categories = TenderCategory::get();
+        $categories = TenderCategory::query()->select(['id','name'])->get();                                        
         $cities = City::get();
         return view("admin.tenders.create",compact('categories','cities'));
 
@@ -61,40 +62,43 @@ class TenderController extends Controller
     public function store(Request $request)
     {
         
-
+        // dd($request->all());
         $this->validate($request, [
             "city_id" => "required|string",
+            "tender_category_id" => "required|string",
             "title.ar" => "required|string",
             "title.en" => "required|string",
-            "cover" => "required",
-            "logo" => "required",
+            "attachment" => "required",
+            "image" => "required",
             "body.ar" => "required",
             "body.en" => "required",
             "brief.ar" => "required",
             "brief.en" => "required",
-            "contact_details" => "required",
-            "social_links" => "required",
+            "date_from" => "required|date",
+            "date_to" => "required|date",
+            "book_value" => "required",
+            "insurance_value" => "required",
         ]);
-dd($request->all());
-        $requestData = $request->except(['image' , 'cover']);
+// dd($request->all());
+        $requestData = $request->except(['image' , 'attachment']);
         
         // send files to rename and upload
-        $logo = $this->uploadFile($request->logo , 'City','logo','image','tender_files');
-        $cover = $this->uploadFile($request->cover , 'City','cover','image','city_files');
+        $image = $this->uploadFile($request->image , 'Tender','logo','image','tender_files');
 
-        $cityData = [
+        $tenderDate = [
 
-            'cover'  => $cover,
-            'logo'  => $logo,
-            'contact_details'  => serialize($request->contact_details ),
-            'social_links'     => serialize($request->social_links ),
+            'image'  => $image,
+            'attachment'  => '0',
+            'title'  => serialize($request->title ),
+            'body'     => serialize($request->body ),
+            'brief'     => serialize($request->brief ),
         ];
         
-        $cityData = array_merge($requestData , $cityData);
-            // dd($cityData);
-        $city = City::create($cityData);
+        $tenderDate = array_merge($requestData , $tenderDate);
+            // dd($tenderDate);
+        $tender = Tender::create($tenderDate);
 
-        return redirect()->route('cities.index')->withSuccess( 'تم انشاء المدينة بنجاح !');
+        return redirect()->route('tenders.index')->withSuccess( 'tender created !');
     }
 
     /**
@@ -116,7 +120,11 @@ dd($request->all());
      */
     public function edit($id)
     {
-        //
+        $TenderCategories = TenderCategory::query()->select(['id','name'])->get();                                        
+        $cities = City::query()->select(['id','name_en','name_ar'])->get();                                        
+
+        $tender = Tender::findorfail($id);
+        return view("admin.tenders.edit", compact("TenderCategories",'tender','cities'));
     }
 
     /**
@@ -128,7 +136,55 @@ dd($request->all());
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request->all());
+        $tender = Tender::findorfail($id);
+
+        $this->validate($request, [
+            "city_id" => "required|string",
+            "tender_category_id" => "required|string",
+            "title.ar" => "required|string",
+            "title.en" => "required|string",
+            "attachment" => "file",
+            "image" => "file",
+            "body.ar" => "required",
+            "body.en" => "required",
+            "brief.ar" => "required",
+            "brief.en" => "required",
+            "date_from" => "required|date",
+            "date_to" => "required|date",
+            "book_value" => "required",
+            "insurance_value" => "required",
+        ]);
+// dd($request->all());
+        $requestData = $request->except(['image' , 'attachment']);
+        
+        if ($request->image) { 
+            // send files to rename and upload
+            $newImage = $this->uploadFile($request->image , 'Tender','logo','image','tender_files');
+            $tenderData['image'] = $newImage;
+        }else{
+            $tenderData['image'] = $tender->image;
+        }
+
+        if ($request->image) { 
+            // send files to rename and upload
+            // $newImage = $this->uploadFile($request->attachment , 'Tender','logo','image','tender_files');
+            // $tenderData['attachment'] = $newImage;
+        }else{
+            $tenderData['attachment'] = $tender->attachment;
+        }
+
+        $tenderDate = array_merge($tenderData ,[
+            'title'  => serialize($request->title ),
+            'body'     => serialize($request->body ),
+            'brief'     => serialize($request->brief ),
+        ]);
+        
+        $tenderDate = array_merge($requestData , $tenderDate);
+            // dd($tenderDate);
+        $tender->update($tenderDate);
+
+        return redirect()->route('tenders.index')->withSuccess( 'tender created !');
     }
 
     /**
