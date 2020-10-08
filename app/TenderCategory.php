@@ -29,6 +29,7 @@ class TenderCategory extends Model
 
     public function getIconPathAttribute(){
         $imageUrl = url('images/tenders_categories_files/'.$this->icon);
+        $imageUrl = url('public/images/tenders_categories_files/'.$this->icon);
         return $imageUrl;
     }
 }

@@ -56,6 +56,7 @@ class Offer extends Model
 
     public function getImagePathAttribute(){
         $imageUrl = url('images/offer_files/'.$this->image);
+        $imageUrl = url('public/images/offer_files/'.$this->image);
         return $imageUrl;
     }
 

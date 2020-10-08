@@ -68,6 +68,7 @@ class Tender extends Model
 
     public function getImagePathAttribute(){
         $imageUrl = url('images/tender_files/'.$this->image);
+        $imageUrl = url('public/images/tender_files/'.$this->image);
         return $imageUrl;
     }
 }

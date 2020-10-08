@@ -28,7 +28,7 @@ class OfferCategory extends Model
     }
 
     public function getIconPathAttribute(){
-        $imageUrl = url('images/offers_categories_files/'.$this->icon);
+        $imageUrl = url('public/images/offers_categories_files/'.$this->icon);
         return $imageUrl;
     }
 }
