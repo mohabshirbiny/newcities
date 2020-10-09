@@ -40,6 +40,14 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::resource('offers', 'Admin\OfferController');
 
     Route::resource('offers-categories', 'Admin\OfferCategoryController');
+
+
+    Route::get('vendor-categories/grid', 'Admin\VendorCategoryController@grid')->name("vendor-categories.grid");
+    Route::resource('vendor-categories', 'Admin\VendorCategoryController');
+
+    Route::get('vendors/grid', 'Admin\VendorController@grid')->name("vendors.grid");
+    Route::resource('vendors', 'Admin\VendorController');
+
     
     Route::resource('jobs', 'Admin\JobController');
 
