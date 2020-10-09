@@ -17,7 +17,6 @@ class CreateJobApplicationsTable extends Migration
             $table->bigIncrements('id');
             $table->string('customer_id');
             $table->string('job_id');
-            $table->bigIncrements('id');
             $table->timestamps();
         });
     }
