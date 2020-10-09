@@ -56,6 +56,19 @@ trait UploadFiles
             $file->move($path, $fileName);
             return $fileName;
 
+        }elseif ($fileType =='file') {
+            
+            if (!file_exists(public_path('files/'.$folder))) {
+                mkdir(public_path('files/'.$folder), 777, true);
+            }
+
+            $path = public_path('files/'.$folder.'/'.$fileName);
+
+            // $filename = $file->getClientOriginalName();
+            $path = public_path('files/'.$folder);
+            $file->move($path, $fileName);
+            return $fileName;
+
         }
         
     }
