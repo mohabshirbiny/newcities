@@ -29,7 +29,7 @@ class JobCategory extends Model
 
     public function getIconPathAttribute(){
         $imageUrl = url('images/jobs_categories_files/'.$this->icon);
-        // $imageUrl = url('public/images/jobs_categories_files/'.$this->icon);
+        $imageUrl = url('public/images/jobs_categories_files/'.$this->icon);
         return $imageUrl;
     }
 }
