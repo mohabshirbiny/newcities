@@ -6,6 +6,7 @@ use App\Offer;
 use App\Http\Controllers\Controller;
 use App\OfferCategory;
 use App\Traits\UploadFiles;
+use App\Vendor;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -47,7 +48,8 @@ class OfferController extends Controller
     public function create()
     {
         $OfferCategories = OfferCategory::query()->select(['id','name'])->get();
-        return view("admin.offers.create",compact('OfferCategories'));
+        $vendors = Vendor::query()->select(['id','title_en','title_ar'])->get();                                        
+        return view("admin.offers.create",compact('OfferCategories','vendors'));
     }
 
     /**
@@ -114,9 +116,9 @@ class OfferController extends Controller
     public function edit($id)
     {
         $OfferCategories = OfferCategory::query()->select(['id','name'])->get();                                        
-
+        $vendors = Vendor::query()->select(['id','title_en','title_ar'])->get();                                        
         $offer = Offer::findorfail($id);
-        return view("admin.offers.edit", compact("OfferCategories",'offer'));
+        return view("admin.offers.edit", compact("OfferCategories",'offer','vendors'));
     }
 
     /**

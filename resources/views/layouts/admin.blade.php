@@ -144,6 +144,20 @@
                                     <p>Offers</p>
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('jobs-categories.index') }}" class="nav-link @if(request()->segment(2) == 'jobs-categories') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Jobs Categories</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('jobs.index') }}" class="nav-link @if(request()->segment(2) == 'jobs') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Jobs</p>
+                                </a>
+                            </li>
                             
                             
                         </ul>

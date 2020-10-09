@@ -39,8 +39,8 @@
                                         <label for="exampleInputEmail1">Vendor</label>
                                         <select name="vendor_id" class="form-control">
                                             <option value="">Select Vendor</option>
-                                            @foreach ($OfferCategories as $OfferCategory)
-                                                <option value="{{ $OfferCategory->id }}">{{ $OfferCategory->name_en . " - " . $OfferCategory->name_ar }}</option>
+                                            @foreach ($vendors as $vendor)
+                                                <option value="{{ $vendor->id }}">{{ $vendor->title_en . " - " . $vendor->title_ar }}</option>
                                             @endforeach
                                         </select>
                                     </div>
