@@ -34,6 +34,11 @@ class Offer extends Model
         return $this->belongsTo(OfferCategory::class, "offer_category_id", "id");
     }
 
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class, "vendor_id", "id");
+    }
+
     public function getTitleEnAttribute()
     {
         return unserialize($this->title)['en'];
