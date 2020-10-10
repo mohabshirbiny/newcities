@@ -172,22 +172,16 @@
     $(document).ready(function () {
         $('#quickForm').validate({
             rules: {
-                article_category_id: {
+                service_category_id: {
                     required: true,
                 },
-                name_en: {
+                logo: {
                     required: true,
                 },
-                name_ar: {
+                cover: {
                     required: true,
                 },
-                brief_en: {
-                    required: true,
-                },
-                brief_ar: {
-                    required: true,
-                },
-                image: {
+                location_url: {
                     required: true,
                 },
             },
