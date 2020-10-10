@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\City;
 use App\Http\Controllers\Controller;
+use App\Service;
+use App\ServiceCategory;
 use App\Traits\UploadFiles;
-use App\Vendor;
-use App\VendorCategory;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class VendorController extends Controller
+class ServiceController extends Controller
 {
     use UploadFiles;
 
     public function index()
     {
-        return view("admin.vendors.index");
+        return view("admin.services.index");
     }
 
     public function grid()
     {
-        $query = Vendor::query();
+        $query = Service::query();
         return DataTables::of($query)
             ->addColumn("name_en", function ($record) {
                 $name = json_decode($record->name, true);
@@ -32,12 +31,12 @@ class VendorController extends Controller
                 return $name['ar'];
             })
             ->addColumn("gallery", function ($record) {
-                $link = route("vendors.gallery", $record->id);
+                $link = route("services.gallery", $record->id);
                 return "<a href='$link'>Gellery</a>";
             })
             ->addColumn("actions", function ($record) {
-                $edit_link = route("vendors.edit", $record->id);
-                $delete_link = route("vendors.destroy", $record->id);
+                $edit_link = route("services.edit", $record->id);
+                $delete_link = route("services.destroy", $record->id);
                 $actions = "
                     <a href='$edit_link' class='badge bg-warning'>Edit</a>
                     <a href='$delete_link' class='badge bg-danger'>Delete</a>
@@ -54,10 +53,8 @@ class VendorController extends Controller
      */
     public function create()
     {
-        $categories = VendorCategory::get();
-        $cities = City::select("id", "name_ar", "name_en")->get();
-        $vendors = Vendor::select("id", "name")->get();
-        return view("admin.vendors.create", compact("categories", "cities", "vendors"));
+        $categories = ServiceCategory::get();
+        return view("admin.services.create", compact("categories"));
     }
 
     /**
@@ -69,7 +66,7 @@ class VendorController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            "vendor_category_id" => "required",
+            "service_category_id" => "required",
             "name.en" => "required",
             "name.ar" => "required",
             "logo" => "required",
@@ -77,24 +74,21 @@ class VendorController extends Controller
             "about.ar" => "required",
         ]);
 
-        $logo = $this->uploadFile($request->logo, 'Vendor', 'logo', 'image', 'vendor_files');
-        $cover = $this->uploadFile($request->cover, 'Vendor', 'cover', 'image', 'vendor_files');
+        $logo = $this->uploadFile($request->logo, 'Service', 'logo', 'image', 'service_files');
+        $cover = $this->uploadFile($request->cover, 'Service', 'cover', 'image', 'service_files');
 
-        Vendor::create([
-            "vendor_category_id" => $request->vendor_category_id,
+        Service::create([
+            "service_category_id" => $request->service_category_id,
             "name" => json_encode($request->name),
             "about" => json_encode($request->about),
             "location_url" => $request->location_url,
             "social_media" => json_encode($request->social_media),
             "contact_details" => json_encode($request->contact_details),
-            "is_parent" => ($request->parent_id != "") ? 0 : 1,
-            "parent_id" => $request->parent_id,
-            "destrict_id" => $request->destrict_id,
             "logo" => $logo,
             "cover" => $cover,
         ]);
 
-        return redirect(route("vendors.index"))->with("success_message", "vendor has been stored successfully.");
+        return redirect(route("services.index"))->with("success_message", "Service has been stored successfully.");
     }
 
     /**
@@ -116,9 +110,8 @@ class VendorController extends Controller
      */
     public function edit($id)
     {
-        $vendor = Vendor::find($id);
-        $categories = VendorCategory::get();
-        return view("admin.vendors.edit", compact("vendor", "categories"));
+        $service = Service::find($id);
+        return view("admin.services.edit", compact("vendor", "categories"));
     }
 
     /**
@@ -131,7 +124,7 @@ class VendorController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            "vendor_category_id" => "required",
+            "service_category_id" => "required",
             "title_en" => "required",
             "title_ar" => "required",
             "image" => "required",
@@ -141,7 +134,7 @@ class VendorController extends Controller
             "body_ar" => "required",
         ]);
 
-        $vendor = Vendor::find($id);
+        $service = Service::find($id);
 
         $name = ["name_en" => $request->name_en, "name_ar" => $request->name_ar];
         $about = ["about_en" => $request->about_en, "about_ar" => $request->about_ar];
@@ -156,8 +149,8 @@ class VendorController extends Controller
             "working_hours" => $request->working_hours,
         ];
 
-        $vendor->update([
-            "vendor_category_id" => $request->vendor_category_id,
+        $service->update([
+            "service_category_id" => $request->service_category_id,
             "name" => json_encode($name),
             "about" => json_encode($about),
             "location_url" => $request->location_url,
@@ -168,7 +161,7 @@ class VendorController extends Controller
             "destrict_id" => $request->destrict_id,
         ]);
 
-        return redirect(route("vendors.index"))->with("success_message", "vendor has been updated successfully.");
+        return redirect(route("services.index"))->with("success_message", "vendor has been updated successfully.");
     }
 
     /**
@@ -179,40 +172,40 @@ class VendorController extends Controller
      */
     public function destroy($id)
     {
-        $vendor = Vendor::find($id);
-        $vendor->delete();
+        $service = Service::find($id);
+        $service->delete();
 
-        return redirect(route("vendors.index"))->with("success_message", "vendor has been deleted successfully.");
+        return redirect(route("services.index"))->with("success_message", "Service has been deleted successfully.");
     }
 
-    public function gallery($vendor_id)
+    public function gallery($service_id)
     {
-        $vendor = Vendor::find($vendor_id);
-        $gallery = $vendor->gallery;
+        $service = Service::find($service_id);
+        $gallery = $service->gallery;
         $gallery_decoded = [];
         if ($gallery) {
             $gallery_decoded = json_decode($gallery, true);
         }
 
-        return view("admin.vendors.gallery.index", compact("vendor_id", "gallery_decoded"));
+        return view("admin.services.gallery.index", compact("service_id", "gallery_decoded"));
     }
 
-    public function createGallery($vendor_id)
+    public function createGallery($service_id)
     {
-        return view("admin.vendors.gallery.create", compact("vendor_id"));
+        return view("admin.services.gallery.create", compact("service_id"));
     }
 
-    public function storeGallery(Request $request, $vendor_id)
+    public function storeGallery(Request $request, $service_id)
     {
-        $vendor = Vendor::find($vendor_id);
+        $service = Service::find($service_id);
 
         if (in_array($request->file_type, ['image', 'video'])) {
-            $uploaded_gallery = $this->uploadFile($request->gallery, 'Vendor', 'gallery', $request->file_type, 'vendor_files');
+            $uploaded_gallery = $this->uploadFile($request->gallery, 'Service', 'gallery', $request->file_type, 'service_files');
         } else {
             $uploaded_gallery = $request->gallery;
         }
 
-        $gallery = $vendor->gallery;
+        $gallery = $service->gallery;
         $gallery_decoded = [];
         if ($gallery) {
             $gallery_decoded = json_decode($gallery, true);
@@ -221,18 +214,18 @@ class VendorController extends Controller
             $gallery_decoded[$request->file_type][] = $uploaded_gallery;
         }
 
-        $vendor->update([
+        $service->update([
             "gallery" => json_encode($gallery_decoded),
         ]);
 
-        return redirect(route("vendors.gallery", $vendor))->with("success_message", "vendor gallery has been stored successfully.");
+        return redirect(route("services.gallery", $service))->with("success_message", "Service gallery has been stored successfully.");
     }
 
-    public function deleteGallery($vendor_id, $file_name)
+    public function deleteGallery($service_id, $file_name)
     {
-        $vendor = Vendor::find($vendor_id);
+        $service = Service::find($service_id);
 
-        $gallery = $vendor->gallery;
+        $gallery = $service->gallery;
         if ($gallery) {
             $new_gallery = [];
             $gallery_decoded = json_decode($gallery, true);
@@ -243,12 +236,12 @@ class VendorController extends Controller
                     }
                 }
             }
-            $vendor->update([
+            $service->update([
                 "gallery" => json_encode($new_gallery),
             ]);
 
-            return redirect(route("vendors.gallery", $vendor))->with("success_message", "vendor gallery has been deleted successfully.");
+            return redirect(route("services.gallery", $service))->with("success_message", "Service gallery has been deleted successfully.");
         }
-        return redirect(route("vendors.gallery", $vendor))->with("success_message", "vendor gallery has been deleted successfully.");
+        return redirect(route("services.gallery", $service))->with("success_message", "Service gallery has been deleted successfully.");
     }
 }

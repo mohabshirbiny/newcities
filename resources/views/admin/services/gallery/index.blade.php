@@ -18,7 +18,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <a class="btn btn-info btn-sm text-right" href="{{ route('vendors.gallery.create', $vendor_id) }}">+ Add New</a>
+                                    <a class="btn btn-info btn-sm text-right" href="{{ route('services.gallery.create', $service_id) }}">+ Add New</a>
                                 </h3>
                             </div>
                             <!-- /.card-header -->
@@ -41,12 +41,12 @@
                                                     <td>{{ $type }}</td>
                                                     <td>
                                                         @if ($type == "image")
-                                                            <img style="width: 50px;" src="{{ url('images/vendor_files/' . $record) }}" alt="">
+                                                            <img style="width: 50px;" src="{{ url('images/service_files/' . $record) }}" alt="">
                                                         @else
                                                             {{ $record }}                                                            
                                                         @endif
                                                     </td>
-                                                    <td><a class="badge bg-danger" href="{{ route("vendors.gallery.delete", [$vendor_id, $record]) }}">Delete</a></td>
+                                                    <td><a class="badge bg-danger" href="{{ route("services.gallery.delete", [$service_id, $record]) }}">Delete</a></td>
                                                 </tr>
                                                 @php $counter++; @endphp
                                             @endforeach

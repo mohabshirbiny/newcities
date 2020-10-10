@@ -22,10 +22,10 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('vendors.gallery.store', $vendor_id) }}" enctype="multipart/form-data">
+                            <form role="form" id="quickForm" method="post" action="{{ route('services.gallery.store', $service_id) }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
-
+                                    
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Type</label>
                                         <select id="file_type" name="file_type" class="form-control">
@@ -34,19 +34,19 @@
                                             <option value="youtube_video">Youtube Video</option>
                                         </select>
                                     </div>
-                                    
+
                                     <div class="row" id="uploaded_file_block">
                                         <div class="form-group col-md-12">
                                             <label for="exampleInputFile">File</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
-                                                    <input type="file" name='gallery' required class="custom-file-input" id="exampleInputFile" accept="image/*">
+                                                    <input type="file" name='gallery' required class="custom-file-input" id="exampleInputFile">
                                                     <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
+                                    
                                     <div class="row d-none" id="youtube_video_block">
                                         <div class="form-group col-md-12">
                                             <label for="exampleInputFile">Youtube Video ID</label>

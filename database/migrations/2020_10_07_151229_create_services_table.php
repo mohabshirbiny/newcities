@@ -19,7 +19,7 @@ class CreateServicesTable extends Migration
             $table->string("logo");
             $table->text("about");
             $table->text("cover");
-            $table->text("gallery");
+            $table->text("gallery")->nullable();
             $table->text("contact_details")->nullable();
             $table->text("location_url");
             $table->text("social_media");
