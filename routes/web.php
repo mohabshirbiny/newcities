@@ -44,4 +44,8 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::resource('jobs', 'Admin\JobController');
 
     Route::resource('jobs-categories', 'Admin\JobCategoryController');
+    
+    Route::get('sections-data', 'Admin\SectionDataController@getAll')->name('sections-data-get');
+
+    Route::PUT('sections-data', 'Admin\SectionDataController@store')->name('sections-data-update');
 });

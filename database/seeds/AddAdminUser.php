@@ -13,10 +13,14 @@ class AddAdminUser extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name'      => 'Admin user',
-            'email'     => 'admin@newcities.com',
-            'password'  => Hash::make('secret555'),
-        ]);
+        $user = User::where('email' ,'admin@newcities.com')->get();
+        if (!$user) {
+            User::create([
+                'name'      => 'Admin user',
+                'email'     => 'admin@newcities.com',
+                'password'  => Hash::make('secret555'),
+            ]);
+        }
+        
     }
 }
