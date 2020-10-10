@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\City;
 use App\Http\Controllers\Controller;
 use App\Traits\UploadFiles;
 use App\Vendor;
@@ -23,12 +24,16 @@ class VendorController extends Controller
         $query = Vendor::query();
         return DataTables::of($query)
             ->addColumn("name_en", function ($record) {
-                $name = json_encode($record->name, true);
+                $name = json_decode($record->name, true);
                 return $name['en'];
             })
             ->addColumn("name_ar", function ($record) {
-                $name = json_encode($record->name, true);
+                $name = json_decode($record->name, true);
                 return $name['ar'];
+            })
+            ->addColumn("gallery", function ($record) {
+                $link = route("vendors.gallery", $record->id);
+                return "<a href='$link'>Gellery</a>";
             })
             ->addColumn("actions", function ($record) {
                 $edit_link = route("vendors.edit", $record->id);
@@ -39,7 +44,7 @@ class VendorController extends Controller
                 ";
                 return $actions;
             })
-            ->rawColumns(['actions'])->make(true);
+            ->rawColumns(['actions', "gallery"])->make(true);
     }
 
     /**
@@ -50,7 +55,9 @@ class VendorController extends Controller
     public function create()
     {
         $categories = VendorCategory::get();
-        return view("admin.vendors.create", compact("categories"));
+        $cities = City::select("id", "name_ar", "name_en")->get();
+        $vendors = Vendor::select("id", "name")->get();
+        return view("admin.vendors.create", compact("categories", "cities", "vendors"));
     }
 
     /**
@@ -72,7 +79,6 @@ class VendorController extends Controller
 
         $logo = $this->uploadFile($request->logo, 'Vendor', 'logo', 'image', 'vendor_files');
         $cover = $this->uploadFile($request->cover, 'Vendor', 'cover', 'image', 'vendor_files');
-        $gallery = $this->uploadFile($request->gallery, 'Vendor', 'gallery', 'image', 'vendor_files');
 
         Vendor::create([
             "vendor_category_id" => $request->vendor_category_id,
@@ -81,12 +87,11 @@ class VendorController extends Controller
             "location_url" => $request->location_url,
             "social_media" => json_encode($request->social_media),
             "contact_details" => json_encode($request->contact_details),
-            "is_parent" => $request->is_parent,
+            "is_parent" => ($request->parent_id != "") ? 0 : 1,
             "parent_id" => $request->parent_id,
             "destrict_id" => $request->destrict_id,
             "logo" => $logo,
             "cover" => $cover,
-            "gallery" => $gallery,
         ]);
 
         return redirect(route("vendors.index"))->with("success_message", "vendor has been stored successfully.");
@@ -178,5 +183,68 @@ class VendorController extends Controller
         $vendor->delete();
 
         return redirect(route("vendors.index"))->with("success_message", "vendor has been deleted successfully.");
+    }
+
+    public function gallery($vendor_id)
+    {
+        $vendor = Vendor::find($vendor_id);
+        $gallery = $vendor->gallery;
+        $gallery_decoded = [];
+        if ($gallery) {
+            $gallery_decoded = json_decode($gallery, true);
+        }
+
+        return view("admin.vendors.gallery.index", compact("vendor_id", "gallery_decoded"));
+    }
+
+    public function createGallery($vendor_id)
+    {
+        return view("admin.vendors.gallery.create", compact("vendor_id"));
+    }
+
+    public function storeGallery(Request $request, $vendor_id)
+    {
+        $vendor = Vendor::find($vendor_id);
+
+        $uploaded_gallery = $this->uploadFile($request->gallery, 'Vendor', 'gallery', 'image', 'vendor_files');
+
+        $gallery = $vendor->gallery;
+        $gallery_decoded = [];
+        if ($gallery) {
+            $gallery_decoded = json_decode($gallery, true);
+            $gallery_decoded['image'][] = $uploaded_gallery;
+        } else {
+            $gallery_decoded['image'][] = $uploaded_gallery;
+        }
+
+        $vendor->update([
+            "gallery" => json_encode($gallery_decoded),
+        ]);
+
+        return redirect(route("vendors.gallery", $vendor))->with("success_message", "vendor gallery has been stored successfully.");
+    }
+
+    public function deleteGallery($vendor_id, $file_name)
+    {
+        $vendor = Vendor::find($vendor_id);
+
+        $gallery = $vendor->gallery;
+        if ($gallery) {
+            $new_gallery = [];
+            $gallery_decoded = json_decode($gallery, true);
+            foreach ($gallery_decoded as $type => $one_arr) {
+                foreach ($one_arr as $one_value) {
+                    if ($one_value != $file_name) {
+                        $new_gallery[$type][] = $file_name;
+                    }
+                }
+            }
+            $vendor->update([
+                "gallery" => json_encode($new_gallery),
+            ]);
+
+            return redirect(route("vendors.gallery", $vendor))->with("success_message", "vendor gallery has been deleted successfully.");
+        }
+        return redirect(route("vendors.gallery", $vendor))->with("success_message", "vendor gallery has been deleted successfully.");
     }
 }

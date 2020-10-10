@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\VendorCategory;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use App\Traits\UploadFiles;
 
 class VendorCategoryController extends Controller
 {
+    use UploadFiles;
+
     public function index()
     {
         return view("admin.vendor_categories.index");
@@ -19,11 +22,11 @@ class VendorCategoryController extends Controller
         $query = VendorCategory::query();
         return DataTables::of($query)
             ->addColumn("name_en", function ($record) {
-                $name = json_encode($record->name, true);
+                $name = json_decode($record->name, true);
                 return $name['en'];
             })
             ->addColumn("name_ar", function ($record) {
-                $name = json_encode($record->name, true);
+                $name = json_decode($record->name, true);
                 return $name['ar'];
             })
             ->addColumn("actions", function ($record) {
@@ -62,9 +65,11 @@ class VendorCategoryController extends Controller
             "icon" => "required",
         ]);
 
+        $logo = $this->uploadFile($request->icon, 'VendorCategory', 'icon', 'image', 'vendor_files');
+
         VendorCategory::create([
             "name" => json_encode($request->name),
-            "icon" => $request->icon,
+            "icon" => $logo,
         ]);
 
         return redirect(route("vendor-categories.index"))->with("success_message", "vendor category has been stored successfully.");
