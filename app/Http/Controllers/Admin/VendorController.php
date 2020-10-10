@@ -75,6 +75,8 @@ class VendorController extends Controller
             "logo" => "required",
             "about.en" => "required",
             "about.ar" => "required",
+            "location_url" => "required",
+            "cover" => "required",
         ]);
 
         $logo = $this->uploadFile($request->logo, 'Vendor', 'logo', 'image', 'vendor_files');
@@ -89,6 +91,7 @@ class VendorController extends Controller
             "contact_details" => json_encode($request->contact_details),
             "is_parent" => ($request->parent_id != "") ? 0 : 1,
             "parent_id" => $request->parent_id,
+            "city_id" => $request->city_id,
             "destrict_id" => $request->destrict_id,
             "logo" => $logo,
             "cover" => $cover,
@@ -116,9 +119,15 @@ class VendorController extends Controller
      */
     public function edit($id)
     {
-        $vendor = Vendor::find($id);
+        $details = Vendor::find($id);
+        $details->social_media = json_decode($details->social_media, true);
+        $details->name = json_decode($details->name, true);
+        $details->about = json_decode($details->about, true);
+        $details->contact_details = json_decode($details->contact_details, true);
         $categories = VendorCategory::get();
-        return view("admin.vendors.edit", compact("vendor", "categories"));
+        $cities = City::select("id", "name_ar", "name_en")->get();
+        $vendors = Vendor::where("id", "<>", $id)->select("id", "name")->get();
+        return view("admin.vendors.edit", compact('id', "details", "categories", "cities", "vendors"));
     }
 
     /**
@@ -132,40 +141,38 @@ class VendorController extends Controller
     {
         $this->validate($request, [
             "vendor_category_id" => "required",
-            "title_en" => "required",
-            "title_ar" => "required",
-            "image" => "required",
-            "brief_en" => "required",
-            "brief_ar" => "required",
-            "body_en" => "required",
-            "body_ar" => "required",
+            "name.en" => "required",
+            "name.ar" => "required",
+            "about.en" => "required",
+            "about.ar" => "required",
+            "location_url" => "required",
         ]);
 
         $vendor = Vendor::find($id);
 
-        $name = ["name_en" => $request->name_en, "name_ar" => $request->name_ar];
-        $about = ["about_en" => $request->about_en, "about_ar" => $request->about_ar];
-        $social_media = [
-            "facebook" => $request->facebook, "twitter" => $request->twitter,
-            "instagram" => $request->instagram, "youtube" => $request->youtube,
-        ];
-        $contact_details = [
-            "email" => $request->email, "website" => $request->website,
-            "mobile" => $request->mobile, "phone" => $request->phone,
-            "address" => $request->address, "whatsapp" => $request->whatsapp,
-            "working_hours" => $request->working_hours,
-        ];
+        $logo = $vendor->logo;
+        if ($request->logo) {
+            $logo = $this->uploadFile($request->logo, 'Vendor', 'logo', 'image', 'vendor_files');
+        }
+
+        $cover = $vendor->cover;
+        if ($request->cover) {
+            $cover = $this->uploadFile($request->cover, 'Vendor', 'cover', 'image', 'vendor_files');
+        }
 
         $vendor->update([
             "vendor_category_id" => $request->vendor_category_id,
-            "name" => json_encode($name),
-            "about" => json_encode($about),
+            "name" => json_encode($request->name),
+            "about" => json_encode($request->about),
             "location_url" => $request->location_url,
-            "social_media" => json_encode($social_media),
-            "contact_details" => json_encode($contact_details),
-            "is_parent" => $request->is_parent,
+            "social_media" => json_encode($request->social_media),
+            "contact_details" => json_encode($request->contact_details),
+            "is_parent" => ($request->parent_id != "") ? 0 : 1,
             "parent_id" => $request->parent_id,
+            "city_id" => $request->city_id,
             "destrict_id" => $request->destrict_id,
+            "logo" => $logo,
+            "cover" => $cover,
         ]);
 
         return redirect(route("vendors.index"))->with("success_message", "vendor has been updated successfully.");
