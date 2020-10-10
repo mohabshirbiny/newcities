@@ -44,6 +44,10 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::resource('vendor-categories', 'Admin\VendorCategoryController');
 
     Route::get('vendors/grid', 'Admin\VendorController@grid')->name("vendors.grid");
+    Route::get('vendors/{vendor}/gallery', 'Admin\VendorController@gallery')->name("vendors.gallery");
+    Route::get('vendors/{vendor}/create-gallery', 'Admin\VendorController@createGallery')->name("vendors.gallery.create");
+    Route::post('vendors/{vendor}/gallery', 'Admin\VendorController@storeGallery')->name("vendors.gallery.store");
+    Route::get('vendors/{vendor}/gallery/{gallery}', 'Admin\VendorController@deleteGallery')->name("vendors.gallery.delete");
     Route::resource('vendors', 'Admin\VendorController');
 
 });

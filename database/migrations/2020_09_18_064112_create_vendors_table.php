@@ -20,14 +20,14 @@ class CreateVendorsTable extends Migration
             $table->string("name");
             $table->string("logo");
             $table->string("cover");
-            $table->string("gallery");
+            $table->text("gallery")->nullable();
             $table->string("location_url");
             $table->string("about");
             $table->text("contact_details");
             $table->text("social_media");
-            $table->unsignedBigInteger("city_id");
-            $table->unsignedBigInteger("district");
-            $table->unsignedBigInteger("parent_id");
+            $table->unsignedBigInteger("city_id")->nullable();
+            $table->unsignedBigInteger("district_id")->nullable();
+            $table->unsignedBigInteger("parent_id")->nullable();
             $table->boolean("is_parent")->default(false);
             $table->timestamps();
         });

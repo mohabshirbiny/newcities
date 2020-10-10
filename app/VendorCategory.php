@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VendorCategory extends Model
 {
-    protected $fillable = ["title_en", "title_ar", "icon"];
+    protected $fillable = ["name", "icon"];
 
     public function vendors()
     {

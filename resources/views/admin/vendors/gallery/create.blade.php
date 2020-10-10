@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "Add new vendors category")
+@section("page_title", "vendors")
 @section("content")
 
     <div class="content-wrapper">
@@ -18,24 +18,24 @@
                         <!-- jquery validation -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Add new vendor category</h3>
+                                <h3 class="card-title">Add new gallery</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('vendor-categories.store') }}" enctype="multipart/form-data">
+                            <form role="form" id="quickForm" method="post" action="{{ route('vendors.gallery.store', $vendor_id) }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">name (en)</label>
-                                        <input type="text" name="name[en]" class="form-control" placeholder="Enter name en" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">name (ar)</label>
-                                        <input type="text" name="name[ar]" class="form-control" placeholder="Enter name ar" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Icon</label>
-                                        <input type="file" name="icon" class="form-control" />
+                                    
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label for="exampleInputFile">File</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" name='gallery' class="custom-file-input" id="exampleInputFile" accept="image/*">
+                                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
@@ -58,19 +58,28 @@
 @endsection
 
 @section("js")
-    <script src="{{ asset('admin/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('admin/plugins/jquery-validation/additional-methods.min.js') }}"></script>
+    <script src="{{ asset('admin_assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('admin_assets/plugins/jquery-validation/additional-methods.min.js') }}"></script>
     <script type="text/javascript">
     $(document).ready(function () {
         $('#quickForm').validate({
             rules: {
-                title_en: {
+                article_category_id: {
                     required: true,
                 },
-                title_ar: {
+                name_en: {
                     required: true,
                 },
-                icon: {
+                name_ar: {
+                    required: true,
+                },
+                brief_en: {
+                    required: true,
+                },
+                brief_ar: {
+                    required: true,
+                },
+                image: {
                     required: true,
                 },
             },
@@ -86,6 +95,10 @@
                 $(element).removeClass('is-invalid');
             }
         });
+    });
+
+    $(document).on("change", "#city_id", function() {
+
     });
     </script>
 @endsection

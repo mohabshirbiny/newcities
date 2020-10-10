@@ -22,17 +22,39 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('vendors.store') }}">
+                            <form role="form" id="quickForm" method="post" action="{{ route('vendors.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
+                                    
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Category</label>
-                                        <select title="article_category_id" class="form-control">
+                                        <select name="vendor_category_id" class="form-control">
                                             <option value="">Select Category</option>
                                             @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ json_decode($category->name, true)['name_en'] }}</option>
+                                                <option value="{{ $category->id }}">{{ json_decode($category->name, true)['en'] . " - " . json_decode($category->name, true)['ar'] }}</option>
                                             @endforeach
                                         </select>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">City</label>
+                                            <select name="city_id" class="form-control" id="city_id">
+                                                <option value="">Select city</option>
+                                                @foreach ($cities as $record)
+                                                    <option value="{{ $record->id }}">{{ $record->name_en . " - " . $record->name_ar }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Parent</label>
+                                            <select name="parent_id" class="form-control" id="city_id">
+                                                <option value="">Select parent</option>
+                                                @foreach ($vendors as $record)
+                                                    <option value="{{ $record->id }}">{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                     
                                     <div class="row">
@@ -59,18 +81,12 @@
 
                                     <div class="row">
                                         <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">title (ar)</label>
-                                            <input type="text" name="title[ar]" value='{{old('title.ar')}}' class="form-control" placeholder="Enter title ar" />
-                                            @if ($errors->has('title_ar'))
-                                                <span class="text-danger">{{ $errors->first('title.ar') }}</span>
-                                            @endif
+                                            <label for="exampleInputEmail1">name (ar)</label>
+                                            <input type="text" name="name[ar]" value='{{old('name.ar')}}' class="form-control" placeholder="Enter name ar" />
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">title (en)</label>
-                                            <input type="text" name="title[en]" value='{{old('title.en')}}' class="form-control" placeholder="Enter title en" />
-                                            @if ($errors->has('title_en'))
-                                                <span class="text-danger">{{ $errors->first('title.en') }}</span>
-                                            @endif
+                                            <label for="exampleInputEmail1">name (en)</label>
+                                            <input type="text" name="name[en]" value='{{old('name.en')}}' class="form-control" placeholder="Enter name en" />
                                         </div>
                                     </div>
                                     
@@ -78,16 +94,10 @@
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">about (ar)</label>
                                             <textarea name="about[ar]" class="form-control" id="" cols="30" rows="2">{{old('about.ar')}}</textarea>
-                                            @if ($errors->has('title_ar'))
-                                                <span class="text-danger">{{ $errors->first('about.ar') }}</span>
-                                            @endif
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">about (en)</label>
                                             <textarea name="about[en]" class="form-control" id="" cols="30" rows="2">{{old('about.en')}}</textarea>
-                                            @if ($errors->has('title_en'))
-                                                <span class="text-danger">{{ $errors->first('about.en') }}</span>
-                                            @endif
                                         </div>
                                     </div>
 
@@ -125,23 +135,36 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="form-group col-md-12">
+                                        <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">address</label>
                                             <input type="text" name="contact_details[address]" value='{{old('contact_details.address')}}' class="form-control" placeholder="Enter address" />
                                         </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">location URL</label>
+                                            <input type="text" name="location_url" value='{{old('location_url')}}' class="form-control" placeholder="Enter location URL" />
+                                        </div>
                                     </div>
+
                                     
-                                    <div class="form-group">
-                                        <label for="exampleInputFile">image</label>
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" name='image' class="custom-file-input" id="exampleInputFile" accept="image/*">
-                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                @if ($errors->has('image'))
-                                            <span class="text-danger">{{ $errors->first('image') }}</span>
-                                        @endif
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputFile">logo</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" name='logo' class="custom-file-input" id="exampleInputFile" accept="image/*">
+                                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputFile">cover</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" name='cover' class="custom-file-input" id="exampleInputFile" accept="image/*">
+                                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                </div>
+                                            </div>
+                                        </div>                                        
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
@@ -164,8 +187,8 @@
 @endsection
 
 @section("js")
-    <script src="{{ asset('admin/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('admin/plugins/jquery-validation/additional-methods.min.js') }}"></script>
+    <script src="{{ asset('admin_assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('admin_assets/plugins/jquery-validation/additional-methods.min.js') }}"></script>
     <script type="text/javascript">
     $(document).ready(function () {
         $('#quickForm').validate({
@@ -201,6 +224,10 @@
                 $(element).removeClass('is-invalid');
             }
         });
+    });
+
+    $(document).on("change", "#city_id", function() {
+
     });
     </script>
 @endsection
