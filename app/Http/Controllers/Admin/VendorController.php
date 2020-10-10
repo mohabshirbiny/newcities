@@ -206,15 +206,19 @@ class VendorController extends Controller
     {
         $vendor = Vendor::find($vendor_id);
 
-        $uploaded_gallery = $this->uploadFile($request->gallery, 'Vendor', 'gallery', 'image', 'vendor_files');
+        if (in_array($request->file_type, ['image', 'video'])) {
+            $uploaded_gallery = $this->uploadFile($request->gallery, 'Vendor', 'gallery', $request->file_type, 'vendor_files');
+        } else {
+            $uploaded_gallery = $request->gallery;
+        }
 
         $gallery = $vendor->gallery;
         $gallery_decoded = [];
         if ($gallery) {
             $gallery_decoded = json_decode($gallery, true);
-            $gallery_decoded['image'][] = $uploaded_gallery;
+            $gallery_decoded[$request->file_type][] = $uploaded_gallery;
         } else {
-            $gallery_decoded['image'][] = $uploaded_gallery;
+            $gallery_decoded[$request->file_type][] = $uploaded_gallery;
         }
 
         $vendor->update([
