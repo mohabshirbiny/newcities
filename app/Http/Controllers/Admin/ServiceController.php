@@ -232,7 +232,7 @@ class ServiceController extends Controller
             foreach ($gallery_decoded as $type => $one_arr) {
                 foreach ($one_arr as $one_value) {
                     if ($one_value != $file_name) {
-                        $new_gallery[$type][] = $file_name;
+                        $new_gallery[$type][] = $one_value;
                     }
                 }
             }
