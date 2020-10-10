@@ -48,7 +48,7 @@ class JobController extends Controller
     public function create()
     {
         $categories = JobCategory::query()->select(['id','name'])->get();                                        
-        $vendors = Vendor::query()->select(['id','title_en','title_ar'])->get();                                        
+        $vendors = Vendor::all();                                        
 
         return view("admin.jobs.create",compact('categories','vendors'));
 
@@ -118,7 +118,7 @@ class JobController extends Controller
     public function edit($id)
     {
         $JobCategories = JobCategory::query()->select(['id','name'])->get();                                        
-        $vendors = Vendor::query()->select(['id','title_en','title_ar'])->get();                                        
+        $vendors = Vendor::all();                                        
 
         $job = Job::findorfail($id);
         

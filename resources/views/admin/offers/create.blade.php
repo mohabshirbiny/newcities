@@ -40,7 +40,7 @@
                                         <select name="vendor_id" class="form-control">
                                             <option value="">Select Vendor</option>
                                             @foreach ($vendors as $vendor)
-                                                <option value="{{ $vendor->id }}">{{ $vendor->title_en . " - " . $vendor->title_ar }}</option>
+                                                <option value="{{ $vendor->id }}">{{ $vendor->name_en . " - " . $vendor->name_ar }}</option>
                                             @endforeach
                                         </select>
                                     </div>

@@ -26,14 +26,15 @@ class OfferController extends Controller
                         ->get();
 
         $offersCatigories = OfferCategory::query()->select(['id','name'])->get();
-        $vendors = Vendor::query()->select(['id','title_en','title_ar'])->get();
+        // $vendors = Vendor::query()->select(['id','name_en','name_ar'])->get();
+        $vendors = Vendor::all();
         $locations = City::query()->select(['id','name_en','name_ar'])->get();
         
         $data = [
             "offers" => $offers,
-            "offers_categories" => $offersCatigories,
-            "vendors" => $vendors,
-            "locations" => $locations,
+            // "offers_categories" => $offersCatigories,
+            // "vendors" => $vendors,
+            // "locations" => $locations,
         ];
 
         return APIResponseController::respond(1,'offers retreived successfully',$data,200); 
