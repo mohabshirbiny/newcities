@@ -199,15 +199,19 @@ class ServiceController extends Controller
     {
         $service = Service::find($service_id);
 
-        $uploaded_gallery = $this->uploadFile($request->gallery, 'Service', 'gallery', 'image', 'service_files');
+        if (in_array($request->file_type, ['image', 'video'])) {
+            $uploaded_gallery = $this->uploadFile($request->gallery, 'Service', 'gallery', $request->file_type, 'service_files');
+        } else {
+            $uploaded_gallery = $request->gallery;
+        }
 
         $gallery = $service->gallery;
         $gallery_decoded = [];
         if ($gallery) {
             $gallery_decoded = json_decode($gallery, true);
-            $gallery_decoded['image'][] = $uploaded_gallery;
+            $gallery_decoded[$request->file_type][] = $uploaded_gallery;
         } else {
-            $gallery_decoded['image'][] = $uploaded_gallery;
+            $gallery_decoded[$request->file_type][] = $uploaded_gallery;
         }
 
         $service->update([

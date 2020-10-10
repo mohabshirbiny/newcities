@@ -39,7 +39,13 @@
                                                 <tr>
                                                     <td>{{ $counter }}</td>
                                                     <td>{{ $type }}</td>
-                                                    <td><img style="width: 50px;" src="{{ url('images/service_files/' . $record) }}" alt=""></td>
+                                                    <td>
+                                                        @if ($type == "image")
+                                                            <img style="width: 50px;" src="{{ url('images/service_files/' . $record) }}" alt="">
+                                                        @else
+                                                            {{ $record }}                                                            
+                                                        @endif
+                                                    </td>
                                                     <td><a class="badge bg-danger" href="{{ route("services.gallery.delete", [$service_id, $record]) }}">Delete</a></td>
                                                 </tr>
                                                 @php $counter++; @endphp
