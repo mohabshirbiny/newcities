@@ -172,6 +172,20 @@
                                     <p>Vendors</p>
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('service-categories.index') }}" class="nav-link @if(request()->segment(2) == 'service-categories') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Services Categories</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('services.index') }}" class="nav-link @if(request()->segment(2) == 'services') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Services</p>
+                                </a>
+                            </li>
                             
                             
                         </ul>
