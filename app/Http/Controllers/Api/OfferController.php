@@ -20,7 +20,7 @@ class OfferController extends Controller
         // dd($locationVendorsIds);
 
         $offers = Offer::query()->with("offer_category",'vendor')
-                        ->orWhereIn('vendor_id',$locationVendorsIds)
+                        // ->orWhereIn('vendor_id',$locationVendorsIds)
                         ->Where('vendor_id','LIKE',$vendor_id)
                         ->Where('offer_category_id','LIKE',$offer_category_id)
                         ->get();
@@ -45,7 +45,7 @@ class OfferController extends Controller
             return APIResponseController::respond(0,'no offer with this id',[],404); 
         }
 
-        $details = Offer::with("offer_category")->find($id);
+        $details = Offer::with("offer_category",'vendor')->find($id);
         
         return APIResponseController::respond(1,'offer retreived successfully',["offer" => $details],200); 
     }
