@@ -52,7 +52,16 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::get('vendors/{vendor}/gallery/{gallery}', 'Admin\VendorController@deleteGallery')->name("vendors.gallery.delete");
     Route::resource('vendors', 'Admin\VendorController');
 
-    
+    Route::get('service-categories/grid', 'Admin\ServiceCategoryController@grid')->name("service-categories.grid");
+    Route::resource('service-categories', 'Admin\ServiceCategoryController');
+
+    Route::get('services/grid', 'Admin\ServiceController@grid')->name("services.grid");
+    Route::get('services/{service}/gallery', 'Admin\ServiceController@gallery')->name("services.gallery");
+    Route::get('services/{service}/create-gallery', 'Admin\ServiceController@createGallery')->name("services.gallery.create");
+    Route::post('services/{service}/gallery', 'Admin\ServiceController@storeGallery')->name("services.gallery.store");
+    Route::get('services/{service}/gallery/{gallery}', 'Admin\ServiceController@deleteGallery')->name("services.gallery.delete");
+    Route::resource('services', 'Admin\ServiceController');
+
     Route::resource('jobs', 'Admin\JobController');
 
     Route::resource('jobs-categories', 'Admin\JobCategoryController');
