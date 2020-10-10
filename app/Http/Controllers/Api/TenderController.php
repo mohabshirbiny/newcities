@@ -2,16 +2,31 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\City;
 use App\Tender;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\TenderCategory;
+use App\Vendor;
 
 class TenderController extends Controller
 {
     public function getAll()
     {
-        $records = Tender::with("tender_category")->get();
-        return APIResponseController::respond(1,"tenders retreived successfully.", ['tenders' => $records],200); 
+        $tender_category_id = request()->tender_category_id;
+
+        $tenders = Tender::query()->with("tender_category")
+                        ->Where('tender_category_id','LIKE',$tender_category_id)
+                        ->get();
+
+        $tendersCatigories = TenderCategory::query()->select(['id','name'])->get();
+        
+        $data = [
+            "tenders" => $tenders,
+            "tenders_categories" => $tendersCatigories,
+        ];
+
+        return APIResponseController::respond(1,'tenders retreived successfully',$data,200); 
     }
 
     public function getOne($id)

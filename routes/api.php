@@ -39,6 +39,12 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get("get-offer-category/{id}", "Api\OfferCategoryController@getOne")->name('offers.category.one');
     Route::get("get-offers", "Api\OfferController@getAll")->name('offers.all');
     Route::get("get-offer/{id}", "Api\OfferController@getOne")->name('offers.one');
+    
+    // jobs
+    Route::get("get-job-categories", "Api\JobCategoryController@getAll")->name('job.category.all');
+    Route::get("get-job-category/{id}", "Api\JobCategoryController@getOne")->name('job.category.one');
+    Route::get("get-jobs", "Api\JobController@getAll")->name('job.all');
+    Route::get("get-job/{id}", "Api\JobController@getOne")->name('job.one');
 
     Route::get("get-article-categories", "Api\ArticleCategoryController@getAll");
     Route::get("get-article-category/{id}", "Api\ArticleController@getOne");

@@ -79,7 +79,7 @@ class TenderController extends Controller
             "book_value" => "required",
             "insurance_value" => "required",
         ]);
-// dd($request->all());
+    // dd($request->all());
         $requestData = $request->except(['image' , 'attachment']);
         
         // send files to rename and upload
@@ -155,7 +155,7 @@ class TenderController extends Controller
             "book_value" => "required",
             "insurance_value" => "required",
         ]);
-// dd($request->all());
+    // dd($request->all());
         $requestData = $request->except(['image' , 'attachment']);
         
         if ($request->image) { 
