@@ -25,6 +25,7 @@ class CreateOffersTable extends Migration
             $table->string("expiration_date");
             $table->string("discount_percentage");
             $table->text("url");
+            $table->text('gallery')->nullable();
         
             $table->unsignedBigInteger("vendor_id");
             $table->unsignedBigInteger("product_id");

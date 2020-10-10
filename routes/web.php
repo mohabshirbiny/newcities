@@ -34,11 +34,17 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::resource('cities', 'Admin\CityController');
 
     Route::resource('tenders-categories', 'Admin\TenderCategoryController');
-
+    Route::get('tenders/{id}/gallery', 'Admin\TenderController@gallery')->name("tenders.gallery");
+    Route::get('tenders/{id}/create-gallery', 'Admin\TenderController@createGallery')->name("tenders.gallery.create");
+    Route::post('tenders/{id}/gallery', 'Admin\TenderController@storeGallery')->name("tenders.gallery.store");
+    Route::get('tenders/{id}/gallery/{gallery}', 'Admin\TenderController@deleteGallery')->name("tenders.gallery.delete");
     Route::resource('tenders', 'Admin\TenderController');
     
     Route::resource('offers', 'Admin\OfferController');
-
+    Route::get('offers/{id}/gallery', 'Admin\OfferController@gallery')->name("offers.gallery");
+    Route::get('offers/{id}/create-gallery', 'Admin\OfferController@createGallery')->name("offers.gallery.create");
+    Route::post('offers/{id}/gallery', 'Admin\OfferController@storeGallery')->name("offers.gallery.store");
+    Route::get('offers/{id}/gallery/{gallery}', 'Admin\OfferController@deleteGallery')->name("offers.gallery.delete");
     Route::resource('offers-categories', 'Admin\OfferCategoryController');
 
 
