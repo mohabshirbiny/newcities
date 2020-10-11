@@ -261,6 +261,13 @@
                                     <p>Facilities</p>
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('compounds.index') }}" class="nav-link @if(request()->segment(2) == 'compounds') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Compounds</p>
+                                </a>
+                            </li>
                             
                         </ul>
                     </nav>

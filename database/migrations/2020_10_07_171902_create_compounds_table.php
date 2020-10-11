@@ -22,7 +22,7 @@ class CreateCompoundsTable extends Migration
             $table->text("about");
             $table->text("cover");
             $table->text("social_media");
-            $table->text("gallery");
+            $table->text("gallery")->nullable();
             $table->boolean("use_facilities")->default(false);
             $table->unsignedBigInteger("city_id")->nullable();
             $table->timestamps();
