@@ -112,4 +112,13 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::post('contractors/{developer}/gallery', 'Admin\ContractorController@storeGallery')->name("contractors.gallery.store");
     Route::get('contractors/{developer}/gallery/{gallery}', 'Admin\ContractorController@deleteGallery')->name("contractors.gallery.delete");
     Route::resource('contractors', 'Admin\ContractorController');
+
+    Route::get('property-items/grid', 'Admin\PropertyItemController@grid')->name("property-items.grid");
+    Route::resource('property-items', 'Admin\PropertyItemController');
+
+    Route::get('property-types/grid', 'Admin\PropertyTypeController@grid')->name("property-types.grid");
+    Route::resource('property-types', 'Admin\PropertyTypeController');
+
+    Route::get('facilities/grid', 'Admin\FacilityController@grid')->name("facilities.grid");
+    Route::resource('facilities', 'Admin\FacilityController');
 });
