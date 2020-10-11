@@ -7,6 +7,7 @@ use App\Job;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\JobCategory;
+use App\SectionData;
 use App\Vendor;
 
 class JobController extends Controller
@@ -29,11 +30,14 @@ class JobController extends Controller
         $vendors = Vendor::query()->select(['id','title_en','title_ar'])->get();
         $locations = City::query()->select(['id','name_en','name_ar'])->get();
         
+        $section = SectionData::where('model','Job')->first();
+
         $data = [
             "jobs" => $jobs,
             "jobs_categories" => $jobsCatigories,
             "vendors" => $vendors,
             "locations" => $locations,
+            "gallery" => ($section)?$section->section_gallery : [],
         ];
 
         return APIResponseController::respond(1,'jobs retreived successfully',$data,200); 

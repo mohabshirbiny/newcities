@@ -8,6 +8,7 @@ use App\Event;
 use App\EventCategory;
 use App\Http\Controllers\Controller;
 use App\OfferCategory;
+use App\SectionData;
 
 class EventController extends Controller
 {
@@ -24,11 +25,14 @@ class EventController extends Controller
         $eventCatigories = EventCategory::all();
         
         $locations = City::query()->select(['id','name_en','name_ar'])->get();
+
+        $section = SectionData::where('model','Event')->first();
         
         $data = [
             "events" => $events,
             "event_categories" => $eventCatigories,
             "locations" => $locations,
+            "gallery" => ($section)?$section->section_gallery : [],
         ];
         
         return APIResponseController::respond(1, '', $data , 200);

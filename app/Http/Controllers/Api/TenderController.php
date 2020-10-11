@@ -6,6 +6,7 @@ use App\City;
 use App\Tender;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\SectionData;
 use App\TenderCategory;
 use App\Vendor;
 
@@ -21,9 +22,12 @@ class TenderController extends Controller
 
         $tendersCatigories = TenderCategory::query()->select(['id','name'])->get();
         
+        $section = SectionData::where('model','Event')->first();
+
         $data = [
             "tenders" => $tenders,
             "tenders_categories" => $tendersCatigories,
+            "gallery" => ($section)?$section->section_gallery : [],
         ];
 
         return APIResponseController::respond(1,'tenders retreived successfully',$data,200); 
