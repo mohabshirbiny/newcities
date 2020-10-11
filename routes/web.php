@@ -121,4 +121,11 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
 
     Route::get('facilities/grid', 'Admin\FacilityController@grid')->name("facilities.grid");
     Route::resource('facilities', 'Admin\FacilityController');
+
+    Route::get('compounds/grid', 'Admin\CompoundController@grid')->name("compounds.grid");
+    Route::get('compounds/{developer}/gallery', 'Admin\CompoundController@gallery')->name("compounds.gallery");
+    Route::get('compounds/{developer}/create-gallery', 'Admin\CompoundController@createGallery')->name("compounds.gallery.create");
+    Route::post('compounds/{developer}/gallery', 'Admin\CompoundController@storeGallery')->name("compounds.gallery.store");
+    Route::get('compounds/{developer}/gallery/{gallery}', 'Admin\CompoundController@deleteGallery')->name("compounds.gallery.delete");
+    Route::resource('compounds', 'Admin\CompoundController');
 });
