@@ -21,11 +21,11 @@ class CreateEventsTable extends Migration
             $table->time("time_from");
             $table->time("time_to");
             $table->text("contact_details")->nullable();
+            $table->text("social_links")->nullable();
             $table->text("location_url");            
             $table->string("city_location")->nullable();
-            $table->text("address");
             $table->string("cover");
-            $table->text("gallery");
+            $table->text("gallery")->nullable();
             $table->text("about");
             $table->unsignedBigInteger("city_id");
             $table->unsignedBigInteger("event_category_id")->nullable();
