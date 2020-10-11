@@ -54,6 +54,13 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::get('events/{id}/gallery/{gallery}', 'Admin\EventController@deleteGallery')->name("events.gallery.delete");
     Route::resource('events-categories', 'Admin\EventCategoryController');
     Route::resource('events-sponsors', 'Admin\EventSponsorController');
+
+    Route::post('add-event-sponsors/{id}', 'Admin\EventController@addSponsor')->name('events-add-sponsors');
+    Route::get('remove-event-sponsors/{event_id}/{sponsor_id}', 'Admin\EventController@removeSponsor')->name('events-remove-sponsors');
+
+    Route::post('add-event-organizers', 'Admin\EventController@addOrganizer')->name('events-add-organizers');
+    Route::get('remove-event-organizers/{event_id}/{organizer_id}', 'Admin\EventController@removeOrganizer')->name('events-remove-organizers');
+
     Route::resource('events-organizers', 'Admin\EventOrganizerController');
 
 

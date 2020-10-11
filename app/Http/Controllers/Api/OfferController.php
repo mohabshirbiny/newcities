@@ -32,9 +32,9 @@ class OfferController extends Controller
         
         $data = [
             "offers" => $offers,
-            // "offers_categories" => $offersCatigories,
-            // "vendors" => $vendors,
-            // "locations" => $locations,
+            "offers_categories" => $offersCatigories,
+            "vendors" => $vendors,
+            "locations" => $locations,
         ];
 
         return APIResponseController::respond(1,'offers retreived successfully',$data,200); 

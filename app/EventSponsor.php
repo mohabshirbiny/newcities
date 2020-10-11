@@ -14,7 +14,7 @@ class EventSponsor extends Model
 
     public function events()
     {
-        return $this->hasMany(Event::class, "event_sponsor_id", "id");
+        return $this->belongsToMany(Event::class);
     }
 
     public function getLogoPathAttribute(){
