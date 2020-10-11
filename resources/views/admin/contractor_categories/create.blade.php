@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "Article category")
+@section("page_title", "Add new contractors category")
 @section("content")
 
     <div class="content-wrapper">
@@ -18,25 +18,24 @@
                         <!-- jquery validation -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Edit article service</h3>
+                                <h3 class="card-title">Add new contractor category</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('service-categories.update', $article_category->id) }}">
+                            <form role="form" id="quickForm" method="post" action="{{ route('contractor-categories.store') }}" enctype="multipart/form-data">
                                 @csrf
-                                @method("PUT")
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Title (en)</label>
-                                        <input type="text" name="title_en" class="form-control" placeholder="Enter title en" value="{{ $article_category->title_en }}" />
+                                        <label for="exampleInputEmail1">name (en)</label>
+                                        <input type="text" name="name[en]" class="form-control" placeholder="Enter name en" />
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Title (ar)</label>
-                                        <input type="text" name="title_ar" class="form-control" placeholder="Enter title ar" value="{{ $article_category->title_ar }}" />
+                                        <label for="exampleInputEmail1">name (ar)</label>
+                                        <input type="text" name="name[ar]" class="form-control" placeholder="Enter name ar" />
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Icon</label>
-                                        <input type="text" name="icon" class="form-control" placeholder="Enter icon" value="{{ $article_category->icon }}" />
+                                        <input type="file" name="icon" class="form-control" />
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
@@ -75,11 +74,6 @@
                     required: true,
                 },
             },
-            // messages: {
-            //     name: {
-            //         required: "Please enter a name",
-            //     }
-            // },
             errorElement: 'span',
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');
