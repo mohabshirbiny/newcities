@@ -35,6 +35,24 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
+                                        <label for="exampleInputEmail1">Vendor</label>
+                                        <select name="vendor_id" class="form-control">
+                                            <option value="">Select Vendor</option>
+                                            @foreach ($vendors as $vendor)
+                                                <option value="{{ $vendor->id }}">{{ $vendor->name_en . " - " . $vendor->name_ar }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Compound</label>
+                                        <select name="article_category_id" class="form-control">
+                                            <option value="">Select Compound</option>
+                                            @foreach ($compounds as $compound)
+                                                <option value="{{ $compound->id }}">{{ $compound->name_en . " - " . $compound->name_ar }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="exampleInputEmail1">Title (en)</label>
                                         <input type="text" name="title_en" class="form-control" placeholder="Enter title en" />
                                     </div>
