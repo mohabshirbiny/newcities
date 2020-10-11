@@ -233,7 +233,27 @@
                                     <p>Contractors</p>
                                 </a>
                             </li>
-                            
+
+                            <li class="nav-item">
+                                <a href="{{ route('property-items.index') }}" class="nav-link @if(request()->segment(2) == 'property-items') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Property Items</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('property-types.index') }}" class="nav-link @if(request()->segment(2) == 'property-types') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Property Types</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('facilities.index') }}" class="nav-link @if(request()->segment(2) == 'facilities') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Facilities</p>
+                                </a>
+                            </li>
                             
                         </ul>
                     </nav>
