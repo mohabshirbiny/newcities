@@ -124,6 +124,7 @@ class CustomerController extends Controller
             'location_governorate'  => 'string',
             'location_city'         => 'string',
             'about'                 => 'string',
+            'allow_appearing'                 => 'string',
         ]);
 
         if ($validator->fails()) {
@@ -135,12 +136,17 @@ class CustomerController extends Controller
         $customer->update([
             'name' => $request->name,
             'email' => $request->email,
-            'mobile' => $request->mobile,
+            'job_title' => $request->job_title,
+            'cv_url' => $request->cv_url,
+            'about' => $request->about,
+            'location_governorate' => $request->location_governorate,
+            'location_city' => $request->location_city,
+            'allow_appearing' => $request->allow_appearing,
         ]);
 
         $new_updated_Customer = Customer::find($user->id);
 
-        return APIResponseController::respond(1,'Profile updated',["customer" => $user, "token" => $token]); 
+        return APIResponseController::respond(1,'Profile updated',["customer" => $customer, "token" => $token]); 
     }
 
     public function logout()

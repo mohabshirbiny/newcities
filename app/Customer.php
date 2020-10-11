@@ -10,7 +10,21 @@ use Illuminate\Notifications\Notifiable;
 class Customer extends Authenticatable implements JWTSubject
 {
     protected $fillable = [
-        'name', 'mobile' , 'email' , 'password','device_id','birthdate','governorate','subscription_status','verification_code'
+        'name',
+        'mobile' ,
+        'email' ,
+        'password',
+        'device_id',
+        'birthdate',
+        'governorate',
+        'subscription_status',
+        'verification_code',
+        'job_title',
+        'cv_url',
+        'about',
+        'location_governorate',
+        'location_city',
+        'allow_appearing',
     ];
 
     /**

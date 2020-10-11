@@ -220,19 +220,33 @@ class EventController extends Controller
     public function storeGallery(Request $request, $event_id)
     {
         $event = Event::findOrfail($event_id);
-
+        // dd($request->all());
         if (in_array($request->file_type, ['image', 'video'])) {
             $uploaded_gallery = $this->uploadFile($request->gallery, 'Event', 'gallery', $request->file_type, 'event_files');
+            if ($request->thumbnail && $request->file_type == 'video') {
+                $thumbnail = $this->uploadFile($request->thumbnail, 'Event', 'thumbnail', 'image', 'event_files');
+            }
         } else {
             $uploaded_gallery = $request->gallery;
         }
-
+        
         $gallery = $event->gallery;
         $gallery_decoded = [];
+        
         if ($gallery) {
-            $gallery_decoded = json_decode($gallery, true);
-            $gallery_decoded[$request->file_type][] = $uploaded_gallery;
-        } else {
+            $gallery_decoded = json_decode($gallery, true);            
+        }
+
+        if ($request->file_type == 'video') {
+
+            if(!isset($gallery_decoded['video'])){
+                $i = 0;
+            }else{
+                $i = count($gallery_decoded['video']);
+            }
+            $gallery_decoded['video'][$i]['video'] = $uploaded_gallery;
+            $gallery_decoded['video'][$i]['thumbnail'] = $thumbnail;
+        }else{
             $gallery_decoded[$request->file_type][] = $uploaded_gallery;
         }
 

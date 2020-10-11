@@ -95,18 +95,24 @@ class CompoundController extends Controller
             "cover" => $cover,
         ]);
 
-        foreach($request->developers as $one_developer) {
-            DB::table('compound_developer')->insert([
-                "compound_id" => $compound->id,
-                "developer_id" => $one_developer
-            ]);
+        if($request->developers){
+            foreach($request->developers as $one_developer) {
+                        DB::table('compound_developer')->insert([
+                            "compound_id" => $compound->id,
+                            "developer_id" => $one_developer
+                        ]);
+                    }
         }
+        
+        if($request->contractors){
 
+        
         foreach($request->contractors as $one_contractor) {
             DB::table('compound_contractor')->insert([
                 "compound_id" => $compound->id,
                 "contractor_id" => $one_contractor
             ]);
+        }
         }
 
         return redirect(route("compounds.index"))->with("success_message", "Compound has been stored successfully.");

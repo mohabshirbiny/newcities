@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Article;
 use App\ArticleCategory;
+use App\City;
 use App\Compound;
 use App\Http\Controllers\Controller;
 use App\Vendor;
@@ -49,7 +50,8 @@ class ArticleController extends Controller
         $categories = ArticleCategory::get();
         $vendors = Vendor::get();
         $compounds = Compound::get();
-        return view("admin.articles.create", compact("categories",'vendors','compounds'));
+        $cities = City::get();
+        return view("admin.articles.create", compact("categories",'vendors','compounds','cities'));
     }
 
     /**
@@ -62,6 +64,7 @@ class ArticleController extends Controller
     {
         $this->validate($request, [
             "article_category_id" => "required",
+            "city_id" => "required",
             "vendor_id" => "required",
             "compound_id" => "required",
             "title_en" => "required",
@@ -74,6 +77,7 @@ class ArticleController extends Controller
         ]);
 
         Article::create([
+            "city_id" => $request->city_id,
             "article_category_id" => $request->article_category_id,
             "compound_id" => $request->compound_id,
             "vendor_id" => $request->vendor_id,
