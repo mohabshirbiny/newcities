@@ -74,4 +74,5 @@ class Event extends Model
             } 
         }
         return $new_gallery;
+    }
 }
