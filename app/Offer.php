@@ -69,10 +69,11 @@ class Offer extends Model
 
     public function getOfferGalleryAttribute(){
         $gallery = json_decode($this->gallery,true);
+        if(!$gallery) return [];
         foreach ($gallery as $type => $files) {
             if ($type == 'image') {
                 foreach ($files as $image) {
-                    $new_gallery['images'][] = url('images/offer_files/'.$image);
+                    $new_gallery['images'][] = url('public/images/offer_files/'.$image);
                 }
             } 
             if ($type == 'youtube_video') {
@@ -82,7 +83,7 @@ class Offer extends Model
             } 
             if ($type == 'video') {
                 foreach ($files as $video) {
-                    $new_gallery['videos'][] = url('videos/offer_files/'.$video);
+                    $new_gallery['videos'][] = url('public/videos/offer_files/'.$video);
                 }
             } 
         }

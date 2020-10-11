@@ -76,6 +76,7 @@ class Tender extends Model
 
     public function getTenderGalleryAttribute(){
         $gallery = json_decode($this->gallery,true);
+        if(!$gallery) return [];
         foreach ($gallery as $type => $files) {
             if ($type == 'image') {
                 foreach ($files as $image) {

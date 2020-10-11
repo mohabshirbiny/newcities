@@ -47,7 +47,7 @@ class Event extends Model
 
     public function getCoverPathAttribute(){
         $imageUrl = url('images/events_files/'.$this->cover);
-        $imageUrl = url('public/images/events_files/'.$this->cover);
+        $imageUrl = url('public/images/event_files/'.$this->cover);
         return $imageUrl;
     }
 
@@ -61,6 +61,7 @@ class Event extends Model
 
     public function getEventGalleryAttribute(){
         $gallery = json_decode($this->gallery,true);
+        if(!$gallery) return [];
         foreach ($gallery as $type => $files) {
             if ($type == 'image') {
                 foreach ($files as $image) {
