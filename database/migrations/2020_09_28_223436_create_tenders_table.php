@@ -24,7 +24,7 @@ class CreateTendersTable extends Migration
             $table->text("attachment");
             $table->text("book_value");
             $table->text("insurance_value");
-
+            $table->text('gallery')->nullable();
             $table->unsignedBigInteger("city_id");
 
             $table->unsignedBigInteger('tender_category_id');

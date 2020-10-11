@@ -146,6 +146,32 @@
                             </li>
 
                             <li class="nav-item">
+                                <a href="{{ route('events-categories.index') }}" class="nav-link @if(request()->segment(2) == 'events-categories') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Events Categories</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('events-sponsors.index') }}" class="nav-link @if(request()->segment(2) == 'events-sponsors') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Events Sponsors</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('events-organizers.index') }}" class="nav-link @if(request()->segment(2) == 'events-organizers') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Events Organizers</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('events.index') }}" class="nav-link @if(request()->segment(2) == 'events') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Events</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a href="{{ route('jobs-categories.index') }}" class="nav-link @if(request()->segment(2) == 'jobs-categories') active @endif">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>Jobs Categories</p>

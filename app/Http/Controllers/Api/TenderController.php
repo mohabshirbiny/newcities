@@ -35,7 +35,12 @@ class TenderController extends Controller
             return APIResponseController::respond(0,'no Tender with this id',[],404); 
         }
 
-        $details = Tender::with("tender_category")->find($id);
-        return APIResponseController::respond(1,"tender retreived successfully.", ['tender' => $details],200); 
+        $tender = Tender::with("tender_category")->find($id);
+        $data = [
+            "tender" => $tender,
+            "related_tenders" => Tender::Where('id','!=',$id)->Where('tender_category_id','=',$tender->tender_category_id)->get(),
+        ];
+
+        return APIResponseController::respond(1,"tender retreived successfully.",  $data,200); 
     }
 }

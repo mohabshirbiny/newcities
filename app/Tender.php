@@ -19,6 +19,7 @@ class Tender extends Model
         "attachment",
         "book_value",
         "insurance_value",
+        "gallery",
     ];
 
     protected $appends = [
@@ -28,7 +29,8 @@ class Tender extends Model
         'brief_ar',
         "body_en" ,
         'body_ar',
-        'image_path'
+        'image_path',
+        'tender_gallery'
     ];
 
     public function tender_category()
@@ -70,5 +72,28 @@ class Tender extends Model
         $imageUrl = url('images/tender_files/'.$this->image);
         $imageUrl = url('public/images/tender_files/'.$this->image);
         return $imageUrl;
+    }
+
+    public function getTenderGalleryAttribute(){
+        $gallery = json_decode($this->gallery,true);
+        if(!$gallery) return [];
+        foreach ($gallery as $type => $files) {
+            if ($type == 'image') {
+                foreach ($files as $image) {
+                    $new_gallery['images'][] = url('images/offer_files/'.$image);
+                }
+            } 
+            if ($type == 'youtube_video') {
+                foreach ($files as $youtube_video) {
+                    $new_gallery['youtube_video'][] = $youtube_video;
+                }
+            } 
+            if ($type == 'video') {
+                foreach ($files as $video) {
+                    $new_gallery['videos'][] = url('videos/offer_files/'.$video);
+                }
+            } 
+        }
+        return $new_gallery;
     }
 }

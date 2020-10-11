@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "Offers")
+@section("page_title", "Events sponsors")
 @section("content")
 
     <div class="content-wrapper">
@@ -20,8 +20,8 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    View all offers
-                                    <a class="btn btn-info btn-sm text-right" href="{{ route('offers.create') }}">+ Add New</a>
+                                    View all event sponsors
+                                    <a class="btn btn-info btn-sm text-right" href="{{ route('events-sponsors.create') }}">+ Add New</a>
                                 </h3>
                             </div>
                             <!-- /.card-header -->
@@ -32,7 +32,6 @@
                                             <th>ID</th>
                                             <th>Title (en)</th>
                                             <th>Title (ar)</th>
-                                            <th>Gallery</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -60,12 +59,11 @@ $(function() {
     $('#example2').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '{!! route('offers.index') !!}',
+        ajax: '{!! route('events-sponsors.index') !!}',
         columns: [
             { data: 'id', name: 'id' },
             { data: 'title_en', name: 'title_en' },
             { data: 'title_ar', name: 'title_ar' },
-            { data: 'gallery', name: 'gallery' },
             { data: 'actions', name: 'actions' },
         ]
     });

@@ -34,12 +34,34 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::resource('cities', 'Admin\CityController');
 
     Route::resource('tenders-categories', 'Admin\TenderCategoryController');
-
+    Route::get('tenders/{id}/gallery', 'Admin\TenderController@gallery')->name("tenders.gallery");
+    Route::get('tenders/{id}/create-gallery', 'Admin\TenderController@createGallery')->name("tenders.gallery.create");
+    Route::post('tenders/{id}/gallery', 'Admin\TenderController@storeGallery')->name("tenders.gallery.store");
+    Route::get('tenders/{id}/gallery/{gallery}', 'Admin\TenderController@deleteGallery')->name("tenders.gallery.delete");
     Route::resource('tenders', 'Admin\TenderController');
     
     Route::resource('offers', 'Admin\OfferController');
-
+    Route::get('offers/{id}/gallery', 'Admin\OfferController@gallery')->name("offers.gallery");
+    Route::get('offers/{id}/create-gallery', 'Admin\OfferController@createGallery')->name("offers.gallery.create");
+    Route::post('offers/{id}/gallery', 'Admin\OfferController@storeGallery')->name("offers.gallery.store");
+    Route::get('offers/{id}/gallery/{gallery}', 'Admin\OfferController@deleteGallery')->name("offers.gallery.delete");
     Route::resource('offers-categories', 'Admin\OfferCategoryController');
+
+    Route::resource('events', 'Admin\EventController');
+    Route::get('events/{id}/gallery', 'Admin\EventController@gallery')->name("events.gallery");
+    Route::get('events/{id}/create-gallery', 'Admin\EventController@createGallery')->name("events.gallery.create");
+    Route::post('events/{id}/gallery', 'Admin\EventController@storeGallery')->name("events.gallery.store");
+    Route::get('events/{id}/gallery/{gallery}', 'Admin\EventController@deleteGallery')->name("events.gallery.delete");
+    Route::resource('events-categories', 'Admin\EventCategoryController');
+    Route::resource('events-sponsors', 'Admin\EventSponsorController');
+
+    Route::post('add-event-sponsors/{id}', 'Admin\EventController@addSponsor')->name('events-add-sponsors');
+    Route::get('remove-event-sponsors/{event_id}/{sponsor_id}', 'Admin\EventController@removeSponsor')->name('events-remove-sponsors');
+
+    Route::post('add-event-organizers', 'Admin\EventController@addOrganizer')->name('events-add-organizers');
+    Route::get('remove-event-organizers/{event_id}/{organizer_id}', 'Admin\EventController@removeOrganizer')->name('events-remove-organizers');
+
+    Route::resource('events-organizers', 'Admin\EventOrganizerController');
 
 
     Route::get('vendor-categories/grid', 'Admin\VendorCategoryController@grid')->name("vendor-categories.grid");

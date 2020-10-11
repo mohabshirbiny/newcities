@@ -19,6 +19,7 @@ class Offer extends Model
         "vendor_id",
         "product_id",
         'offer_category_id',
+        "gallery"
     ];
 
     protected $appends = [
@@ -26,7 +27,8 @@ class Offer extends Model
         'title_ar',
         "description_en" ,
         'description_ar',
-        'image_path'
+        'image_path',
+        'offer_gallery'
     ];
 
     public function offer_category()
@@ -63,6 +65,29 @@ class Offer extends Model
         $imageUrl = url('images/offer_files/'.$this->image);
         $imageUrl = url('public/images/offer_files/'.$this->image);
         return $imageUrl;
+    }
+
+    public function getOfferGalleryAttribute(){
+        $gallery = json_decode($this->gallery,true);
+        if(!$gallery) return [];
+        foreach ($gallery as $type => $files) {
+            if ($type == 'image') {
+                foreach ($files as $image) {
+                    $new_gallery['images'][] = url('public/images/offer_files/'.$image);
+                }
+            } 
+            if ($type == 'youtube_video') {
+                foreach ($files as $youtube_video) {
+                    $new_gallery['youtube_video'][] = $youtube_video;
+                }
+            } 
+            if ($type == 'video') {
+                foreach ($files as $video) {
+                    $new_gallery['videos'][] = url('public/videos/offer_files/'.$video);
+                }
+            } 
+        }
+        return $new_gallery;
     }
 
 }
