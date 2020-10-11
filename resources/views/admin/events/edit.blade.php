@@ -261,6 +261,112 @@
                                 </div>
                             </form>
                         </div>
+                        
+                        <div class="card card-primary">
+                            
+                            <div class="card-header">
+                                <h3 class="card-title">add event sponsors</h3>
+                            </div>
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name (en)</th>
+                                        <th>Name (ar)</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (count( $event->sponsors) > 0 ) 
+                                        @foreach ($event->sponsors as $sponsor)
+                                            <tr>
+                                            <td>{{$sponsor->title_en}}</td>
+                                            <td>{{$sponsor->title_ar}}</td>
+                                            <td><a href='{{ route('events-remove-sponsors', ["event_id" => $event->id,"sponsor_id" => $sponsor->id ]) }}' class='badge bg-danger'>Delete</a></td>
+                                        </tr>
+                                        @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form role="form" id="quickForm" method="post" action="{{ route('events-add-sponsors', $event->id) }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="card-body">
+                                <input type="hidden" name="event_id" value="{{$event->id}}">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+
+                                            <label for="exampleInputEmail1">Event Sponsor</label>
+                                            <select name="event_sponsor_id" class="form-control">
+                                                <option value="">Select Event Sponsor</option>
+                                                @foreach ($EventSponsors as $EventSponsor)
+                                                    <option value="{{ $EventSponsor->id }}" >{{ $EventSponsor->title_en . " - " . $EventSponsor->title_ar }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                </div>
+
+                                
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        {{-- ooo --}}
+
+                        <div class="card card-primary">
+                            
+                            <div class="card-header">
+                                <h3 class="card-title">add event organizers</h3>
+                            </div>
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name (en)</th>
+                                        <th>Name (ar)</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (count( $event->organizers) > 0 ) 
+                                        @foreach ($event->organizers as $organizer)
+                                            <tr>
+                                            <td>{{$organizer->title_en}}</td>
+                                            <td>{{$organizer->title_ar}}</td>
+                                            <td><a href='{{ route('events-remove-organizers', ["event_id" => $event->id,"organizer_id" => $organizer->id ]) }}' class='badge bg-danger'>Delete</a></td>
+                                        </tr>
+                                        @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form role="form" id="quickForm" method="post" action="{{ route('events-add-organizers') }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="card-body">
+                                <input type="hidden" name="event_id" value="{{$event->id}}">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+
+                                            <label for="exampleInputEmail1">Event organizers</label>
+                                            <select name="event_organizer_id" class="form-control">
+                                                <option value="">Select Event Organizer</option>
+                                                @foreach ($EventOrganizers as $EventOrganizer)
+                                                    <option value="{{ $EventOrganizer->id }}" >{{ $EventOrganizer->title_en . " - " . $EventOrganizer->title_ar }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                </div>
+
+                                
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
                         <!-- /.card -->
                     </div>
                 </div>

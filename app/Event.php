@@ -7,12 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     protected $fillable = [
-        "title_en", "title_ar", "event_category_id", "date_from", "date_to", "time_from", "time_to",
+        "title_en", "title_ar", "event_category_id", "date_from", "date_to", "time_from", "time_to",'city_id',
         'social_links',"contact_details", "location_url", "events_id", "events_location", "cover", "gallery",
-        "event_organizer_id", "event_sponsor_id", "about_en", "about_ar",
+        "event_organizer_id", "event_sponsor_id", "about_en", "about_ar",'city_location'
     ];
 
     protected $appends = ['cover_path'];
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
 
     public function category()
     {
@@ -21,12 +26,12 @@ class Event extends Model
 
     public function organizers()
     {
-        return $this->belongsTo(EventOrganizer::class, "event_organizer_id", "id");
+        return $this->belongsToMany(EventOrganizer::class,'event_organizer','organizer_id','event_id');
     }
 
     public function sponsors()
     {
-        return $this->belongsTo(EventSponsor::class, "event_sponsor_id", "id");
+        return $this->belongsToMany(EventSponsor::class,'event_sponsor','sponsor_id','event_id');
     }
 
     public function interested_customers()
@@ -59,7 +64,7 @@ class Event extends Model
         foreach ($gallery as $type => $files) {
             if ($type == 'image') {
                 foreach ($files as $image) {
-                    $new_gallery['images'][] = url('images/event_files/'.$image);
+                    $new_gallery['images'][] = url('puclic/images/event_files/'.$image);
                 }
             } 
             if ($type == 'youtube_video') {
@@ -69,7 +74,7 @@ class Event extends Model
             } 
             if ($type == 'video') {
                 foreach ($files as $video) {
-                    $new_gallery['videos'][] = url('videos/event_files/'.$video);
+                    $new_gallery['videos'][] = url('puclic/videos/event_files/'.$video);
                 }
             } 
         }

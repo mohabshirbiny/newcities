@@ -13,6 +13,8 @@ class Vendor extends Model
     protected $appends = [
         "name_en" ,
         'name_ar',
+        "about_en" ,
+        'about_ar',
     ];
 
     public function vendor_category()
@@ -28,5 +30,15 @@ class Vendor extends Model
     public function getNameArAttribute()
     {
         return json_decode($this->name,true)['ar'];
+    }
+
+    public function getAboutEnAttribute()
+    {
+        return json_decode($this->about,true)['en'];
+    }
+
+    public function getAboutArAttribute()
+    {
+        return json_decode($this->about,true)['ar'];
     }
 }

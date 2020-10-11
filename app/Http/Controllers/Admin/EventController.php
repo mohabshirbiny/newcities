@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\City;
 use App\Event;
 use App\EventCategory;
+use App\EventOrganizer;
+use App\EventSponsor;
 use App\Http\Controllers\Controller;
 use App\Traits\UploadFiles;
 use Illuminate\Http\Request;
@@ -127,8 +129,10 @@ class EventController extends Controller
     {
         $event = Event::findorfail($id);
         $EventCategories = EventCategory::all();
+        $EventSponsors = EventSponsor::all();
+        $EventOrganizers = EventOrganizer::all();
         $cities = City::all();  
-        return view("admin.events.edit", compact("event",'EventCategories','cities'));
+        return view("admin.events.edit", compact("event",'EventCategories','cities','EventSponsors','EventOrganizers'));
     }
 
     /**
@@ -261,5 +265,46 @@ class EventController extends Controller
             return redirect(route("events.gallery", $event))->with("success_message", "event gallery has been deleted successfully.");
         }
         return redirect(route("events.gallery", $event))->with("success_message", "event gallery has been deleted successfully.");
+    }
+
+    public function removeSponsor(Request $request)
+    {
+        $event = Event::findOrfail($request->event_id);
+        $sponsor = EventSponsor::findOrfail($request->sponsor_id);
+
+        $event->sponsors()->detach($sponsor->id);
+
+        return redirect(route("events.edit", $event))->with("success_message", "event sponsors has been stored successfully.");
+    }
+
+    public function addSponsor(Request $request)
+    {
+        $event = Event::findOrfail($request->event_id);
+        $sponsor = EventSponsor::findOrfail($request->event_sponsor_id);
+
+        $event->sponsors()->syncWithoutDetaching($sponsor->id);
+        
+        return redirect(route("events.edit", $event))->with("success_message", "event sponsors has been stored successfully.");
+    }
+
+    public function removeOrganizer(Request $request)
+    {
+        $event = Event::findOrfail($request->event_id);
+        $organizer = EventOrganizer::findOrfail($request->organizer_id);
+
+        $event->organizers()->detach($organizer->id);
+
+        return redirect(route("events.edit", $event))->with("success_message", "event sponsors has been stored successfully.");
+    }
+
+    public function addOrganizer(Request $request)
+    {
+        // dd($request->all());
+        $event = Event::findOrfail($request->event_id);
+        $organizer = EventOrganizer::findOrfail($request->event_organizer_id);
+
+        $event->organizers()->syncWithoutDetaching($organizer->id);
+        
+        return redirect(route("events.edit", $event))->with("success_message", "event sponsors has been stored successfully.");
     }
 }
