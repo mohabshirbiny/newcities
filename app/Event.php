@@ -12,7 +12,7 @@ class Event extends Model
         "event_organizer_id", "event_sponsor_id", "about_en", "about_ar",'city_location'
     ];
 
-    protected $appends = ['cover_path'];
+    protected $appends = ['cover_path','event_gallery'];
 
     public function city()
     {
@@ -65,7 +65,7 @@ class Event extends Model
         foreach ($gallery as $type => $files) {
             if ($type == 'image') {
                 foreach ($files as $image) {
-                    $new_gallery['images'][] = url('puclic/images/event_files/'.$image);
+                    $new_gallery['images'][] = url('public/images/event_files/'.$image);
                 }
             } 
             if ($type == 'youtube_video') {
@@ -74,8 +74,12 @@ class Event extends Model
                 }
             } 
             if ($type == 'video') {
+                // dd($files);
+                $i = 0;
                 foreach ($files as $video) {
-                    $new_gallery['videos'][] = url('puclic/videos/event_files/'.$video);
+                    $new_gallery['videos'][$i]['video'] = url('public/videos/event_files/'.$video['video']);
+                    $new_gallery['videos'][$i]['thumbnail'] = url('public/videos/event_files/'.$video['thumbnail']);
+                    $i++;
                 }
             } 
         }

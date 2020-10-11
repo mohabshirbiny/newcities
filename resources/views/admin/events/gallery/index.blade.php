@@ -35,21 +35,36 @@
                                     <tbody>
                                         @php $counter = 1; @endphp
                                         @foreach ($gallery_decoded as $type => $record_arr)
-                                            @foreach ($record_arr as $record)
-                                                <tr>
-                                                    <td>{{ $counter }}</td>
-                                                    <td>{{ $type }}</td>
-                                                    <td>
-                                                        @if ($type == "image")
-                                                            <img style="width: 50px;" src="{{ url('images/event_files/' . $record) }}" alt="">
-                                                        @else
-                                                            {{ $record }}                                                            
-                                                        @endif
-                                                    </td>
-                                                    <td><a class="badge bg-danger" href="{{ route("events.gallery.delete", [$event_id, $record]) }}">Delete</a></td>
-                                                </tr>
-                                                @php $counter++; @endphp
-                                            @endforeach
+                                            @if ($type != 'video')
+                                                @foreach ($record_arr as $record)
+                                                    <tr>
+                                                        <td>{{ $counter }}</td>
+                                                        <td>{{ $type }}</td>
+                                                        <td>
+                                                            @if ($type == "image")
+                                                                <img style="width: 50px;" src="{{ url('images/event_files/' . $record) }}" alt="">
+                                                            @else
+                                                                {{ $record }}                                                            
+                                                            @endif
+                                                        </td>
+                                                        <td><a class="badge bg-danger" href="{{ route("events.gallery.delete", [$event_id, $record]) }}">Delete</a></td>
+                                                    </tr>
+                                                    @php $counter++; @endphp
+                                                @endforeach
+                                            @else
+                                            
+                                                @foreach ($record_arr as $record)
+                                                    <tr>
+                                                        <td>{{ $counter }}</td>
+                                                        <td>{{ $type }}</td>
+                                                        <td>
+                                                            {{ $record['video'] }}                                                            
+                                                        </td>
+                                                        <td><a class="badge bg-danger" href="{{ route("events.gallery.delete", [$event_id, $record['video']]) }}">Delete</a></td>
+                                                    </tr>
+                                                    @php $counter++; @endphp
+                                                @endforeach
+                                            @endif
                                         @endforeach
                                     </tbody>
                                 </table>

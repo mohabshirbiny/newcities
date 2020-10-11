@@ -46,7 +46,8 @@ trait UploadFiles
         }elseif ($fileType =='video') {
             
             if (!file_exists(public_path('videos/'.$folder))) {
-                mkdir(public_path('videos/'.$folder), 777, true);
+                mkdir(public_path('videos/'.$folder), 0755, true);
+
             }
 
             $path = public_path('videos/'.$folder.'/'.$fileName);
