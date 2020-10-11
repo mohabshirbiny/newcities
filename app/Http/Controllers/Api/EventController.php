@@ -46,7 +46,17 @@ class EventController extends Controller
                         ->with("interested_customers")
                         ->find($id);
 
-        return APIResponseController::respond(1, '', ["event" => $event], 200);
+        $user = auth('api')->user();
+        
+        $interstedUsersIds = $event->interested_customers()->pluck('customer_id')->toArray();
+        
+        if(in_array($user->id ,$interstedUsersIds )){
+            $user_interested = 1;
+        }else{
+            $user_interested = 0;
+        }
+        
+        return APIResponseController::respond(1, '', ["event" => $event,'user_interested' => $user_interested], 200);
     }
 
     public function addInterestedCustomer()
