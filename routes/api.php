@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', 'Api\CustomerController@login');
 Route::post('verfiy', 'Api\CustomerController@customerVerify');
 
-Route::group(['middleware' => ['jwt.verify']], function () {
+// Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get("profile", "Api\CustomerController@getAuthenticatedUser");
     Route::post("update-profile", "Api\CustomerController@updateProfile");
     Route::post("change-password", "Api\CustomerController@changePassword");
@@ -98,4 +98,4 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::get("get-properties", "Api\PropertyController@getAll");
     Route::get("get-property/{id}", "Api\PropertyController@getOne");
-});
+// });
