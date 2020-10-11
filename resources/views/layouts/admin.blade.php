@@ -193,6 +193,20 @@
                                     <p>Developers</p>
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('contractor-categories.index') }}" class="nav-link @if(request()->segment(2) == 'contractor-categories') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Contractors Categories</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('contractors.index') }}" class="nav-link @if(request()->segment(2) == 'contractors') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Contractors</p>
+                                </a>
+                            </li>
                             
                             
                         </ul>
