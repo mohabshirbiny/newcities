@@ -87,6 +87,14 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::resource('jobs', 'Admin\JobController');
 
     Route::resource('jobs-categories', 'Admin\JobCategoryController');
+    
+    Route::get('sections', 'Admin\SectionDataController@getAll')->name('sections.index');
+    Route::get('sections/{id}/gallery', 'Admin\SectionDataController@gallery')->name("sections.gallery");
+    Route::get('sections/{id}/create-gallery', 'Admin\SectionDataController@createGallery')->name("sections.gallery.create");
+    Route::post('sections/{id}/gallery', 'Admin\SectionDataController@storeGallery')->name("sections.gallery.store");
+    Route::get('sections/{id}/gallery/{gallery}', 'Admin\SectionDataController@deleteGallery')->name("sections.gallery.delete");
+    Route::get('sections/{id}', 'Admin\SectionDataController@edit')->name('sections.edit');
+    Route::PUT('sections/{id}', 'Admin\SectionDataController@update')->name('sections.update');
 
     Route::get('developers/grid', 'Admin\DeveloperController@grid')->name("developers.grid");
     Route::get('developers/{developer}/gallery', 'Admin\DeveloperController@gallery')->name("developers.gallery");

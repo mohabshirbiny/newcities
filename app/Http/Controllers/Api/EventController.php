@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\City;
 use App\Customer;
 use App\Event;
+use App\EventCategory;
 use App\Http\Controllers\Controller;
 use App\OfferCategory;
+use App\SectionData;
 
 class EventController extends Controller
 {
@@ -20,14 +22,17 @@ class EventController extends Controller
                         ->Where('event_category_id','LIKE',$event_category_id)
                         ->get();
 
-        $eventCatigories = OfferCategory::query()->select(['id','name'])->get();
+        $eventCatigories = EventCategory::all();
         
         $locations = City::query()->select(['id','name_en','name_ar'])->get();
+
+        $section = SectionData::where('model','Event')->first();
         
         $data = [
             "events" => $events,
             "event_categories" => $eventCatigories,
             "locations" => $locations,
+            "gallery" => ($section)?$section->section_gallery : [],
         ];
         
         return APIResponseController::respond(1, '', $data , 200);
@@ -45,7 +50,17 @@ class EventController extends Controller
                         ->with("interested_customers")
                         ->find($id);
 
-        return APIResponseController::respond(1, '', ["event" => $event], 200);
+        $user = auth('api')->user();
+        
+        $interstedUsersIds = $event->interested_customers()->pluck('customer_id')->toArray();
+        
+        if(in_array($user->id ,$interstedUsersIds )){
+            $user_interested = 1;
+        }else{
+            $user_interested = 0;
+        }
+        
+        return APIResponseController::respond(1, '', ["event" => $event,'user_interested' => $user_interested], 200);
     }
 
     public function addInterestedCustomer()
