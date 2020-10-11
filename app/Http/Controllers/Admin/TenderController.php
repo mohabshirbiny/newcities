@@ -25,6 +25,10 @@ class TenderController extends Controller
             $query = Tender::query();                                        
             
             return DataTables::of($query)
+                ->addColumn("gallery", function ($record) {
+                    $link = route("tenders.gallery", $record->id);
+                    return "<a href='$link'>Gellery</a>";
+                })
                 ->addColumn("actions", function($record) {
                     $edit_link = route("tenders.edit", $record->id);
                     $delete_link = route("tenders.destroy", $record->id);
@@ -34,7 +38,7 @@ class TenderController extends Controller
                     ";
                     return $actions;
                 })
-            ->rawColumns(['actions'])->make(true);
+            ->rawColumns(['actions','gallery'])->make(true);
         } else {
             return view("admin.tenders.index");
         } 
@@ -196,5 +200,72 @@ class TenderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function gallery($tender_id)
+    {
+        $tender = Tender::findOrfail($tender_id);
+        $gallery = $tender->gallery;
+        $gallery_decoded = [];
+        if ($gallery) {
+            $gallery_decoded = json_decode($gallery, true);
+        }
+        
+        return view("admin.tenders.gallery.index", compact("tender_id", "gallery_decoded"));
+    }
+
+    public function createGallery($tender_id)
+    {
+        return view("admin.tenders.gallery.create", compact("tender_id"));
+    }
+
+    public function storeGallery(Request $request, $tender_id)
+    {
+        $tender = Tender::findOrfail($tender_id);
+
+        if (in_array($request->file_type, ['image', 'video'])) {
+            $uploaded_gallery = $this->uploadFile($request->gallery, 'Tender', 'gallery', $request->file_type, 'tender_files');
+        } else {
+            $uploaded_gallery = $request->gallery;
+        }
+
+        $gallery = $tender->gallery;
+        $gallery_decoded = [];
+        if ($gallery) {
+            $gallery_decoded = json_decode($gallery, true);
+            $gallery_decoded[$request->file_type][] = $uploaded_gallery;
+        } else {
+            $gallery_decoded[$request->file_type][] = $uploaded_gallery;
+        }
+
+        $tender->update([
+            "gallery" => json_encode($gallery_decoded),
+        ]);
+
+        return redirect(route("tenders.gallery", $tender))->with("success_message", "tender gallery has been stored successfully.");
+    }
+
+    public function deleteGallery($tender_id, $file_name)
+    {
+        $tender = Tender::findOrfail($tender_id);
+
+        $gallery = $tender->gallery;
+        if ($gallery) {
+            $new_gallery = [];
+            $gallery_decoded = json_decode($gallery, true);
+            foreach ($gallery_decoded as $type => $one_arr) {
+                foreach ($one_arr as $one_value) {
+                    if ($one_value != $file_name) {
+                        $new_gallery[$type][] = $file_name;
+                    }
+                }
+            }
+            $tender->update([
+                "gallery" => json_encode($new_gallery),
+            ]);
+
+            return redirect(route("tenders.gallery", $tender))->with("success_message", "tender gallery has been deleted successfully.");
+        }
+        return redirect(route("tenders.gallery", $tender))->with("success_message", "tender gallery has been deleted successfully.");
     }
 }

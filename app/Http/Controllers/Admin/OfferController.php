@@ -25,6 +25,10 @@ class OfferController extends Controller
             $query = Offer::query();                                        
             
             return DataTables::of($query)
+                ->addColumn("gallery", function ($record) {
+                    $link = route("offers.gallery", $record->id);
+                    return "<a href='$link'>Gellery</a>";
+                })
                 ->addColumn("actions", function($record) {
                     $edit_link = route("offers.edit", $record->id);
                     $delete_link = route("offers.destroy", $record->id);
@@ -34,7 +38,7 @@ class OfferController extends Controller
                     ";
                     return $actions;
                 })
-            ->rawColumns(['actions'])->make(true);
+            ->rawColumns(['actions','gallery'])->make(true);
         } else {
             return view("admin.offers.index");
         } 
@@ -48,7 +52,7 @@ class OfferController extends Controller
     public function create()
     {
         $OfferCategories = OfferCategory::query()->select(['id','name'])->get();
-        $vendors = Vendor::query()->select(['id','title_en','title_ar'])->get();                                        
+        $vendors = Vendor::all();                                        
         return view("admin.offers.create",compact('OfferCategories','vendors'));
     }
 
@@ -116,7 +120,7 @@ class OfferController extends Controller
     public function edit($id)
     {
         $OfferCategories = OfferCategory::query()->select(['id','name'])->get();                                        
-        $vendors = Vendor::query()->select(['id','title_en','title_ar'])->get();                                        
+        $vendors = Vendor::all();                                        
         $offer = Offer::findorfail($id);
         return view("admin.offers.edit", compact("OfferCategories",'offer','vendors'));
     }
@@ -183,5 +187,72 @@ class OfferController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function gallery($offer_id)
+    {
+        $offer = Offer::findOrfail($offer_id);
+        $gallery = $offer->gallery;
+        $gallery_decoded = [];
+        if ($gallery) {
+            $gallery_decoded = json_decode($gallery, true);
+        }
+        
+        return view("admin.offers.gallery.index", compact("offer_id", "gallery_decoded"));
+    }
+
+    public function createGallery($offer_id)
+    {
+        return view("admin.offers.gallery.create", compact("offer_id"));
+    }
+
+    public function storeGallery(Request $request, $offer_id)
+    {
+        $offer = Offer::findOrfail($offer_id);
+
+        if (in_array($request->file_type, ['image', 'video'])) {
+            $uploaded_gallery = $this->uploadFile($request->gallery, 'Offer', 'gallery', $request->file_type, 'offer_files');
+        } else {
+            $uploaded_gallery = $request->gallery;
+        }
+
+        $gallery = $offer->gallery;
+        $gallery_decoded = [];
+        if ($gallery) {
+            $gallery_decoded = json_decode($gallery, true);
+            $gallery_decoded[$request->file_type][] = $uploaded_gallery;
+        } else {
+            $gallery_decoded[$request->file_type][] = $uploaded_gallery;
+        }
+
+        $offer->update([
+            "gallery" => json_encode($gallery_decoded),
+        ]);
+
+        return redirect(route("offers.gallery", $offer))->with("success_message", "offer gallery has been stored successfully.");
+    }
+
+    public function deleteGallery($offer_id, $file_name)
+    {
+        $offer = Offer::findOrfail($offer_id);
+
+        $gallery = $offer->gallery;
+        if ($gallery) {
+            $new_gallery = [];
+            $gallery_decoded = json_decode($gallery, true);
+            foreach ($gallery_decoded as $type => $one_arr) {
+                foreach ($one_arr as $one_value) {
+                    if ($one_value != $file_name) {
+                        $new_gallery[$type][] = $file_name;
+                    }
+                }
+            }
+            $offer->update([
+                "gallery" => json_encode($new_gallery),
+            ]);
+
+            return redirect(route("offers.gallery", $offer))->with("success_message", "offer gallery has been deleted successfully.");
+        }
+        return redirect(route("offers.gallery", $offer))->with("success_message", "offer gallery has been deleted successfully.");
     }
 }

@@ -65,7 +65,9 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get("get-event-sponsor/{id}", "Api\EventSponsorController@getOne");
 
     Route::get("get-events", "Api\EventController@getAll");
-    Route::get("get-events/{id}", "Api\EventController@getOne");
+    Route::get("get-event/{id}", "Api\EventController@getOne");
+    Route::post("add-event-interest", "Api\EventController@addInterestedCustomer");
+    Route::post("remove-event-interest", "Api\EventController@removeInterestedCustomer");
 
     Route::get("get-service-categories", "Api\ServiceCategoryController@getAll");
     Route::get("get-service-category/{id}", "Api\ServiceCategoryController@getOne");

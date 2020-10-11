@@ -32,6 +32,7 @@
                                             <th>ID</th>
                                             <th>Title (en)</th>
                                             <th>Title (ar)</th>
+                                            <th>Gallery</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -64,6 +65,7 @@ $(function() {
             { data: 'id', name: 'id' },
             { data: 'title_en', name: 'title_en' },
             { data: 'title_ar', name: 'title_ar' },
+            { data: 'gallery', name: 'gallery' },
             { data: 'actions', name: 'actions' },
         ]
     });

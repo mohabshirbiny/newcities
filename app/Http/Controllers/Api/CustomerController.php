@@ -73,6 +73,8 @@ class CustomerController extends Controller
             return APIResponseController::respond(0,'هذا الرقم غير مسجل لدينا من فضلك قم بتسجيل بياناتك',[],422); 
         }
 
+        $customer->verification_code =(int)$customer->verification_code;
+
         if($customer->verification_code == $request->code ){
             
             $token = auth('api')->fromUser($customer);
