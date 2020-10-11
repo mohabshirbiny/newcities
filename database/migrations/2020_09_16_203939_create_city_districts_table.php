@@ -19,6 +19,7 @@ class CreateCityDistrictsTable extends Migration
             $table->string("name_en");
             $table->string("city_id");
             $table->string("location_url");
+            $table->timestamps();
         });
     }
 

@@ -10,13 +10,18 @@ class CityController extends Controller
 {
     public function getAll()
     {
-        $records = City::with("city_districts")->get();
-        return APIResponseController::respond(1,[],["cities" => $records],200); 
+        $records = City::with("districts")->get();
+        return APIResponseController::respond(1,'',["cities" => $records],200); 
     }
 
     public function getOne($id)
     {
-        $details = City::with("city_districts")->find($id);
-        return APIResponseController::respond(1,[],["city" => $details],200); 
+        if(!City::find($id)){
+            return APIResponseController::respond(0,'no city with this id',[],404); 
+        }
+
+        $details = City::with("districts")->find($id);
+        
+        return APIResponseController::respond(1,'',["city" => $details],200); 
     }
 }

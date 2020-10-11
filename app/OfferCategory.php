@@ -8,7 +8,7 @@ class OfferCategory extends Model
 {
     protected $fillable = ["name", "icon"];
 
-    protected $appends = ["name_en" , 'name_ar'];
+    protected $appends = ["name_en" , 'name_ar','icon_path'];
     
     protected $hidden  = ["name"];
 
@@ -25,5 +25,10 @@ class OfferCategory extends Model
     public function getNameArAttribute()
     {
         return unserialize($this->name)['ar'];
+    }
+
+    public function getIconPathAttribute(){
+        $imageUrl = url('public/images/offers_categories_files/'.$this->icon);
+        return $imageUrl;
     }
 }

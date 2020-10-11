@@ -105,9 +105,9 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="{{ route('city-categories.index') }}" class="nav-link @if(request()->segment(2) == 'city-categories') active @endif">
+                                <a href="{{ route('city-districts.index') }}" class="nav-link @if(request()->segment(2) == 'city-districts') active @endif">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Cities Categories</p>
+                                    <p>Cities Districts</p>
                                 </a>
                             </li>
 
@@ -117,6 +117,76 @@
                                     <p>Cities</p>
                                 </a>
                             </li>
+
+
+                            <li class="nav-item">
+                                <a href="{{ route('tenders.index') }}" class="nav-link @if(request()->segment(2) == 'tenders') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Tenders</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('tenders-categories.index') }}" class="nav-link @if(request()->segment(2) == 'tender-categories') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Tender Categories</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('offers-categories.index') }}" class="nav-link @if(request()->segment(2) == 'offers-categories') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Offers Categories</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('offers.index') }}" class="nav-link @if(request()->segment(2) == 'offers') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Offers</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('jobs-categories.index') }}" class="nav-link @if(request()->segment(2) == 'jobs-categories') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Jobs Categories</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('jobs.index') }}" class="nav-link @if(request()->segment(2) == 'jobs') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Jobs</p>
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a href="{{ route('vendor-categories.index') }}" class="nav-link @if(request()->segment(2) == 'vendor-categories') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Vendors Categories</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('vendors.index') }}" class="nav-link @if(request()->segment(2) == 'vendors') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Vendors</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('service-categories.index') }}" class="nav-link @if(request()->segment(2) == 'service-categories') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Services Categories</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('services.index') }}" class="nav-link @if(request()->segment(2) == 'services') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Services</p>
+                                </a>
+                            </li>
+                            
                             
                         </ul>
                     </nav>
