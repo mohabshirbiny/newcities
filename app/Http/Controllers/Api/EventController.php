@@ -21,7 +21,7 @@ class EventController extends Controller
                         ->Where('event_category_id','LIKE',$event_category_id)
                         ->get();
 
-        $eventCatigories = EventCategory::query()->select(['id','name'])->get();
+        $eventCatigories = EventCategory::all();
         
         $locations = City::query()->select(['id','name_en','name_ar'])->get();
         
