@@ -95,4 +95,11 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::get('sections/{id}/gallery/{gallery}', 'Admin\SectionDataController@deleteGallery')->name("sections.gallery.delete");
     Route::get('sections/{id}', 'Admin\SectionDataController@edit')->name('sections.edit');
     Route::PUT('sections/{id}', 'Admin\SectionDataController@update')->name('sections.update');
+
+    Route::get('developers/grid', 'Admin\DeveloperController@grid')->name("developers.grid");
+    Route::get('developers/{developer}/gallery', 'Admin\DeveloperController@gallery')->name("developers.gallery");
+    Route::get('developers/{developer}/create-gallery', 'Admin\DeveloperController@createGallery')->name("developers.gallery.create");
+    Route::post('developers/{developer}/gallery', 'Admin\DeveloperController@storeGallery')->name("developers.gallery.store");
+    Route::get('developers/{developer}/gallery/{gallery}', 'Admin\DeveloperController@deleteGallery')->name("developers.gallery.delete");
+    Route::resource('developers', 'Admin\DeveloperController');
 });
