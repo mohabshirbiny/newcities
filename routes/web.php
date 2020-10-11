@@ -94,4 +94,14 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::post('developers/{developer}/gallery', 'Admin\DeveloperController@storeGallery')->name("developers.gallery.store");
     Route::get('developers/{developer}/gallery/{gallery}', 'Admin\DeveloperController@deleteGallery')->name("developers.gallery.delete");
     Route::resource('developers', 'Admin\DeveloperController');
+
+    Route::get('contractor-categories/grid', 'Admin\ContractorCategoryController@grid')->name("contractor-categories.grid");
+    Route::resource('contractor-categories', 'Admin\ContractorCategoryController');
+
+    Route::get('contractors/grid', 'Admin\ContractorController@grid')->name("contractors.grid");
+    Route::get('contractors/{developer}/gallery', 'Admin\ContractorController@gallery')->name("contractors.gallery");
+    Route::get('contractors/{developer}/create-gallery', 'Admin\ContractorController@createGallery')->name("contractors.gallery.create");
+    Route::post('contractors/{developer}/gallery', 'Admin\ContractorController@storeGallery')->name("contractors.gallery.store");
+    Route::get('contractors/{developer}/gallery/{gallery}', 'Admin\ContractorController@deleteGallery')->name("contractors.gallery.delete");
+    Route::resource('contractors', 'Admin\ContractorController');
 });

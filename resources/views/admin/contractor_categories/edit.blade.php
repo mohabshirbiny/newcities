@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "Article category")
+@section("page_title", "contractor category")
 @section("content")
 
     <div class="content-wrapper">
@@ -18,25 +18,25 @@
                         <!-- jquery validation -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Edit article service</h3>
+                                <h3 class="card-title">Edit contractor category</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('service-categories.update', $article_category->id) }}">
+                            <form role="form" id="quickForm" method="post" action="{{ route('contractor-categories.update', $contractor_category->id) }}">
                                 @csrf
                                 @method("PUT")
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Title (en)</label>
-                                        <input type="text" name="title_en" class="form-control" placeholder="Enter title en" value="{{ $article_category->title_en }}" />
+                                        <input type="text" name="title_en" class="form-control" placeholder="Enter title en" value="{{ $contractor_category->title_en }}" />
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Title (ar)</label>
-                                        <input type="text" name="title_ar" class="form-control" placeholder="Enter title ar" value="{{ $article_category->title_ar }}" />
+                                        <input type="text" name="title_ar" class="form-control" placeholder="Enter title ar" value="{{ $contractor_category->title_ar }}" />
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Icon</label>
-                                        <input type="text" name="icon" class="form-control" placeholder="Enter icon" value="{{ $article_category->icon }}" />
+                                        <input type="text" name="icon" class="form-control" placeholder="Enter icon" value="{{ $contractor_category->icon }}" />
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
