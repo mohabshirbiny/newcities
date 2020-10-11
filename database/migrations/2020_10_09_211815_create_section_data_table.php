@@ -16,6 +16,7 @@ class CreateSectionDataTable extends Migration
         Schema::create('section_data', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('title');
+            $table->string('model')->unique();
             $table->string('icon')->nullable();
             $table->text('gallery')->nullable();
             $table->timestamps();

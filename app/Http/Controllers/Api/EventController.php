@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\City;
 use App\Customer;
 use App\Event;
+use App\EventCategory;
 use App\Http\Controllers\Controller;
 use App\OfferCategory;
 
@@ -20,7 +21,7 @@ class EventController extends Controller
                         ->Where('event_category_id','LIKE',$event_category_id)
                         ->get();
 
-        $eventCatigories = OfferCategory::query()->select(['id','name'])->get();
+        $eventCatigories = EventCategory::query()->select(['id','name'])->get();
         
         $locations = City::query()->select(['id','name_en','name_ar'])->get();
         

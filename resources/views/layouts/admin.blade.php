@@ -186,7 +186,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="{{ route('sections-data-get') }}" class="nav-link @if(request()->segment(2) == 'sections-data') active @endif">
+                                <a href="{{ route('sections.index') }}" class="nav-link @if(request()->segment(2) == 'sections-data') active @endif">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>Sections Data</p>
                                 </a>

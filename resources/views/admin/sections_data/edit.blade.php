@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "Edit sections data")
+@section("page_title", "Edit section")
 @section("content")
 
     <div class="content-wrapper">
@@ -19,32 +19,32 @@
                         <!-- jquery validation -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Edit sections data</h3>
+                                <h3 class="card-title">Edit section</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('sections-data-update') }}" enctype="multipart/form-data">
+                            <form role="form" id="quickForm" method="post" action="{{ route('sections.update', $section->id) }}" enctype="multipart/form-data">
                                 @csrf
                                 @method("PUT")
                                 <div class="card-body">
-                                    @foreach ($sectionData as $section)
+                                    
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">title (ar)</label>
-                                            <input type="text" name="title[{{$loop->index}}][ar]" value='{{$section->title_ar}}' class="form-control" placeholder="Enter title ar" />
+                                            <input type="text" name="title[ar]" value='{{$section->title_ar}}' class="form-control" placeholder="Enter title ar" />
                                             @if ($errors->has('name_ar'))
                                                 <span class="text-danger">{{ $errors->first('title.ar') }}</span>
                                             @endif
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">title (en)</label>
-                                            <input type="text" name="title[{{$loop->index}}][en]" value='{{$section->title_en}}' class="form-control" placeholder="Enter title en" />
+                                            <input type="text" name="title[en]" value='{{$section->title_en}}' class="form-control" placeholder="Enter title en" />
                                             @if ($errors->has('title.en'))
                                                 <span class="text-danger">{{ $errors->first('title.en') }}</span>
                                             @endif
                                         </div>
-                                    </div>    
-
+                                    </div>
+                                    
                                     <div class="row">
                                         <div class="form-group col-md-3">
                                             <img src="{{$section->icon_path}}" alt="" style="max-width: 100px;max-height: 100px;">
@@ -55,20 +55,14 @@
                                                 <div class="custom-file">
                                                     <input type="file" name='icon' class="custom-file-input" id="exampleInputFile" accept="image/*">
                                                     <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                    @if ($errors->has('imaicone'))
-                                                        <span class="text-danger">{{ $errors->first('icon') }}</span>
-                                                    @endif
+                                                    @if ($errors->has('icon'))
+                                                <span class="text-danger">{{ $errors->first('icon') }}</span>
+                                            @endif
                                                 </div>
                                             </div>
                                         </div>
                                         
                                     </div>
-                                    <hr>
-                                    <br>
-                                    @endforeach
-                                    
-                                    
-                                    
 
                                     
 

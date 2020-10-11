@@ -88,7 +88,11 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
 
     Route::resource('jobs-categories', 'Admin\JobCategoryController');
     
-    Route::get('sections-data', 'Admin\SectionDataController@getAll')->name('sections-data-get');
-
-    Route::PUT('sections-data', 'Admin\SectionDataController@store')->name('sections-data-update');
+    Route::get('sections', 'Admin\SectionDataController@getAll')->name('sections.index');
+    Route::get('sections/{id}/gallery', 'Admin\SectionDataController@gallery')->name("sections.gallery");
+    Route::get('sections/{id}/create-gallery', 'Admin\SectionDataController@createGallery')->name("sections.gallery.create");
+    Route::post('sections/{id}/gallery', 'Admin\SectionDataController@storeGallery')->name("sections.gallery.store");
+    Route::get('sections/{id}/gallery/{gallery}', 'Admin\SectionDataController@deleteGallery')->name("sections.gallery.delete");
+    Route::get('sections/{id}', 'Admin\SectionDataController@edit')->name('sections.edit');
+    Route::PUT('sections/{id}', 'Admin\SectionDataController@update')->name('sections.update');
 });

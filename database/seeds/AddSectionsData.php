@@ -2,7 +2,6 @@
 
 use App\SectionData;
 use Illuminate\Database\Seeder;
-use PhpParser\Node\Stmt\Foreach_;
 
 class AddSectionsData extends Seeder
 {
@@ -13,54 +12,57 @@ class AddSectionsData extends Seeder
      */
     public function run()
     {
-        $titles = [
-            [
-                'ar' => '',
-                'en' => 'Tenders',
-            ],
-            [
-                'ar' => '',
-                'en' => 'Offers',
-            ],
-            [
-                'ar' => '',
-                'en' => 'Jobs',
-            ],
-            [
-                'ar' => '',
-                'en' => 'News',
-            ],
-            [
-                'ar' => '',
-                'en' => 'Developers',
-            ],
-            [
-                'ar' => '',
-                'en' => 'Contractors',
-            ],
-            [
-                'ar' => '',
-                'en' => 'Vendors',
-            ],
-            [
-                'ar' => '',
-                'en' => 'Events',
-            ],
-            [
-                'ar' => '',
-                'en' => 'Services',
-            ],
-            [
-                'ar' => '',
-                'en' => 'Cities',
-            ],
+        $models = [
+            'Tender' =>[
+                    'title'=>[
+                        'ar' => '',
+                        'en' => 'Tenders'
+                        ]
+                ],
+            'Offer' => ['title'=>[
+                    'ar' => '',
+                    'en' => 'Offers']
+                ],
+            'Job' => ['title'=>[
+                    'ar' => '',
+                    'en' => 'Jobs']
+                ],
+            'New' => ['title'=>[
+                    'ar' => '',
+                    'en' => 'News']
+                ],
+            'Developer' => ['title'=>[
+                    'ar' => '',
+                    'en' => 'Developers']
+                ],
+            'Contractor' => ['title'=>[
+                    'ar' => '',
+                    'en' => 'Contractors']
+                ],
+            'Vendor' => ['title'=>[
+                    'ar' => '',
+                    'en' => 'Vendors']
+                ],
+            'Event' => ['title'=>[
+                    'ar' => '',
+                    'en' => 'Events']
+                ],
+            'Service' => ['title'=>[
+                    'ar' => '',
+                    'en' => 'Services']
+                ],
+            'City' => ['title'=>[
+                    'ar' => '',
+                    'en' => 'Cities']
+                ],
         ];
 
-        foreach ($titles as $key => $value) {
-            SectionData::create([
-                'title'      => serialize($value),
+        foreach ($models as $key => $value) {
+            SectionData::updateOrCreate([
+                'title'      => serialize($value['title']),
                 'icon'     => '',
                 'gallery'  => '',
+                'model'  => $key,
             ]);
         }
         
