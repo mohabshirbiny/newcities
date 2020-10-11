@@ -8,22 +8,70 @@ class Event extends Model
 {
     protected $fillable = [
         "title_en", "title_ar", "event_category_id", "date_from", "date_to", "time_from", "time_to",
-        "contact_details", "location_url", "city_id", "city_location", "address", "cover", "gallery",
+        'social_links',"contact_details", "location_url", "events_id", "events_location", "cover", "gallery",
         "event_organizer_id", "event_sponsor_id", "about_en", "about_ar",
     ];
+
+    protected $appends = ['cover_path'];
 
     public function category()
     {
         return $this->belongsTo(EventCategory::class, "event_category_id", "id");
     }
 
-    public function organizer()
+    public function organizers()
     {
         return $this->belongsTo(EventOrganizer::class, "event_organizer_id", "id");
     }
 
-    public function sponsor()
+    public function sponsors()
     {
         return $this->belongsTo(EventSponsor::class, "event_sponsor_id", "id");
     }
+
+    public function interested_customers()
+    {
+        return $this->belongsToMany(Customer::class);
+    }
+
+    // public function getLogoPathAttribute(){
+    //     $imageUrl = url('images/events_files/'.$this->logo);
+    //     $imageUrl = url('public/images/events_files/'.$this->logo);
+    //     return $imageUrl;
+    // }
+
+    public function getCoverPathAttribute(){
+        $imageUrl = url('images/events_files/'.$this->cover);
+        $imageUrl = url('public/images/events_files/'.$this->cover);
+        return $imageUrl;
+    }
+
+    public function getContactDetailsAttribute($value){        
+        return unserialize($value);
+    }
+
+    public function getsocialLinksAttribute($value){        
+        return unserialize($value);
+    }
+
+    public function getEventGalleryAttribute(){
+        $gallery = json_decode($this->gallery,true);
+        foreach ($gallery as $type => $files) {
+            if ($type == 'image') {
+                foreach ($files as $image) {
+                    $new_gallery['images'][] = url('images/event_files/'.$image);
+                }
+            } 
+            if ($type == 'youtube_video') {
+                foreach ($files as $youtube_video) {
+                    $new_gallery['youtube_video'][] = $youtube_video;
+                }
+            } 
+            if ($type == 'video') {
+                foreach ($files as $video) {
+                    $new_gallery['videos'][] = url('videos/event_files/'.$video);
+                }
+            } 
+        }
+        return $new_gallery;
 }

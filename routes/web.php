@@ -47,6 +47,15 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::get('offers/{id}/gallery/{gallery}', 'Admin\OfferController@deleteGallery')->name("offers.gallery.delete");
     Route::resource('offers-categories', 'Admin\OfferCategoryController');
 
+    Route::resource('events', 'Admin\EventController');
+    Route::get('events/{id}/gallery', 'Admin\EventController@gallery')->name("events.gallery");
+    Route::get('events/{id}/create-gallery', 'Admin\EventController@createGallery')->name("events.gallery.create");
+    Route::post('events/{id}/gallery', 'Admin\EventController@storeGallery')->name("events.gallery.store");
+    Route::get('events/{id}/gallery/{gallery}', 'Admin\EventController@deleteGallery')->name("events.gallery.delete");
+    Route::resource('events-categories', 'Admin\EventCategoryController');
+    Route::resource('events-sponsors', 'Admin\EventSponsorController');
+    Route::resource('events-organizers', 'Admin\EventOrganizerController');
+
 
     Route::get('vendor-categories/grid', 'Admin\VendorCategoryController@grid')->name("vendor-categories.grid");
     Route::resource('vendor-categories', 'Admin\VendorCategoryController');
