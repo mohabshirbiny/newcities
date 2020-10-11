@@ -186,6 +186,13 @@
                                     <p>Services</p>
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('developers.index') }}" class="nav-link @if(request()->segment(2) == 'developers') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Developers</p>
+                                </a>
+                            </li>
                             
                             
                         </ul>

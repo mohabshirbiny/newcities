@@ -21,7 +21,7 @@ class CreateDevelopersTable extends Migration
             $table->text("location_url");
             $table->text("about");
             $table->text("cover");
-            $table->text("gallery");
+            $table->text("gallery")->nullable();
             $table->text("social_media");
             $table->timestamps();
         });
