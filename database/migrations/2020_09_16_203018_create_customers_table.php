@@ -24,7 +24,7 @@ class CreateCustomersTable extends Migration
             $table->string('verification_code'); // verification code
             $table->integer('verification_code_sent')->default(0)->index(); // time stamp of verification sms
             $table->integer('last_notification_id')->default(0);
-            $table->string('job_title')->nullable();
+            $table->string('job_id')->nullable();
             $table->string('image')->nullable();
             $table->string('cv_url')->nullable();
             $table->string('location_governorate')->nullable();

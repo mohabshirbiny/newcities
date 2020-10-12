@@ -19,7 +19,7 @@ class Customer extends Authenticatable implements JWTSubject
         'governorate',
         'subscription_status',
         'verification_code',
-        'job_title',
+        'job_id',
         'cv_url',
         'about',
         'location_governorate',
