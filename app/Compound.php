@@ -16,6 +16,7 @@ class Compound extends Model
         'about_ar',
         'logo_path',
         'cover_path',
+        'social_links',
     ];
 
     public function getLogoPathAttribute(){
@@ -48,5 +49,14 @@ class Compound extends Model
     public function getAboutArAttribute()
     {
         return json_decode($this->about,true)['ar'];
+    }
+
+    public function getSocialLinksAttribute()
+    {
+        return json_decode($this->social_media,true);
+    }
+
+    public function getContactDetailsAttribute($value){        
+        return json_decode($value,true);
     }
 }
