@@ -17,7 +17,7 @@ class SectionDataController extends Controller
         
         $data = [
             "sections" => $sections,
-            "gallery" => ($section)?$section->section_gallery : [],
+            "gallery" => ($section)?$section->section_gallery : (object)[],
         ];
         return APIResponseController::respond(1,'Sections Data retreived successfully',$data,200); 
         }
