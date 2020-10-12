@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Egcity extends Model
 {
-    protected $table = 'eg_cities';
+    // protected $table = 'eg_cities';
 
     public function governorate()
     {
