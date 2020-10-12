@@ -11,12 +11,12 @@ class ServiceController extends Controller
     public function getAll()
     {
         $records = Service::with("service_category")->get();
-        return APIResponseController::respond(1, [], ["services" => $records], 200);
+        return APIResponseController::respond(1, "Services retrieved successfully.", ["services" => $records], 200);
     }
 
     public function getOne($id)
     {
         $details = Service::with("service_category")->find($id);
-        return APIResponseController::respond(1, [], ["details" => $details], 200);
+        return APIResponseController::respond(1, "Service details", ["details" => $details], 200);
     }
 }

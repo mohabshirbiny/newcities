@@ -361,6 +361,14 @@
                                     <p>Compounds</p>
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('properties.index') }}" class="nav-link @if(request()->segment(2) == 'properties') active @endif">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Properties</p>
+                                </a>
+                            </li>
+
                             <li class="nav-item">
                                 <a href="{{ route('settings.index') }}" class="nav-link @if(request()->segment(2) == 'app-settings') active @endif">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
