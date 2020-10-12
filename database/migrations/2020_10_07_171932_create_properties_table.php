@@ -20,9 +20,9 @@ class CreatePropertiesTable extends Migration
             $table->unsignedBigInteger("compound_id")->nullable();
             $table->unsignedBigInteger("developer_id")->nullable();
             $table->unsignedBigInteger("property_type_id")->nullable();
-            $table->text("attachments");
+            $table->text("attachments")->nullable();
             $table->text("cover");
-            $table->text("gallery");
+            $table->text("gallery")->nullable();
             $table->text("about");
             $table->boolean("use_facilities")->default(false);
             $table->timestamps();

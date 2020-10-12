@@ -74,7 +74,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::get("get-services", "Api\ServiceController@getAll");
     Route::get("get-service/{id}", "Api\ServiceController@getOne");
-    
+
     Route::get("get-event-categories", "Api\EventCategoryController@getAll");
     Route::get("get-event-category/{id}", "Api\EventCategoryController@getOne");
 
