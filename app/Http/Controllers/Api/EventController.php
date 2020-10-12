@@ -32,7 +32,7 @@ class EventController extends Controller
             "events" => $events,
             "event_categories" => $eventCatigories,
             "locations" => $locations,
-            "gallery" => ($section)?$section->section_gallery : [],
+            "gallery" => ($section)?$section->section_gallery : (object)[],
         ];
         
         return APIResponseController::respond(1, '', $data , 200);

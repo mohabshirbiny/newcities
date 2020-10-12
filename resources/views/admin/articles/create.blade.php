@@ -3,6 +3,7 @@
 @section("content")
 
     <div class="content-wrapper">
+        @include('layouts.alerts')
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid"></div>
@@ -18,19 +19,46 @@
                         <!-- jquery validation -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Add new room</h3>
+                                <h3 class="card-title">Add new Article</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('articles.store') }}">
+                            <form role="form" id="quickForm" method="post" action="{{ route('articles.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">City</label>
+                                        <select name="city_id" class="form-control">
+                                            <option value="">Select City</option>
+                                            @foreach ($cities as $city)
+                                                <option value="{{ $city->id }}">{{ $city->name_en . " - " . $city->name_ar }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Category</label>
                                         <select name="article_category_id" class="form-control">
                                             <option value="">Select Category</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->title_en . " - " . $category->title_ar }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Vendor</label>
+                                        <select name="vendor_id" class="form-control">
+                                            <option value="">Select Vendor</option>
+                                            @foreach ($vendors as $vendor)
+                                                <option value="{{ $vendor->id }}">{{ $vendor->name_en . " - " . $vendor->name_ar }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Compound</label>
+                                        <select name="compound_id" class="form-control">
+                                            <option value="">Select Compound</option>
+                                            @foreach ($compounds as $compound)
+                                                <option value="{{ $compound->id }}">{{ $compound->name_en . " - " . $compound->name_ar }}</option>
                                             @endforeach
                                         </select>
                                     </div>

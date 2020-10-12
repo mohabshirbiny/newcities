@@ -37,7 +37,7 @@ class JobController extends Controller
             "jobs_categories" => $jobsCatigories,
             "vendors" => $vendors,
             "locations" => $locations,
-            "gallery" => ($section)?$section->section_gallery : [],
+            "gallery" => ($section)?$section->section_gallery : (object)[],
         ];
 
         return APIResponseController::respond(1,'jobs retreived successfully',$data,200); 

@@ -11,8 +11,14 @@ class SectionDataController extends Controller
     public function getAll()
     {
         
-        $sections = SectionData::all()->groupBy('model');
-
-        return APIResponseController::respond(1,'Sections Data retreived successfully',['sections' => $sections],200); 
+        $sections = SectionData::all();
+        
+        $section = SectionData::where('model','home')->first();
+        
+        $data = [
+            "sections" => $sections,
+            "gallery" => ($section)?$section->section_gallery : (object)[],
+        ];
+        return APIResponseController::respond(1,'Sections Data retreived successfully',$data,200); 
         }
 }

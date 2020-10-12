@@ -15,11 +15,25 @@ class Vendor extends Model
         'name_ar',
         "about_en" ,
         'about_ar',
+        'logo_path',
+        'cover_path',
     ];
 
     public function vendor_category()
     {
         return $this->belongsTo(VendorCategory::class);
+    }
+
+    public function getLogoPathAttribute(){
+        $imageUrl = url('images/vandor_files/'.$this->logo);
+        $imageUrl = url('public/images/vendor_files/'.$this->logo);
+        return $imageUrl;
+    }
+
+    public function getCoverPathAttribute(){
+        $imageUrl = url('images/vandor_files/'.$this->cover);
+        $imageUrl = url('public/images/vendor_files/'.$this->cover);
+        return $imageUrl;
     }
 
     public function getNameEnAttribute()

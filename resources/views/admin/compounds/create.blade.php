@@ -62,8 +62,8 @@
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Developer(s)</label>
                                             <select name="developers[]" class="select2" data-placeholder="Select a developer" style="width: 100%;" multiple>
-                                                @foreach ($developers as $record)
-                                                    <option value="{{ $record->id }}">{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
+                                                @foreach ($developers as $developer)
+                                                    <option value="{{ $developer->id }}">{{ json_decode($developer->name, true)['en'] . " - " . json_decode($developer->name, true)['ar'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

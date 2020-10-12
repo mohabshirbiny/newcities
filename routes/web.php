@@ -140,4 +140,8 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::post('properties/{property}/attachment', 'Admin\PropertyController@storeGallery')->name("properties.gallery.store");
     Route::get('properties/{property}/attachment/{attachment}', 'Admin\PropertyController@deleteGallery')->name("properties.gallery.delete");
     Route::resource('properties', 'Admin\PropertyController');
+    
+    Route::get('app-settings', 'Admin\AppSettingController@getAll')->name('settings.index');
+    Route::post('app-settings', 'Admin\AppSettingController@store')->name('settings.store');
+
 });
