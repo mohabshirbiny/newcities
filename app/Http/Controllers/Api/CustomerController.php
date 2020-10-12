@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Customer;
+use App\Egcity;
+use App\Governorate;
+use App\Job;
 // use App\Http\Controllers\Api\APIResponseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -107,8 +110,18 @@ class CustomerController extends Controller
         $user = auth('api')->user();
 
         $token = auth('api')->fromUser($user);
-
-        return APIResponseController::respond(1,'Profile details',["user" => $user, "token" => $token]); 
+        
+        $governorates = Governorate::with('cities')->get();
+        $jobs = Job::all();
+        
+        $data = [
+            "user" => $user,
+            "token" => $token,
+            "governorates" => $governorates,
+            "jobs" => $jobs,
+        ];
+        
+        return APIResponseController::respond(1,'Profile details',$data); 
     }
 
     public function updateProfile(Request $request)

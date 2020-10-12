@@ -58,12 +58,15 @@ class AddSectionsData extends Seeder
         ];
 
         foreach ($models as $key => $value) {
-            SectionData::updateOrCreate([
-                'title'      => serialize($value['title']),
-                'icon'     => '',
-                'gallery'  => '',
-                'model'  => $key,
-            ]);
+            if (!SectionData::where('model',$key)->first()) {
+
+                SectionData::updateOrCreate([
+                        'title'      => serialize($value['title']),
+                        'icon'     => '',
+                        'gallery'  => '',
+                        'model'  => $key,
+                    ]);
+            }
         }
         
     }

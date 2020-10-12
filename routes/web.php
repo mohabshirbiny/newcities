@@ -128,4 +128,7 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::post('compounds/{developer}/gallery', 'Admin\CompoundController@storeGallery')->name("compounds.gallery.store");
     Route::get('compounds/{developer}/gallery/{gallery}', 'Admin\CompoundController@deleteGallery')->name("compounds.gallery.delete");
     Route::resource('compounds', 'Admin\CompoundController');
+    
+    Route::get('app-settings', 'Admin\AppSettingController@getAll')->name('settings.index');
+    Route::post('app-settings', 'Admin\AppSettingController@store')->name('settings.store');
 });
