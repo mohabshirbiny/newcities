@@ -26,8 +26,8 @@ class JobController extends Controller
                         ->Where('job_category_id','LIKE',$job_category_id)
                         ->get();
 
-        $jobsCatigories = JobCategory::query()->select(['id','name'])->get();
-        $vendors = Vendor::query()->select(['id','title_en','title_ar'])->get();
+        $jobsCatigories = JobCategory::query()->select(['id','name'])->withCount("jobs")->get();
+        $vendors = Vendor::all();
         $locations = City::query()->select(['id','name_en','name_ar'])->get();
         
         $section = SectionData::where('model','Job')->first();
@@ -37,12 +37,9 @@ class JobController extends Controller
             "jobs_categories" => $jobsCatigories,
             "vendors" => $vendors,
             "locations" => $locations,
-            "gallery" => ($section)?$section->section_gallery : (object)[],
         ];
 
         return APIResponseController::respond(1,'jobs retreived successfully',$data,200); 
-        $records = Job::with("job_category",'vendor')->get();
-        return APIResponseController::respond(1,"jobs retreived successfully.", ['jobs' => $records],200); 
     }
 
     public function getOne($id)
