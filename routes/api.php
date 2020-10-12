@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', 'Api\CustomerController@login');
 Route::post('verfiy', 'Api\CustomerController@customerVerify');
 
-Route::group(['middleware' => ['jwt.verify']], function () {
+// Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get("profile", "Api\CustomerController@getAuthenticatedUser");
     Route::post("update-profile", "Api\CustomerController@updateProfile");
     Route::post("change-password", "Api\CustomerController@changePassword");
@@ -72,6 +72,9 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get("get-service-categories", "Api\ServiceCategoryController@getAll");
     Route::get("get-service-category/{id}", "Api\ServiceCategoryController@getOne");
 
+    Route::get("get-services", "Api\ServiceController@getAll");
+    Route::get("get-service/{id}", "Api\ServiceController@getOne");
+
     Route::get("get-event-categories", "Api\EventCategoryController@getAll");
     Route::get("get-event-category/{id}", "Api\EventCategoryController@getOne");
 
@@ -100,4 +103,4 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get("get-property/{id}", "Api\PropertyController@getOne");
 
     Route::get("get-sections-data", "Api\SectionDataController@getAll");
-});
+// });
