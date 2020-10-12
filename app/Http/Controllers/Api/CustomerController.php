@@ -12,10 +12,12 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use App\Traits\SendSMS;
+use App\Traits\UploadFiles;
 
 class CustomerController extends Controller
 {
     use SendSMS;
+    use UploadFiles;
 
     public function login(Request $request)
     {
@@ -118,7 +120,7 @@ class CustomerController extends Controller
         $validator = Validator::make($request->all(), [
             'name'      => 'string|max:255',
             'job_title' => 'string|max:255',
-            'email'     => 'email|max:255|unique:Customers,email,' . $user->id,
+            'email'     => 'email|max:255|unique:customers,email,' . $user->id,
             'image'     => 'image',
             'cv_url'    => 'url',
             'location_governorate'  => 'string',
@@ -126,23 +128,24 @@ class CustomerController extends Controller
             'about'                 => 'string',
             'allow_appearing'                 => 'string',
         ]);
-
+            // dd('f');
         if ($validator->fails()) {
             return APIResponseController::respond(0,'Vaidation error',[],422); 
         }
 
         $customer = Customer::find($user->id);
+        $customertData = [];
+        // send files to rename and upload
+        if ($request->image) { 
+            $image = $this->uploadFile($request->image , 'Customer','image','image','customer_files');
+            $customertData['image'] = $image;
+        }
 
-        $customer->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'job_title' => $request->job_title,
-            'cv_url' => $request->cv_url,
-            'about' => $request->about,
-            'location_governorate' => $request->location_governorate,
-            'location_city' => $request->location_city,
-            'allow_appearing' => $request->allow_appearing,
-        ]);
+        $requestData = $request->except(['logo' , 'cover','_token','_method']);
+
+        $customertData = array_merge($requestData , $customertData);
+
+        $customer->update($customertData);
 
         $new_updated_Customer = Customer::find($user->id);
 

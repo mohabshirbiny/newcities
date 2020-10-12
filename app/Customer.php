@@ -25,7 +25,10 @@ class Customer extends Authenticatable implements JWTSubject
         'location_governorate',
         'location_city',
         'allow_appearing',
+        'image'
     ];
+
+    protected $appends = ['image_path'];
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -50,6 +53,12 @@ class Customer extends Authenticatable implements JWTSubject
     public function events()
     {
         return $this->belongsToMany(Event::class);
+    }
+
+    public function getImagePathAttribute(){
+        $imageUrl = url('images/customer_files/'.$this->image);
+        $imageUrl = url('public/images/customer_files/'.$this->image);
+        return $imageUrl;
     }
 
 }
