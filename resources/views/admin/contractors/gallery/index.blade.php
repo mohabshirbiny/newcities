@@ -41,7 +41,7 @@
                                                     <td>{{ $type }}</td>
                                                     <td>
                                                         @if ($type == "image")
-                                                            <img style="width: 50px;" src="{{ url('images/contractor_files/' . $record) }}" alt="">
+                                                            <img style="width: 50px;" src="{{ url('public/images/contractor_files/' . $record) }}" alt="">
                                                         @else
                                                             {{ $record }}                                                            
                                                         @endif
