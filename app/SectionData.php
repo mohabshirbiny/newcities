@@ -37,7 +37,7 @@ class SectionData extends Model
 
     public function getSectionGalleryAttribute(){
         $gallery = json_decode($this->gallery,true);
-        if(!$gallery) return [];
+        if(!$gallery) return (object)[];
         foreach ($gallery as $type => $files) {
             if ($type == 'image') {
                 foreach ($files as $image) {

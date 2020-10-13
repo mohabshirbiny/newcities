@@ -11,7 +11,7 @@ class JobCategoryController extends Controller
     public function getAll()
     {
         
-        $records = JobCategory::get();
+        $records = JobCategory::withCount('jobs')->get();
         
         return APIResponseController::respond(1, "Categories retreived successfully.", ['job_categories' => $records],200); 
     }

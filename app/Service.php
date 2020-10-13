@@ -112,7 +112,7 @@ class Service extends Model
     {
         $gallery = json_decode($this->gallery, true);
         if (!$gallery) {
-            return [];
+            return (object)[];
         }
 
         foreach ($gallery as $type => $files) {

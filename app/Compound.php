@@ -7,87 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class Compound extends Model
 {
     protected $fillable = ["city_id", "name", "logo",
-        "cover", "gallery", "location_url", "about", "contact_details", "social_media"];
+        "cover", "gallery", 'attachments', "location_url", "about", "contact_details", "social_media"];
 
     protected $appends = [
-        "title_en",
-        'title_ar',
+        "name_en",
+        'name_ar',
         "about_en",
         'about_ar',
         'logo_path',
         'cover_path',
+        'social_links',
         'compound_gallery',
-        "email", "website", "mobile", "phone", "whatsapp", "working_hours", "address",
-        "facebook", "twitter", "instagram", "youtube",
+        "attachments_paths",
     ];
-
-    public function getTitleEnAttribute()
-    {
-        return json_decode($this->name, true)['en'];
-    }
-
-    public function getTitleArAttribute()
-    {
-        return json_decode($this->name, true)['ar'];
-    }
-
-    public function getAboutEnAttribute()
-    {
-        return json_decode($this->about, true)['en'];
-    }
-
-    public function getAboutArAttribute()
-    {
-        return json_decode($this->about, true)['ar'];
-    }
-
-    // Contact details
-    public function getEmailAttribute()
-    {
-        return json_decode($this->contact_details, true)['email'];
-    }
-    public function getWebsiteAttribute()
-    {
-        return json_decode($this->contact_details, true)['website'];
-    }
-    public function getMobileAttribute()
-    {
-        return json_decode($this->contact_details, true)['mobile'];
-    }
-    public function getPhoneAttribute()
-    {
-        return json_decode($this->contact_details, true)['phone'];
-    }
-    public function getWhatsappAttribute()
-    {
-        return json_decode($this->contact_details, true)['whatsapp'];
-    }
-    public function getWorkingHoursAttribute()
-    {
-        return json_decode($this->contact_details, true)['working_hours'];
-    }
-    public function getAddressAttribute()
-    {
-        return json_decode($this->contact_details, true)['address'];
-    }
-
-    // Social Media
-    public function getFacebookAttribute()
-    {
-        return json_decode($this->social_media, true)['facebook'];
-    }
-    public function getTwitterAttribute()
-    {
-        return json_decode($this->social_media, true)['twitter'];
-    }
-    public function getInstagramAttribute()
-    {
-        return json_decode($this->social_media, true)['instagram'];
-    }
-    public function getYoutubeAttribute()
-    {
-        return json_decode($this->social_media, true)['youtube'];
-    }
 
     public function getLogoPathAttribute()
     {
@@ -107,7 +39,7 @@ class Compound extends Model
     {
         $gallery = json_decode($this->gallery, true);
         if (!$gallery) {
-            return [];
+            return (object) [];
         }
 
         foreach ($gallery as $type => $files) {
@@ -130,5 +62,48 @@ class Compound extends Model
         return $new_gallery;
     }
 
-    
+    public function getAttachmentsPathsAttribute()
+    {
+        $attachments = json_decode($this->attachments, true);
+        if (!$attachments) {
+            return (object) [];
+        }
+
+        foreach ($attachments as $files) {
+            foreach ($files as $video) {
+                $new_attachments['attachments'][] = url('public/files/compound_files/' . $video);
+            }
+        }
+        return $new_attachments;
+    }
+
+    public function getNameEnAttribute()
+    {
+        return json_decode($this->name, true)['en'];
+    }
+
+    public function getNameArAttribute()
+    {
+        return json_decode($this->name, true)['ar'];
+    }
+
+    public function getAboutEnAttribute()
+    {
+        return json_decode($this->about, true)['en'];
+    }
+
+    public function getAboutArAttribute()
+    {
+        return json_decode($this->about, true)['ar'];
+    }
+
+    public function getSocialLinksAttribute()
+    {
+        return json_decode($this->social_media, true);
+    }
+
+    public function getContactDetailsAttribute($value)
+    {
+        return json_decode($value, true);
+    }
 }

@@ -27,7 +27,7 @@ class TenderController extends Controller
         $data = [
             "tenders" => $tenders,
             "tenders_categories" => $tendersCatigories,
-            "gallery" => ($section)?$section->section_gallery : [],
+            "gallery" => ($section)?$section->section_gallery : (object)[],
         ];
 
         return APIResponseController::respond(1,'tenders retreived successfully',$data,200); 

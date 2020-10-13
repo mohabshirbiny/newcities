@@ -103,4 +103,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::get("get-compounds", "Api\CompoundController@getAll");
     Route::get("get-compound/{id}", "Api\CompoundController@getOne");
+    
+    Route::get("get-general-data", "Api\AppSettingController@getAll");
 });

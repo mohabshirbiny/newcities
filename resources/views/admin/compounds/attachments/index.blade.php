@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "vendors")
+@section("page_title", "compounds")
 @section("content")
 
     <div class="content-wrapper">
@@ -18,7 +18,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <a class="btn btn-info btn-sm text-right" href="{{ route('contractors.gallery.create', $contractor_id) }}">+ Add New</a>
+                                    <a class="btn btn-info btn-sm text-right" href="{{ route('compounds.attachments.create', $compound_id) }}">+ Add New</a>
                                 </h3>
                             </div>
                             <!-- /.card-header -->
@@ -27,26 +27,18 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Type</th>
                                             <th>File</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @php $counter = 1; @endphp
-                                        @foreach ($gallery_decoded as $type => $record_arr)
+                                        @foreach ($attachments_decoded as $type => $record_arr)
                                             @foreach ($record_arr as $record)
                                                 <tr>
                                                     <td>{{ $counter }}</td>
-                                                    <td>{{ $type }}</td>
-                                                    <td>
-                                                        @if ($type == "image")
-                                                            <img style="width: 50px;" src="{{ url('public/images/contractor_files/' . $record) }}" alt="">
-                                                        @else
-                                                            {{ $record }}                                                            
-                                                        @endif
-                                                    </td>
-                                                    <td><a class="badge bg-danger" href="{{ route("contractors.gallery.delete", [$contractor_id, $record]) }}">Delete</a></td>
+                                                    <td>{{ $record }}</td>
+                                                    <td><a class="badge bg-danger" href="{{ route("compounds.attachments.delete", [$compound_id, $record]) }}">Delete</a></td>
                                                 </tr>
                                                 @php $counter++; @endphp
                                             @endforeach

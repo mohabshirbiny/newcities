@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Article;
 use App\ArticleCategory;
+use App\City;
+use App\Compound;
 use App\Http\Controllers\Controller;
+use App\Vendor;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -45,7 +48,10 @@ class ArticleController extends Controller
     public function create()
     {
         $categories = ArticleCategory::get();
-        return view("admin.articles.create", compact("categories"));
+        $vendors = Vendor::get();
+        $compounds = Compound::get();
+        $cities = City::get();
+        return view("admin.articles.create", compact("categories",'vendors','compounds','cities'));
     }
 
     /**
@@ -58,6 +64,9 @@ class ArticleController extends Controller
     {
         $this->validate($request, [
             "article_category_id" => "required",
+            "city_id" => "required",
+            "vendor_id" => "required",
+            "compound_id" => "required",
             "title_en" => "required",
             "title_ar" => "required",
             "image" => "required",
@@ -68,7 +77,10 @@ class ArticleController extends Controller
         ]);
 
         Article::create([
+            "city_id" => $request->city_id,
             "article_category_id" => $request->article_category_id,
+            "compound_id" => $request->compound_id,
+            "vendor_id" => $request->vendor_id,
             "title_ar" => $request->title_ar,
             "title_en" => $request->title_en,
             "image" => $request->title_ar,

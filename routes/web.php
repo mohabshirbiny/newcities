@@ -127,6 +127,12 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::get('compounds/{developer}/create-gallery', 'Admin\CompoundController@createGallery')->name("compounds.gallery.create");
     Route::post('compounds/{developer}/gallery', 'Admin\CompoundController@storeGallery')->name("compounds.gallery.store");
     Route::get('compounds/{developer}/gallery/{gallery}', 'Admin\CompoundController@deleteGallery')->name("compounds.gallery.delete");
+
+    Route::get('compounds/{compound}/attachments', 'Admin\CompoundController@attachments')->name("compounds.attachments");
+    Route::get('compounds/{compound}/create-attachments', 'Admin\CompoundController@createAttachments')->name("compounds.attachments.create");
+    Route::post('compounds/{compound}/attachments', 'Admin\CompoundController@storeAttachments')->name("compounds.attachments.store");
+    Route::get('compounds/{compound}/attachments/{attachment}', 'Admin\CompoundController@deleteAttachments')->name("compounds.attachments.delete");
+
     Route::resource('compounds', 'Admin\CompoundController');
 
     Route::get('properties/grid', 'Admin\PropertyController@grid')->name("properties.grid");
@@ -146,4 +152,8 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::get('properties/{property}/items/{item_id}', 'Admin\PropertyController@deleteItem')->name("properties.items.delete");    
 
     Route::resource('properties', 'Admin\PropertyController');
+    
+    Route::get('app-settings', 'Admin\AppSettingController@getAll')->name('settings.index');
+    Route::post('app-settings', 'Admin\AppSettingController@store')->name('settings.store');
+
 });

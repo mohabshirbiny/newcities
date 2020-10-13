@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         $this->call('AddSectionsData');
         $this->call('AddAdminUser');
+        $this->call('AppSettingsSeed');
 
         $this->command->info('User table seeded!');
     }

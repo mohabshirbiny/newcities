@@ -38,7 +38,7 @@ class OfferController extends Controller
             "offers_categories" => $offersCatigories,
             "vendors" => $vendors,
             "locations" => $locations,
-            "gallery" => ($section)?$section->section_gallery : [],
+            "gallery" => ($section)?$section->section_gallery : (object)[],
         ];
 
         return APIResponseController::respond(1,'offers retreived successfully',$data,200); 

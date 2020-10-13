@@ -47,6 +47,18 @@
                                         </div>
                                     </div>
 
+                                    <div class="row d-none" id="uploaded_video_thumbnail">
+                                        <div class="form-group col-md-12">
+                                            <label for="exampleInputFile">thumbnail</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" name='thumbnail' required class="custom-file-input" id="exampleInputFile" accept="image/*">
+                                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="row d-none" id="youtube_video_block">
                                         <div class="form-group col-md-12">
                                             <label for="exampleInputFile">Youtube Video ID</label>
@@ -115,6 +127,7 @@
 
     $(document).on("change", "#file_type", function() {
         let file_type = $(this).val();
+        
         if(file_type == "youtube_video") {
             $("#youtube_video_block").removeClass("d-none");
             $("#youtube_video_block input").attr("required", "required");
@@ -125,6 +138,13 @@
             $("#uploaded_file_block").removeClass("d-none");
             $("#uploaded_file_block input").attr("required", "required");
             $("#youtube_video_block input").removeAttr("required");
+        }
+
+        if(file_type == "video") {
+            $("#uploaded_video_thumbnail").removeClass("d-none");
+            $("#uploaded_video_thumbnail input").attr("required", "required");
+        } else {
+            $("#uploaded_video_thumbnail").addClass("d-none");
         }
     });
     </script>
