@@ -12,11 +12,17 @@ class VendorCategory extends Model
         "name_en" ,
         'name_ar',
         'image_path',
+        'vendors_count',
     ];
 
     public function vendors()
     {
         return $this->hasMany(Vendor::class, "vendor_category_id", "id");
+    }
+
+    public function getVendorsCountAttribute()
+    {
+        return $this->vendors()->count();
     }
 
     public function getNameEnAttribute()

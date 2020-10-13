@@ -11,7 +11,8 @@ class ServiceCategory extends Model
     protected $appends = [
         "title_en",
         'title_ar',
-        "image_path"
+        "image_path",
+        "services_count"
     ];
 
     public function services()
@@ -19,6 +20,11 @@ class ServiceCategory extends Model
         return $this->hasMany(Service::class, "service_category_id", "id");
     }
 
+    public function getServicesCountAttribute()
+    {
+        return $this->services()->count();
+    }
+    
     public function getTitleEnAttribute()
     {
         return json_decode($this->name, true)['en'];

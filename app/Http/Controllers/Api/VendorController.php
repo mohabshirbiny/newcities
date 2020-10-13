@@ -14,7 +14,7 @@ class VendorController extends Controller
 
     public function getOne($id)
     {
-        $details = Vendor::find($id);
+        $details = Vendor::with('jobs')->find($id);
         return APIResponseController::respond(1, 'vendor data', ["vendor" => $details], 200);
     }
 }

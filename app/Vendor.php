@@ -18,11 +18,25 @@ class Vendor extends Model
         'logo_path',
         'cover_path',
         'vendor_gallery',
+        'social_links',
     ];
 
     public function vendor_category()
     {
         return $this->belongsTo(VendorCategory::class);
+    }
+
+    public function jobs(){
+        return $this->hasMany(Job::class);
+    }
+
+    public function getSocialLinksAttribute()
+    {
+        return json_decode($this->social_media,true);
+    }
+
+    public function getContactDetailsAttribute($value){        
+        return json_decode($value,true);
     }
 
     public function getLogoPathAttribute(){
@@ -79,7 +93,7 @@ class Vendor extends Model
         foreach ($gallery as $type => $files) {
             if ($type == 'image') {
                 foreach ($files as $image) {
-                    $new_gallery['images'][] = url('images/vendor_files/'.$image);
+                    $new_gallery['images'][] = url('public/images/vendor_files/'.$image);
                 }
             } 
             if ($type == 'youtube_video') {
@@ -89,7 +103,7 @@ class Vendor extends Model
             } 
             if ($type == 'video') {
                 foreach ($files as $video) {
-                    $new_gallery['videos'][] = url('videos/vendor_files/'.$video);
+                    $new_gallery['videos'][] = url('public/videos/vendor_files/'.$video);
                 }
             } 
         }
