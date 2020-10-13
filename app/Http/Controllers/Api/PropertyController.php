@@ -9,13 +9,20 @@ class PropertyController extends Controller
 {
     public function getAll()
     {
-        $records = Property::get();
-        return APIResponseController::respond(1, [], ["properties" => $records], 200);
+        $query = Property::query();
+
+        if (request()->compound_id && request()->compound_id != "") {
+            $query->where("compound_id", request()->compound_id);
+        }
+
+        $records = $query->get();
+        
+        return APIResponseController::respond(1, "Properties", ["properties" => $records], 200);
     }
 
     public function getOne($id)
     {
         $details = Property::find($id);
-        return APIResponseController::respond(1, [], ["details" => $details], 200);
+        return APIResponseController::respond(1, "Property details", ["details" => $details], 200);
     }
 }

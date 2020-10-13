@@ -90,9 +90,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get("get-facilities", "Api\FacilityController@getAll");
     Route::get("get-facility/{id}", "Api\FacilityController@getOne");
 
-    Route::get("get-compounds", "Api\CompoundController@getAll");
-    Route::get("get-compound/{id}", "Api\CompoundController@getOne");
-
     Route::get("get-property-items", "Api\PropertyItemController@getAll");
     Route::get("get-property-item/{id}", "Api\PropertyItemController@getOne");
 
@@ -104,5 +101,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::get("get-sections-data", "Api\SectionDataController@getAll");
 
+    Route::get("get-compounds", "Api\CompoundController@getAll");
+    Route::get("get-compound/{id}", "Api\CompoundController@getOne");
+    
     Route::get("get-general-data", "Api\AppSettingController@getAll");
 });
