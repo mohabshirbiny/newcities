@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "compounds")
+@section("page_title", "properties")
 @section("content")
 
     <div class="content-wrapper">
@@ -18,8 +18,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    View all compounds
-                                    <a class="btn btn-info btn-sm text-right" href="{{ route('properties.create') }}">+ Add New</a>
+                                    <a class="btn btn-info btn-sm text-right" href="{{ route('properties.attachments.create', $property_id) }}">+ Add New</a>
                                 </h3>
                             </div>
                             <!-- /.card-header -->
@@ -28,13 +27,23 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Name (en)</th>
-                                            <th>Name (ar)</th>
-                                            <th>Gallery</th>
-                                            <th>Attachment</th>
+                                            <th>File</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
+                                    <tbody>
+                                        @php $counter = 1; @endphp
+                                        @foreach ($attachments_decoded as $type => $record_arr)
+                                            @foreach ($record_arr as $record)
+                                                <tr>
+                                                    <td>{{ $counter }}</td>
+                                                    <td>{{ $record }}</td>
+                                                    <td><a class="badge bg-danger" href="{{ route("properties.attachments.delete", [$property_id, $record]) }}">Delete</a></td>
+                                                </tr>
+                                                @php $counter++; @endphp
+                                            @endforeach
+                                        @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                             <!-- /.card-body -->
@@ -50,26 +59,5 @@
         <!-- /.content -->
     </div>
 
-
-@endsection
-
-@section("js")
-<script>
-$(function() {
-    $('#example2').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: '{!! route('properties.grid') !!}',
-        columns: [
-            { data: 'id', name: 'id' },
-            { data: 'name_en', name: 'name_en' },
-            { data: 'name_ar', name: 'name_ar' },
-            { data: 'gallery', name: 'gallery' },
-            { data: 'attachments', name: 'attachments' },
-            { data: 'actions', name: 'actions' },
-        ]
-    });
-});
-</script>
 
 @endsection

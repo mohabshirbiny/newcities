@@ -39,9 +39,9 @@ class PropertyController extends Controller
                 $link = route("properties.gallery", $record->id);
                 return "<a href='$link'>Gellery</a>";
             })
-            ->addColumn("attachment", function ($record) {
-                $link = route("properties.attachment", $record->id);
-                return "<a href='$link'>Attachment</a>";
+            ->addColumn("attachments", function ($record) {
+                $link = route("properties.attachments", $record->id);
+                return "<a href='$link'>Attachments</a>";
             })
             ->addColumn("actions", function ($record) {
                 $items_link = route("properties.items", $record->id);
@@ -54,7 +54,7 @@ class PropertyController extends Controller
                 ";
                 return $actions;
             })
-            ->rawColumns(['actions', "gallery", "attachment"])->make(true);
+            ->rawColumns(['actions', "gallery", "attachments"])->make(true);
     }
 
     /**
@@ -264,6 +264,70 @@ class PropertyController extends Controller
             return redirect(route("properties.gallery", $property))->with("success_message", "Property gallery has been deleted successfully.");
         }
         return redirect(route("properties.gallery", $property))->with("success_message", "Property gallery has been deleted successfully.");
+    }
+
+
+    public function attachments($property_id)
+    {
+        $property = Property::find($property_id);
+        $attachments = $property->attachments;
+        $attachments_decoded = [];
+        if ($attachments) {
+            $attachments_decoded = json_decode($attachments, true);
+        }
+
+        return view("admin.properties.attachments.index", compact("property_id", "attachments_decoded"));
+    }
+
+    public function createAttachments($property_id)
+    {
+        return view("admin.properties.attachments.create", compact("property_id"));
+    }
+
+    public function storeAttachments(Request $request, $property_id)
+    {
+        $property = Property::find($property_id);
+
+        $uploaded_attachments = $this->uploadFile($request->attachments, 'Property', 'attachments', 'file', 'property_files');
+
+        $attachments = $property->attachments;
+        $attachments_decoded = [];
+        if ($attachments) {
+            $attachments_decoded = json_decode($attachments, true);
+            $attachments_decoded['file'][] = $uploaded_attachments;
+        } else {
+            $attachments_decoded['file'][] = $uploaded_attachments;
+        }
+
+        $property->update([
+            "attachments" => json_encode($attachments_decoded),
+        ]);
+
+        return redirect(route("properties.attachments", $property))->with("success_message", "property attachments has been stored successfully.");
+    }
+
+    public function deleteAttachments($property_id, $file_name)
+    {
+        $property = Property::find($property_id);
+
+        $attachments = $property->attachments;
+        if ($attachments) {
+            $new_attachments = [];
+            $attachments_decoded = json_decode($attachments, true);
+            foreach ($attachments_decoded as $type => $one_arr) {
+                foreach ($one_arr as $one_value) {
+                    if ($one_value != $file_name) {
+                        $new_attachments['file'][] = $one_value;
+                    }
+                }
+            }
+            $property->update([
+                "attachments" => json_encode($new_attachments),
+            ]);
+
+            return redirect(route("properties.attachments", $property))->with("success_message", "property attachments has been deleted successfully.");
+        }
+        return redirect(route("properties.attachments", $property))->with("success_message", "property attachments has been deleted successfully.");
     }
 
     public function items($property_id)
