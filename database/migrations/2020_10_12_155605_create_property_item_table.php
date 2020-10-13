@@ -17,6 +17,7 @@ class CreatePropertyItemTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger("property_id");
             $table->unsignedBigInteger("property_item_id");
+            $table->integer("count_of_items");
             $table->timestamps();
         });
     }

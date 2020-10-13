@@ -37,6 +37,10 @@ class CompoundController extends Controller
                 $link = route("compounds.gallery", $record->id);
                 return "<a href='$link'>Gellery</a>";
             })
+            ->addColumn("attachments", function ($record) {
+                $link = route("compounds.attachments", $record->id);
+                return "<a href='$link'>Attachments</a>";
+            })
             ->addColumn("actions", function ($record) {
                 $edit_link = route("compounds.edit", $record->id);
                 $delete_link = route("compounds.destroy", $record->id);
@@ -46,7 +50,7 @@ class CompoundController extends Controller
                 ";
                 return $actions;
             })
-            ->rawColumns(['actions', "gallery"])->make(true);
+            ->rawColumns(['actions', "gallery", "attachments"])->make(true);
     }
 
     /**
@@ -95,24 +99,23 @@ class CompoundController extends Controller
             "cover" => $cover,
         ]);
 
-        if($request->developers){
-            foreach($request->developers as $one_developer) {
-                        DB::table('compound_developer')->insert([
-                            "compound_id" => $compound->id,
-                            "developer_id" => $one_developer
-                        ]);
-                    }
+        if ($request->developers) {
+            foreach ($request->developers as $one_developer) {
+                DB::table('compound_developer')->insert([
+                    "compound_id" => $compound->id,
+                    "developer_id" => $one_developer,
+                ]);
+            }
         }
-        
-        if($request->contractors){
 
-        
-        foreach($request->contractors as $one_contractor) {
-            DB::table('compound_contractor')->insert([
-                "compound_id" => $compound->id,
-                "contractor_id" => $one_contractor
-            ]);
-        }
+        if ($request->contractors) {
+
+            foreach ($request->contractors as $one_contractor) {
+                DB::table('compound_contractor')->insert([
+                    "compound_id" => $compound->id,
+                    "contractor_id" => $one_contractor,
+                ]);
+            }
         }
 
         return redirect(route("compounds.index"))->with("success_message", "Compound has been stored successfully.");
@@ -190,18 +193,18 @@ class CompoundController extends Controller
         ]);
 
         DB::table('compound_developer')->where("compound_id", $id)->delete();
-        foreach($request->developers as $one_developer) {
+        foreach ($request->developers as $one_developer) {
             DB::table('compound_developer')->insert([
                 "compound_id" => $id,
-                "developer_id" => $one_developer
+                "developer_id" => $one_developer,
             ]);
         }
 
         DB::table('compound_contractor')->where("compound_id", $id)->delete();
-        foreach($request->contractors as $one_contractor) {
+        foreach ($request->contractors as $one_contractor) {
             DB::table('compound_contractor')->insert([
                 "compound_id" => $id,
-                "contractor_id" => $one_contractor
+                "contractor_id" => $one_contractor,
             ]);
         }
 
@@ -287,5 +290,68 @@ class CompoundController extends Controller
             return redirect(route("compounds.gallery", $compound))->with("success_message", "Compound gallery has been deleted successfully.");
         }
         return redirect(route("compounds.gallery", $compound))->with("success_message", "Compound gallery has been deleted successfully.");
+    }
+
+    public function attachments($compound_id)
+    {
+        $compound = Compound::find($compound_id);
+        $attachments = $compound->attachments;
+        $attachments_decoded = [];
+        if ($attachments) {
+            $attachments_decoded = json_decode($attachments, true);
+        }
+
+        return view("admin.compounds.attachments.index", compact("compound_id", "attachments_decoded"));
+    }
+
+    public function createAttachments($compound_id)
+    {
+        return view("admin.compounds.attachments.create", compact("compound_id"));
+    }
+
+    public function storeAttachments(Request $request, $compound_id)
+    {
+        $compound = Compound::find($compound_id);
+
+        $uploaded_attachments = $this->uploadFile($request->attachments, 'Compound', 'attachments', 'file', 'compound_files');
+
+        $attachments = $compound->attachments;
+        $attachments_decoded = [];
+        if ($attachments) {
+            $attachments_decoded = json_decode($attachments, true);
+            $attachments_decoded['file'][] = $uploaded_attachments;
+        } else {
+            $attachments_decoded['file'][] = $uploaded_attachments;
+        }
+
+        $compound->update([
+            "attachments" => json_encode($attachments_decoded),
+        ]);
+
+        return redirect(route("compounds.attachments", $compound))->with("success_message", "Compound attachments has been stored successfully.");
+    }
+
+    public function deleteAttachments($compound_id, $file_name)
+    {
+        $compound = Compound::find($compound_id);
+
+        $attachments = $compound->attachments;
+        if ($attachments) {
+            $new_attachments = [];
+            $attachments_decoded = json_decode($attachments, true);
+            foreach ($attachments_decoded as $type => $one_arr) {
+                foreach ($one_arr as $one_value) {
+                    if ($one_value != $file_name) {
+                        $new_attachments['file'][] = $one_value;
+                    }
+                }
+            }
+            $compound->update([
+                "attachments" => json_encode($new_attachments),
+            ]);
+
+            return redirect(route("compounds.attachments", $compound))->with("success_message", "Compound attachments has been deleted successfully.");
+        }
+        return redirect(route("compounds.attachments", $compound))->with("success_message", "Compound attachments has been deleted successfully.");
     }
 }

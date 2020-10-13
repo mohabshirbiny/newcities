@@ -127,6 +127,12 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::get('compounds/{developer}/create-gallery', 'Admin\CompoundController@createGallery')->name("compounds.gallery.create");
     Route::post('compounds/{developer}/gallery', 'Admin\CompoundController@storeGallery')->name("compounds.gallery.store");
     Route::get('compounds/{developer}/gallery/{gallery}', 'Admin\CompoundController@deleteGallery')->name("compounds.gallery.delete");
+
+    Route::get('compounds/{compound}/attachments', 'Admin\CompoundController@attachments')->name("compounds.attachments");
+    Route::get('compounds/{compound}/create-attachments', 'Admin\CompoundController@createAttachments')->name("compounds.attachments.create");
+    Route::post('compounds/{compound}/attachments', 'Admin\CompoundController@storeAttachments')->name("compounds.attachments.store");
+    Route::get('compounds/{compound}/attachments/{attachment}', 'Admin\CompoundController@deleteAttachments')->name("compounds.attachments.delete");
+
     Route::resource('compounds', 'Admin\CompoundController');
 
     Route::get('properties/grid', 'Admin\PropertyController@grid')->name("properties.grid");
@@ -135,10 +141,16 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::post('properties/{property}/gallery', 'Admin\PropertyController@storeGallery')->name("properties.gallery.store");
     Route::get('properties/{property}/gallery/{gallery}', 'Admin\PropertyController@deleteGallery')->name("properties.gallery.delete");
     
-    Route::get('properties/{property}/attachment', 'Admin\PropertyController@gallery')->name("properties.attachment");
-    Route::get('properties/{property}/create-attachment', 'Admin\PropertyController@createGallery')->name("properties.gallery.create");
-    Route::post('properties/{property}/attachment', 'Admin\PropertyController@storeGallery')->name("properties.gallery.store");
-    Route::get('properties/{property}/attachment/{attachment}', 'Admin\PropertyController@deleteGallery')->name("properties.gallery.delete");
+    Route::get('properties/{property}/attachments', 'Admin\PropertyController@attachments')->name("properties.attachments");
+    Route::get('properties/{property}/create-attachments', 'Admin\PropertyController@createAttachments')->name("properties.attachments.create");
+    Route::post('properties/{property}/attachments', 'Admin\PropertyController@storeAttachments')->name("properties.attachments.store");
+    Route::get('properties/{property}/attachments/{attachment}', 'Admin\PropertyController@deleteAttachments')->name("properties.attachments.delete");
+    
+    Route::get('properties/{property}/items', 'Admin\PropertyController@items')->name("properties.items");
+    Route::post('properties/{property}/items', 'Admin\PropertyController@storeItem')->name("properties.items.store");
+    Route::get('properties/{property}/items/create', 'Admin\PropertyController@addItem')->name("properties.items.create");
+    Route::get('properties/{property}/items/{item_id}', 'Admin\PropertyController@deleteItem')->name("properties.items.delete");    
+
     Route::resource('properties', 'Admin\PropertyController');
     
     Route::get('app-settings', 'Admin\AppSettingController@getAll')->name('settings.index');

@@ -19,7 +19,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     View all compounds
-                                    <a class="btn btn-info btn-sm text-right" href="{{ route('properties.create') }}">+ Add New</a>
+                                    <a class="btn btn-info btn-sm text-right" href="{{ route('properties.items.create', $property_id) }}">+ Add New</a>
                                 </h3>
                             </div>
                             <!-- /.card-header -->
@@ -30,11 +30,21 @@
                                             <th>ID</th>
                                             <th>Name (en)</th>
                                             <th>Name (ar)</th>
-                                            <th>Gallery</th>
-                                            <th>Attachment</th>
+                                            <th>Count</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
+                                    <tbody>
+                                        @foreach ($property_items as $item)
+                                            <tr>
+                                                <td>{{ $item->id }}</td>
+                                                <td>{{ json_decode($item->name, true)['en'] }}</td>
+                                                <td>{{ json_decode($item->name, true)['ar'] }}</td>
+                                                <td>{{ $items_count[$item->id] }}</td>
+                                                <td><a class="badge bg-danger" href="{{ route("properties.items.delete", [$property_id, $item->id]) }}">Delete</a></td>
+                                            </tr>                                            
+                                        @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                             <!-- /.card-body -->
@@ -49,27 +59,4 @@
         </section>
         <!-- /.content -->
     </div>
-
-
-@endsection
-
-@section("js")
-<script>
-$(function() {
-    $('#example2').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: '{!! route('properties.grid') !!}',
-        columns: [
-            { data: 'id', name: 'id' },
-            { data: 'name_en', name: 'name_en' },
-            { data: 'name_ar', name: 'name_ar' },
-            { data: 'gallery', name: 'gallery' },
-            { data: 'attachments', name: 'attachments' },
-            { data: 'actions', name: 'actions' },
-        ]
-    });
-});
-</script>
-
 @endsection
