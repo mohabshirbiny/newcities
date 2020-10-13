@@ -113,7 +113,7 @@ class CustomerController extends Controller
         
         $governorates = Governorate::with('cities')->get();
         $jobs = Job::all();
-        
+        $user->verification_code =(int)$user->verification_code;
         $data = [
             "user" => $user,
             "token" => $token,
@@ -161,6 +161,7 @@ class CustomerController extends Controller
         $customer->update($customertData);
 
         $new_updated_Customer = Customer::find($user->id);
+        $customer->verification_code =(int)$customer->verification_code;
 
         return APIResponseController::respond(1,'Profile updated',["customer" => $customer, "token" => $token]); 
     }

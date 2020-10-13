@@ -3,6 +3,7 @@
 @section("content")
 
     <div class="content-wrapper">
+        @include('layouts.alerts')
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid"></div>
@@ -24,7 +25,17 @@
                             <!-- form start -->
                             <form role="form" id="quickForm" method="post" action="{{ route('vendor-categories.store') }}" enctype="multipart/form-data">
                                 @csrf
+                                
                                 <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Parent Category</label>
+                                        <select name="parent_id" class="form-control">
+                                            <option value="">none</option>
+                                            @foreach ($categories  as $category)
+                                                <option value="{{ $category->id }}">{{ json_decode($category->name, true)['en'] . " - " . json_decode($category->name, true)['ar'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">name (en)</label>
                                         <input type="text" name="name[en]" class="form-control" placeholder="Enter name en" />

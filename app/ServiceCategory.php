@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServiceCategory extends Model
 {
-    protected $fillable = ["name", "icon"];
+    protected $fillable = ["name", "icon",'parent_id'];
 
     protected $appends = [
         "title_en",
@@ -29,10 +29,21 @@ class ServiceCategory extends Model
         return json_decode($this->name, true)['ar'];
     }
 
+    public function service_category_parent()
+    {
+        return $this->belongsTo(ServiceCategory::class, "parent_id", "id");
+    }
+
+    public function service_category_children()
+    {
+        return $this->hasMany(ServiceCategory::class, "parent_id", "id");
+
+    }
+
     public function getImagePathAttribute()
     {
-        $imageUrl = url('images/service_files/' . $this->icon);
-        $imageUrl = url('public/images/service_files/' . $this->icon);
+        $imageUrl = url('images/service_category_files/' . $this->icon);
+        $imageUrl = url('public/images/service_category_files/' . $this->icon);
         return $imageUrl;
     }
 }

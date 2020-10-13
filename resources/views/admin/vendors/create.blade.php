@@ -25,15 +25,25 @@
                             <form role="form" id="quickForm" method="post" action="{{ route('vendors.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
-                                    
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Category</label>
-                                        <select name="vendor_category_id" class="form-control">
-                                            <option value="">Select Category</option>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ json_decode($category->name, true)['en'] . " - " . json_decode($category->name, true)['ar'] }}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Category</label>
+                                            <select name="vendor_category_id" class="form-control">
+                                                <option value="">Select Category</option>
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}">{{ json_decode($category->name, true)['en'] . " - " . json_decode($category->name, true)['ar'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Is Parent ?</label>
+                                            <select name="is_parent" class="form-control">
+                                                <option value="">--</option>
+                                                <option value="1">True</option>
+                                                <option value="0">False</option>
+                                                
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <div class="row">
@@ -194,6 +204,9 @@
         $('#quickForm').validate({
             rules: {
                 vendor_category_id: {
+                    required: true,
+                },
+                is_parent: {
                     required: true,
                 },
                 logo: {

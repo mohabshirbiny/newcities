@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "Edit offer Category")
+@section("page_title", "Edit tender Category")
 @section("content")
 
     <div class="content-wrapper">
@@ -19,11 +19,11 @@
                         <!-- jquery validation -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Edit offer Category</h3>
+                                <h3 class="card-title">Edit tender Category</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('offers-categories.update', $offerCategory->id) }}" enctype="multipart/form-data">
+                            <form role="form" id="quickForm" method="post" action="{{ route('tenders-categories.update', $tenderCategory->id) }}" enctype="multipart/form-data">
                                 @csrf
                                 @method("PUT")
                                 <div class="card-body">
@@ -31,14 +31,14 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">name (ar)</label>
-                                            <input type="text" name="name[ar]" value='{{$offerCategory->name_ar}}' class="form-control" placeholder="Enter title ar" />
+                                            <input type="text" name="name[ar]" value='{{$tenderCategory->name_ar}}' class="form-control" placeholder="Enter title ar" />
                                             @if ($errors->has('name.ar'))
                                                 <span class="text-danger">{{ $errors->first('name.ar') }}</span>
                                             @endif
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">name (en)</label>
-                                            <input type="text" name="name[en]" value='{{$offerCategory->name_en}}' class="form-control" placeholder="Enter title en" />
+                                            <input type="text" name="name[en]" value='{{$tenderCategory->name_en}}' class="form-control" placeholder="Enter title en" />
                                             @if ($errors->has('name.en'))
                                                 <span class="text-danger">{{ $errors->first('name.en') }}</span>
                                             @endif
@@ -47,7 +47,7 @@
                                     
                                     <div class="row">
                                         <div class="form-group col-md-3">
-                                            <img src="{{$offerCategory->icon_path}}" alt="" style="max-width: 100px;max-height: 100px;">
+                                            <img src="{{$tenderCategory->icon_path}}" alt="" style="max-width: 100px;max-height: 100px;">
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="exampleInputFile">Icon</label>

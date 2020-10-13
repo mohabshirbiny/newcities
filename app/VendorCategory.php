@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class VendorCategory extends Model
 {
-    protected $fillable = ["name", "icon"];
+    protected $fillable = ["name", "icon",'parent_id'];
 
     protected $appends = [
         "name_en" ,
         'name_ar',
+        'image_path',
     ];
 
     public function vendors()
@@ -26,5 +27,23 @@ class VendorCategory extends Model
     public function getNameArAttribute()
     {
         return json_decode($this->name,true)['ar'];
+    }
+
+    public function vendor_category_parent()
+    {
+        return $this->belongsTo(VendorCategory::class, "parent_id", "id");
+    }
+
+    public function vendor_category_children()
+    {
+        return $this->hasMany(VendorCategory::class, "parent_id", "id");
+
+    }
+
+    public function getImagePathAttribute()
+    {
+        $imageUrl = url('images/vendor_category_files/' . $this->icon);
+        $imageUrl = url('public/images/vendor_category_files/' . $this->icon);
+        return $imageUrl;
     }
 }

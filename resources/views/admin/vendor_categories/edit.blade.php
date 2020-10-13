@@ -1,8 +1,9 @@
 @extends("layouts.admin")
-@section("page_title", "Article category")
+@section("page_title", "Edit vendor Category")
 @section("content")
 
     <div class="content-wrapper">
+        @include('layouts.alerts')
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid"></div>
@@ -18,26 +19,69 @@
                         <!-- jquery validation -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Edit article category</h3>
+                                <h3 class="card-title">Edit vendor Category</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('article-categories.update', $article_category->id) }}">
+                            <form role="form" id="quickForm" method="post" action="{{ route('vendor-categories.update', $vendorCategory->id) }}" enctype="multipart/form-data">
                                 @csrf
                                 @method("PUT")
                                 <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Title (en)</label>
-                                        <input type="text" name="title_en" class="form-control" placeholder="Enter title en" value="{{ $article_category->title_en }}" />
+                                    
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Parent Category</label>
+                                            <select name="parent_id" class="form-control">
+                                                <option value="">none</option>
+                                                @foreach ($categories  as $category)
+                                                    @if ($category->id != $vendorCategory->id)
+                                                    <option value="{{ $category->id }}" @if ($category->id == $vendorCategory->parent_id ) selected='selected' @endif>{{ json_decode($category->name, true)['en'] . " - " . json_decode($category->name, true)['ar'] }}</option>    
+                                                    @endif
+                                                    
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Title (ar)</label>
-                                        <input type="text" name="title_ar" class="form-control" placeholder="Enter title ar" value="{{ $article_category->title_ar }}" />
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">name (ar)</label>
+                                            <input type="text" name="name[ar]" value='{{$vendorCategory->name_ar}}' class="form-control" placeholder="Enter title ar" />
+                                            @if ($errors->has('name.ar'))
+                                                <span class="text-danger">{{ $errors->first('name.ar') }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">name (en)</label>
+                                            <input type="text" name="name[en]" value='{{$vendorCategory->name_en}}' class="form-control" placeholder="Enter title en" />
+                                            @if ($errors->has('name.en'))
+                                                <span class="text-danger">{{ $errors->first('name.en') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Icon</label>
-                                        <input type="text" name="icon" class="form-control" placeholder="Enter icon" value="{{ $article_category->icon }}" />
+                                    
+                                    <div class="row">
+                                        <div class="form-group col-md-3">
+                                            <img src="{{$vendorCategory->image_path}}" alt="" style="max-width: 100px;max-height: 100px;">
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="exampleInputFile">Icon</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" name='icon' class="custom-file-input" id="exampleInputFile" accept="image/*">
+                                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                    @if ($errors->has('icon'))
+                                                <span class="text-danger">{{ $errors->first('icon') }}</span>
+                                            @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
                                     </div>
+
+                                    
+
+
+
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer">
@@ -65,21 +109,15 @@
     $(document).ready(function () {
         $('#quickForm').validate({
             rules: {
-                title_en: {
-                    required: true,
-                },
-                title_ar: {
-                    required: true,
-                },
-                icon: {
+                name: {
                     required: true,
                 },
             },
-            // messages: {
-            //     name: {
-            //         required: "Please enter a name",
-            //     }
-            // },
+            messages: {
+                name: {
+                    required: "Please enter a name",
+                }
+            },
             errorElement: 'span',
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');

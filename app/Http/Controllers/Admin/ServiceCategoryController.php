@@ -48,7 +48,9 @@ class ServiceCategoryController extends Controller
      */
     public function create()
     {
-        return view("admin.service_categories.create");
+        $categories = ServiceCategory::all();
+        // dd($categories);
+        return view("admin.service_categories.create",compact('categories'));
     }
 
     /**
@@ -65,11 +67,12 @@ class ServiceCategoryController extends Controller
             "icon" => "required",
         ]);
 
-        $logo = $this->uploadFile($request->icon, 'ServiceCategory', 'icon', 'image', 'service_files');
+        $logo = $this->uploadFile($request->icon, 'ServiceCategory', 'icon', 'image', 'service_category_files');
 
         ServiceCategory::create([
             "name" => json_encode($request->name),
             "icon" => $logo,
+            "parent_id" => $request->parent_id,
         ]);
 
         return redirect(route("service-categories.index"))->with("success_message", "service category has been stored successfully.");
@@ -94,8 +97,9 @@ class ServiceCategoryController extends Controller
      */
     public function edit($id)
     {
-        $service_category = ServiceCategory::find($id);
-        return view("admin.service_categories.edit", compact("service_category"));
+        $serviceCategory = ServiceCategory::find($id);
+        $categories = ServiceCategory::all();
+        return view("admin.service_categories.edit", compact("serviceCategory",'categories'));
     }
 
     /**
@@ -108,19 +112,33 @@ class ServiceCategoryController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            "name_en" => "required",
-            "name_ar" => "required",
-            "icon" => "required",
+            "name.en" => "required",
+            "name.en" => "required",
+            "icon" => "image",
         ]);
 
         $name = ["name_en" => $request->name_en, "name_ar" => $request->name_ar];
 
         $service_category = ServiceCategory::find($id);
 
-        $service_category->update([
-            "name" => $name,
-            "icon" => $request->icon,
+        if ($request->icon) {
+            $data['icon'] = $this->uploadFile($request->icon, 'ServiceCategory', 'icon', 'image', 'service_category_files');
+
+        }else{
+            $data['icon'] = $service_category->icon;
+        }
+
+        if ($request->parent_id) {
+            $data['parent_id'] = $request->parent_id;
+        }else{
+            $data['parent_id'] = null;
+        }
+
+        $data = array_merge($data,[
+            "name" => json_encode($request->name),
         ]);
+            
+        $service_category->update($data);
 
         return redirect(route("service-categories.index"))->with("success_message", "service category has been updated successfully.");
     }

@@ -76,7 +76,7 @@ class TenderCategoryController extends Controller
         
         $TenderCategoryData = array_merge($requestData , $cityData);
              //dd($TenderCategoryData);
-        $offerCategory = TenderCategory::create($TenderCategoryData);
+        $tenderCategory = TenderCategory::create($TenderCategoryData);
 
         return redirect()->route('tenders-categories.index')->withSuccess( 'Tender category created !');
     }
@@ -100,8 +100,8 @@ class TenderCategoryController extends Controller
      */
     public function edit($id)
     {
-        $offerCategory = TenderCategory::findorfail($id);
-        return view("admin.tenders_categories.edit", compact("offerCategory"));
+        $tenderCategory = TenderCategory::findorfail($id);
+        return view("admin.tenders_categories.edit", compact("tenderCategory"));
     }
 
     /**
@@ -113,7 +113,7 @@ class TenderCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $offerCategory = TenderCategory::findorfail($id);
+        $tenderCategory = TenderCategory::findorfail($id);
 
         $this->validate($request, [
             "name.ar" => "required|string",
@@ -128,14 +128,14 @@ class TenderCategoryController extends Controller
             $newIcon = $this->uploadFile($request->icon , 'TenderCategory','icon','image','tenders_categories_files');
             $cityData['icon'] = $newIcon;
         }else{
-            $cityData['icon'] = $offerCategory->icon;
+            $cityData['icon'] = $tenderCategory->icon;
         }
 
         $cityData['name']  = serialize($request->name);
         
         $TenderCategoryData = array_merge($requestData , $cityData);
              //dd($TenderCategoryData);
-        $offerCategory->update($TenderCategoryData);
+        $tenderCategory->update($TenderCategoryData);
 
         return redirect()->route('tenders-categories.index')->withSuccess( 'Tender category created !');
     }

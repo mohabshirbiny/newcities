@@ -68,8 +68,11 @@ class VendorController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $this->validate($request, [
             "vendor_category_id" => "required",
+            "is_parent" => "required",
+            "city_id" => "required",
             "name.en" => "required",
             "name.ar" => "required",
             "logo" => "required",
@@ -89,8 +92,8 @@ class VendorController extends Controller
             "location_url" => $request->location_url,
             "social_media" => json_encode($request->social_media),
             "contact_details" => json_encode($request->contact_details),
-            "is_parent" => ($request->parent_id != "") ? 0 : 1,
-            "parent_id" => $request->parent_id,
+            "is_parent" => $request->is_parent ,
+            "parent_id" => ($request->is_parent == 1) ? null : $request->parent_id,
             "city_id" => $request->city_id,
             "destrict_id" => $request->destrict_id,
             "logo" => $logo,
@@ -167,8 +170,8 @@ class VendorController extends Controller
             "location_url" => $request->location_url,
             "social_media" => json_encode($request->social_media),
             "contact_details" => json_encode($request->contact_details),
-            "is_parent" => ($request->parent_id != "") ? 0 : 1,
-            "parent_id" => $request->parent_id,
+            "is_parent" => $request->is_parent ,
+            "parent_id" => ($request->is_parent == 1) ? null : $request->parent_id,
             "city_id" => $request->city_id,
             "destrict_id" => $request->destrict_id,
             "logo" => $logo,

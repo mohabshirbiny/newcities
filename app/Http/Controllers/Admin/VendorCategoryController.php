@@ -48,7 +48,9 @@ class VendorCategoryController extends Controller
      */
     public function create()
     {
-        return view("admin.vendor_categories.create");
+        $categories = VendorCategory::all();
+        // dd($categories);
+        return view("admin.vendor_categories.create",compact('categories'));
     }
 
     /**
@@ -65,10 +67,11 @@ class VendorCategoryController extends Controller
             "icon" => "required",
         ]);
 
-        $logo = $this->uploadFile($request->icon, 'VendorCategory', 'icon', 'image', 'vendor_files');
+        $logo = $this->uploadFile($request->icon, 'VendorCategory', 'icon', 'image', 'vendor_category_files');
 
         VendorCategory::create([
             "name" => json_encode($request->name),
+            "parent_id" => $request->parent_id,
             "icon" => $logo,
         ]);
 
@@ -94,8 +97,9 @@ class VendorCategoryController extends Controller
      */
     public function edit($id)
     {
-        $vendor_category = VendorCategory::find($id);
-        return view("admin.vendor_categories.edit", compact("vendor_category"));
+        $vendorCategory  = VendorCategory::find($id);
+        $categories = VendorCategory::all();
+        return view("admin.vendor_categories.edit", compact("vendorCategory",'categories'));
     }
 
     /**
@@ -108,19 +112,32 @@ class VendorCategoryController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            "name_en" => "required",
-            "name_ar" => "required",
-            "icon" => "required",
+            "name.en" => "required",
+            "name.ar" => "required",
+            "icon" => "image",
         ]);
 
         $name = ["name_en" => $request->name_en, "name_ar" => $request->name_ar];
 
         $vendor_category = VendorCategory::find($id);
 
-        $vendor_category->update([
-            "name" => $name,
-            "icon" => $request->icon,
+        if ($request->icon) {
+            $data['icon'] = $this->uploadFile($request->icon, 'Vendor', 'icon', 'image', 'vendor_category_files');
+        }else{
+            $data['icon'] = $vendor_category->icon;
+        }
+
+        if ($request->parent_id) {
+            $data['parent_id'] = $request->parent_id;
+        }else{
+            $data['parent_id'] = null;
+        }
+
+        $data = array_merge($data,[
+            "name" => json_encode($request->name),
         ]);
+
+        $vendor_category->update($data);
 
         return redirect(route("vendor-categories.index"))->with("success_message", "vendor category has been updated successfully.");
     }

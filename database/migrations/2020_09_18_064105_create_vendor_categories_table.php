@@ -17,6 +17,7 @@ class CreateVendorCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string("name");
             $table->string("icon");
+            $table->unsignedBigInteger("parent_id")->nullable();
             $table->timestamps();
         });
     }

@@ -35,8 +35,8 @@
                                 @csrf
                                 @method('put')
                                 <div class="card-body">
-                                    
-                                    <div class="form-group">
+                                    <div class="row">
+                                    <div class="form-group col-md-6">
                                         <label for="exampleInputEmail1">Category</label>
                                         <select name="vendor_category_id" class="form-control">
                                             <option value="">Select Category</option>
@@ -44,6 +44,16 @@
                                                 <option value="{{ $category->id }}" @if($details->vendor_category_id == $category->id) selected @endif>{{ json_decode($category->name, true)['en'] . " - " . json_decode($category->name, true)['ar'] }}</option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputEmail1">Is Parent ?</label>
+                                        <select name="is_parent" class="form-control">
+                                            <option value="">--</option>
+                                            <option value="1" @if($details->is_parent == '1' ) selected @endif>True</option>
+                                            <option value="0" @if($details->is_parent == '0' ) selected @endif>False</option>
+                                            
+                                        </select>
+                                    </div>
                                     </div>
 
                                     <div class="row">
