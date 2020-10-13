@@ -174,13 +174,13 @@ class PropertyController extends Controller
             "cover" => $cover,
         ]);
 
-        DB::table('property_item')->where("property_id", $id)->delete();
-        foreach($request->items as $one_item) {
-            DB::table('property_item')->insert([
-                "property_id" => $id,
-                "property_item_id" => $one_item
-            ]);
-        }
+        // DB::table('property_item')->where("property_id", $id)->delete();
+        // foreach ($request->items as $one_item) {
+        //     DB::table('property_item')->insert([
+        //         "property_id" => $id,
+        //         "property_item_id" => $one_item,
+        //     ]);
+        // }
 
         return redirect(route("properties.index"))->with("success_message", "Property has been updated successfully.");
     }
@@ -264,5 +264,38 @@ class PropertyController extends Controller
             return redirect(route("properties.gallery", $property))->with("success_message", "Property gallery has been deleted successfully.");
         }
         return redirect(route("properties.gallery", $property))->with("success_message", "Property gallery has been deleted successfully.");
+    }
+
+    public function items($property_id)
+    {
+        $items_count = DB::table('property_item')->where("property_id", $property_id)->pluck("count_of_items", "property_item_id")->toArray();
+        $items_ids = array_keys($items_count);
+        $property_items = PropertyItem::whereIn("id", $items_ids)->get();
+        return view("admin.properties.items.index", compact("property_items", "property_id", "items_count"));
+    }
+
+    public function deleteItem($property_id, $item_id)
+    {
+        DB::table('property_item')->where("property_id", $property_id)
+            ->where("property_item_id", $item_id)->delete();
+        return redirect(route("properties.items", $property_id))->with("success_message", "Item has been deleted successfully.");
+    }
+
+    public function addItem($property_id)
+    {
+        $items_ids = DB::table('property_item')->where("property_id", $property_id)->pluck("property_item_id")->toArray();
+        $property_items = PropertyItem::whereNotIn("id", $items_ids)->get();
+        return view("admin.properties.items.create", compact("property_items", "property_id"));
+    }
+
+    public function storeItem(Request $request)
+    {
+        DB::table('property_item')->insert([
+            "property_id" => $request->property_id,
+            "property_item_id" => $request->property_item_id,
+            "count_of_items" => $request->count_of_items,
+        ]);
+
+        return redirect(route("properties.items", $request->property_id))->with("success_message", "Item has been added successfully.");
     }
 }

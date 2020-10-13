@@ -139,5 +139,11 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::get('properties/{property}/create-attachment', 'Admin\PropertyController@createGallery')->name("properties.gallery.create");
     Route::post('properties/{property}/attachment', 'Admin\PropertyController@storeGallery')->name("properties.gallery.store");
     Route::get('properties/{property}/attachment/{attachment}', 'Admin\PropertyController@deleteGallery')->name("properties.gallery.delete");
+    
+    Route::get('properties/{property}/items', 'Admin\PropertyController@items')->name("properties.items");
+    Route::post('properties/{property}/items', 'Admin\PropertyController@storeItem')->name("properties.items.store");
+    Route::get('properties/{property}/items/create', 'Admin\PropertyController@addItem')->name("properties.items.create");
+    Route::get('properties/{property}/items/{item_id}', 'Admin\PropertyController@deleteItem')->name("properties.items.delete");    
+
     Route::resource('properties', 'Admin\PropertyController');
 });
