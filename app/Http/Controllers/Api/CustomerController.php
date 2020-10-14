@@ -133,7 +133,8 @@ class CustomerController extends Controller
         $validator = Validator::make($request->all(), [
             'name'      => 'string|max:255',
             'job_id' => 'string|max:255',
-            'email'     => 'email|max:255|unique:customers,email,' . $user->id,
+            'email'     => 'email|max:255',
+            // 'email'     => 'email|max:255|unique:customers,email,' . $user->id,
             'image'     => 'image',
             'cv_url'    => 'url',
             'location_governorate'  => 'string',
