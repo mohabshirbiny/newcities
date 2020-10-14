@@ -23,6 +23,7 @@ class CreateCitiesTable extends Migration
             $table->text("social_links");
             $table->text("about_ar");
             $table->text("about_en");
+            $table->text("gallery")->nullable();
             $table->text("location_url");
             $table->timestamps();
         });

@@ -23,6 +23,10 @@ class CityController extends Controller
             $query = City::query();                                        
             
             return DataTables::of($query)
+                ->addColumn("gallery", function ($record) {
+                    $link = route("cities.gallery", $record->id);
+                    return "<a href='$link'>Gellery</a>";
+                })
                 ->addColumn("actions", function($record) {
                     $edit_link = route("cities.edit", $record->id);
                     $delete_link = route("cities.destroy", $record->id);
@@ -32,7 +36,7 @@ class CityController extends Controller
                     ";
                     return $actions;
                 })
-            ->rawColumns(['actions'])->make(true);
+            ->rawColumns(['actions','gallery'])->make(true);
         } else {
             return view("admin.cities.index");
         } 
@@ -175,5 +179,72 @@ class CityController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function gallery($city_id)
+    {
+        $city = City::findOrfail($city_id);
+        $gallery = $city->gallery;
+        $gallery_decoded = [];
+        if ($gallery) {
+            $gallery_decoded = json_decode($gallery, true);
+        }
+        
+        return view("admin.cities.gallery.index", compact("city_id", "gallery_decoded"));
+    }
+
+    public function createGallery($city_id)
+    {
+        return view("admin.cities.gallery.create", compact("city_id"));
+    }
+
+    public function storeGallery(Request $request, $city_id)
+    {
+        $city = City::findOrfail($city_id);
+
+        if (in_array($request->file_type, ['image', 'video'])) {
+            $uploaded_gallery = $this->uploadFile($request->gallery, 'City', 'gallery', $request->file_type, 'city_files');
+        } else {
+            $uploaded_gallery = $request->gallery;
+        }
+
+        $gallery = $city->gallery;
+        $gallery_decoded = [];
+        if ($gallery) {
+            $gallery_decoded = json_decode($gallery, true);
+            $gallery_decoded[$request->file_type][] = $uploaded_gallery;
+        } else {
+            $gallery_decoded[$request->file_type][] = $uploaded_gallery;
+        }
+
+        $city->update([
+            "gallery" => json_encode($gallery_decoded),
+        ]);
+
+        return redirect(route("cities.gallery", $city))->with("success_message", "city gallery has been stored successfully.");
+    }
+
+    public function deleteGallery($city_id, $file_name)
+    {
+        $city = City::findOrfail($city_id);
+
+        $gallery = $city->gallery;
+        if ($gallery) {
+            $new_gallery = [];
+            $gallery_decoded = json_decode($gallery, true);
+            foreach ($gallery_decoded as $type => $one_arr) {
+                foreach ($one_arr as $one_value) {
+                    if ($one_value != $file_name) {
+                        $new_gallery[$type][] = $file_name;
+                    }
+                }
+            }
+            $city->update([
+                "gallery" => json_encode($new_gallery),
+            ]);
+
+            return redirect(route("cities.gallery", $city))->with("success_message", "city gallery has been deleted successfully.");
+        }
+        return redirect(route("cities.gallery", $city))->with("success_message", "city gallery has been deleted successfully.");
     }
 }

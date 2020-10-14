@@ -25,6 +25,7 @@ class CreateArticlesTable extends Migration
             $table->unsignedBigInteger("city_id");
             $table->string("body_en");
             $table->string("body_ar");
+            $table->text("gallery")->nullable();
             $table->unsignedBigInteger("author_id");
             $table->unsignedBigInteger("vendor_id");
             $table->unsignedBigInteger("compound_id");

@@ -16,9 +16,10 @@ class City extends Model
         "about_ar",
         "about_en",
         "location_url",
+        "gallery",
     ];
 
-    protected $appends = ['logo_path','cover_path'];
+    protected $appends = ['logo_path','cover_path','city_gallery'];
 
 
     public function districts(){
@@ -43,5 +44,32 @@ class City extends Model
 
     public function getsocialLinksAttribute($value){        
         return unserialize($value);
+    }
+
+    public function getCityGalleryAttribute(){
+        $gallery = json_decode($this->gallery,true);
+        if(!$gallery) return (object)[];
+        foreach ($gallery as $type => $files) {
+            if ($type == 'image') {
+                foreach ($files as $image) {
+                    $new_gallery['images'][] = url('public/images/city_files/'.$image);
+                }
+            } 
+            if ($type == 'youtube_video') {
+                foreach ($files as $youtube_video) {
+                    $new_gallery['youtube_video'][] = $youtube_video;
+                }
+            } 
+            if ($type == 'video') {
+                // dd($files);
+                $i = 0;
+                foreach ($files as $video) {
+                    $new_gallery['videos'][$i]['video'] = url('public/videos/city_files/'.$video['video']);
+                    $new_gallery['videos'][$i]['thumbnail'] = url('public/videos/city_files/'.$video['thumbnail']);
+                    $i++;
+                }
+            } 
+        }
+        return $new_gallery;
     }
 }

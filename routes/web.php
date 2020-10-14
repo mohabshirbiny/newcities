@@ -27,10 +27,17 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::resource('article-categories', 'Admin\ArticleCategoryController');
 
     Route::get('articles/grid', 'Admin\ArticleController@grid')->name("articles.grid");
+    Route::get('articles/{id}/gallery', 'Admin\ArticleController@gallery')->name("articles.gallery");
+    Route::get('articles/{id}/create-gallery', 'Admin\ArticleController@createGallery')->name("articles.gallery.create");
+    Route::post('articles/{id}/gallery', 'Admin\ArticleController@storeGallery')->name("articles.gallery.store");
+    Route::get('articles/{id}/gallery/{gallery}', 'Admin\ArticleController@deleteGallery')->name("articles.gallery.delete");
     Route::resource('articles', 'Admin\ArticleController');
 
     Route::resource('city-districts', 'Admin\CityDistrictController');
-
+    Route::get('cities/{id}/gallery', 'Admin\CityController@gallery')->name("cities.gallery");
+    Route::get('cities/{id}/create-gallery', 'Admin\CityController@createGallery')->name("cities.gallery.create");
+    Route::post('cities/{id}/gallery', 'Admin\CityController@storeGallery')->name("cities.gallery.store");
+    Route::get('cities/{id}/gallery/{gallery}', 'Admin\CityController@deleteGallery')->name("cities.gallery.delete");
     Route::resource('cities', 'Admin\CityController');
 
     Route::resource('tenders-categories', 'Admin\TenderCategoryController');

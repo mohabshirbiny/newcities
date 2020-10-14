@@ -7,12 +7,14 @@ use App\ArticleCategory;
 use App\City;
 use App\Compound;
 use App\Http\Controllers\Controller;
+use App\Traits\UploadFiles;
 use App\Vendor;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class ArticleController extends Controller
 {
+    use UploadFiles ;
     /**
      * Display a listing of the resource.
      *
@@ -27,6 +29,10 @@ class ArticleController extends Controller
     {
         $query = Article::query();
         return DataTables::of($query)
+            ->addColumn("gallery", function ($record) {
+                $link = route("articles.gallery", $record->id);
+                return "<a href='$link'>Gellery</a>";
+            })
             ->addColumn("actions", function($record) {
                 $edit_link = route("articles.edit", $record->id);
                 $delete_link = route("articles.destroy", $record->id);
@@ -36,7 +42,7 @@ class ArticleController extends Controller
                 ";
                 return $actions;
             })
-        ->rawColumns(['actions'])->make(true);
+        ->rawColumns(['actions','gallery'])->make(true);
     }
 
 
@@ -164,5 +170,72 @@ class ArticleController extends Controller
         $article->delete();
 
         return redirect(route("articles.index"))->with("success_message", "Article has been deleted successfully.");
+    }
+
+    public function gallery($article_id)
+    {
+        $article = Article::findOrfail($article_id);
+        $gallery = $article->gallery;
+        $gallery_decoded = [];
+        if ($gallery) {
+            $gallery_decoded = json_decode($gallery, true);
+        }
+        
+        return view("admin.articles.gallery.index", compact("article_id", "gallery_decoded"));
+    }
+
+    public function createGallery($article_id)
+    {
+        return view("admin.articles.gallery.create", compact("article_id"));
+    }
+
+    public function storeGallery(Request $request, $article_id)
+    {
+        $article = Article::findOrfail($article_id);
+
+        if (in_array($request->file_type, ['image', 'video'])) {
+            $uploaded_gallery = $this->uploadFile($request->gallery, 'Article', 'gallery', $request->file_type, 'article_files');
+        } else {
+            $uploaded_gallery = $request->gallery;
+        }
+
+        $gallery = $article->gallery;
+        $gallery_decoded = [];
+        if ($gallery) {
+            $gallery_decoded = json_decode($gallery, true);
+            $gallery_decoded[$request->file_type][] = $uploaded_gallery;
+        } else {
+            $gallery_decoded[$request->file_type][] = $uploaded_gallery;
+        }
+
+        $article->update([
+            "gallery" => json_encode($gallery_decoded),
+        ]);
+
+        return redirect(route("articles.gallery", $article))->with("success_message", "article gallery has been stored successfully.");
+    }
+
+    public function deleteGallery($article_id, $file_name)
+    {
+        $article = Article::findOrfail($article_id);
+
+        $gallery = $article->gallery;
+        if ($gallery) {
+            $new_gallery = [];
+            $gallery_decoded = json_decode($gallery, true);
+            foreach ($gallery_decoded as $type => $one_arr) {
+                foreach ($one_arr as $one_value) {
+                    if ($one_value != $file_name) {
+                        $new_gallery[$type][] = $file_name;
+                    }
+                }
+            }
+            $article->update([
+                "gallery" => json_encode($new_gallery),
+            ]);
+
+            return redirect(route("articles.gallery", $article))->with("success_message", "article gallery has been deleted successfully.");
+        }
+        return redirect(route("articles.gallery", $article))->with("success_message", "article gallery has been deleted successfully.");
     }
 }
