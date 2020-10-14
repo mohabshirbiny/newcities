@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Article;
 use App\CityDistrict;
 use App\Compound;
 use App\Contractor;
@@ -50,6 +51,8 @@ class CompoundController extends Controller
         // dd($data);
         // $contractors_ids = DB::table('compound_contractor')->where("contractor_id", $id)->pluck("contractor_id")->toArray();
         // $data['contractors'] = Contractor::whereIn("id", $contractors_ids)->get();
+
+        $data['news'] = Article::where("compound_id", $id)->get();
 
         return APIResponseController::respond(1, "Compound details", $data, 200);
     }
