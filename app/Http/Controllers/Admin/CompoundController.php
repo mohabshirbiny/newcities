@@ -144,7 +144,6 @@ class CompoundController extends Controller
         $details->social_media = json_decode($details->social_media, true);
         $details->name = json_decode($details->name, true);
         $details->about = json_decode($details->about, true);
-        $details->contact_details = json_decode($details->contact_details, true);
         $cities = City::select("id", "name_ar", "name_en")->get();
         $data['developers'] = Developer::get();
         $data['selected_developers'] = DB::table('compound_developer')->where("compound_id", $id)->pluck("developer_id")->toArray();

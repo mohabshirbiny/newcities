@@ -26,6 +26,21 @@ class City extends Model
         return $this->hasMany(CityDistrict::class);
     }
 
+    public function developers()
+    {
+        return $this->belongsToMany(Developer::class,'city_developer','city_id','developer_id');
+    }
+
+    public function contractors()
+    {
+        return $this->belongsToMany(Contractor::class,'city_contractor','city_id','contractor_id');
+    }
+    
+    public function sponsors()
+    {
+        return $this->belongsToMany(EventSponsor::class,'city_sponsor','city_id','sponsor_id');
+    }
+
     public function getLogoPathAttribute(){
         $imageUrl = url('images/city_files/'.$this->logo);
         $imageUrl = url('public/images/city_files/'.$this->logo);

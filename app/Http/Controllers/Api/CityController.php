@@ -20,7 +20,7 @@ class CityController extends Controller
             return APIResponseController::respond(0,'no city with this id',[],404); 
         }
 
-        $details = City::with("districts")->find($id);
+        $details = City::with("districts",'sponsors')->find($id);
         
         return APIResponseController::respond(1,'',["city" => $details],200); 
     }

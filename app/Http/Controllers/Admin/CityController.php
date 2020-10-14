@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\City;
+use App\Contractor;
+use App\Developer;
+use App\EventSponsor;
 use App\Http\Controllers\Controller;
 use App\Traits\UploadFiles;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class CityController extends Controller
@@ -49,7 +53,10 @@ class CityController extends Controller
      */
     public function create()
     {
-        return view("admin.cities.create");
+        $developers = Developer::get();
+        $contractors = Contractor::get();
+        $sponsors = EventSponsor::get();
+        return view("admin.cities.create",compact('developers','contractors','sponsors'));
     }
 
     /**
@@ -92,6 +99,18 @@ class CityController extends Controller
             // dd($cityData);
         $city = City::create($cityData);
 
+        if ($request->developers) {
+            $city->developers()->attach($request->developers);
+        }
+
+        if ($request->contractors) {
+            $city->contractors()->attach($request->contractors);
+        }
+
+        if ($request->sponsors) {
+            $city->sponsors()->attach($request->sponsors);
+        }
+
         return redirect()->route('cities.index')->withSuccess( 'تم انشاء المدينة بنجاح !');
 
     }
@@ -117,7 +136,14 @@ class CityController extends Controller
     public function edit($id)
     {
         $city = City::findorfail($id);
-        return view("admin.cities.edit", compact("city"));
+        $developers = Developer::get();
+        $city_developers = $city->developers->pluck('id')->toArray();
+        $contractors = Contractor::get();
+        $sponsors = EventSponsor::get();
+        $city_contractors = $city->contractors->pluck('id')->toArray();
+        $city_sponsors = $city->sponsors->pluck('id')->toArray();
+        // dd($city->developers->pluck('id')->toArray());
+        return view("admin.cities.edit", compact("city",'developers','contractors','city_developers','city_contractors','sponsors','city_sponsors'));
     }
 
     /**
@@ -130,7 +156,7 @@ class CityController extends Controller
     public function update(Request $request, $id)
     {
         $city = City::findorfail($id);
-
+        
         $this->validate($request, [
             "name_ar"           => "required|string",
             "name_en"           => "required|string",
@@ -156,6 +182,12 @@ class CityController extends Controller
             $cover = $this->uploadFile($request->cover , 'City','cover','image','city_files');
             $cityData['cover'] = $cover;
         }
+
+        $city->developers()->sync($request->developers);
+
+        $city->contractors()->sync($request->contractors);
+
+        $city->sponsors()->sync($request->sponsors);
         
         $cityData = array_merge($cityData,[
             'contact_details'  => serialize($request->contact_details ),

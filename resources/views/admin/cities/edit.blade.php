@@ -2,6 +2,8 @@
 @section("page_title", "Edit city")
 @section("content")
 
+<link rel="stylesheet" href="{{ asset('admin_assets/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin_assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <div class="content-wrapper">
         @include('layouts.alerts')
         <!-- Content Header (Page header) -->
@@ -28,6 +30,33 @@
                                 @method("PUT")
                                 <div class="card-body">
                                     
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label for="exampleInputEmail1">Developer(s)</label>
+                                            <select name="developers[]" class="select2" data-placeholder="Select a developer" style="width: 100%;" multiple>
+                                                @foreach ($developers as $record)
+                                                    <option value="{{ $record->id }}" @if(in_array($record->id, $city_developers)) selected @endif>{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="exampleInputEmail1">Contractor(s)</label>
+                                            <select name="contractors[]" class="select2" data-placeholder="Select a contractor" style="width: 100%;" multiple>
+                                                @foreach ($contractors as $record)
+                                                    <option value="{{ $record->id }}" @if(in_array($record->id, $city_contractors)) selected @endif>{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="exampleInputEmail1">sponsors (s)</label>
+                                            <select name="sponsors[]" class="select2" data-placeholder="Select a contractor" style="width: 100%;" multiple>
+                                                @foreach ($sponsors as $record)
+                                                    <option value="{{ $record->id }}" @if(in_array($record->id, $city_sponsors)) selected @endif>{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">name (ar)</label>
@@ -212,10 +241,14 @@
 @endsection
 
 @section("js")
+<script src="{{ asset('admin_assets/plugins/select2/js/select2.full.min.js') }}"></script>
+
     <script src="{{ asset('admin/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('admin/plugins/jquery-validation/additional-methods.min.js') }}"></script>
     <script type="text/javascript">
     $(document).ready(function () {
+        $('.select2').select2()
+
         $('#quickForm').validate({
             rules: {
                 name: {

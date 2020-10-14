@@ -28,6 +28,16 @@ class Compound extends Model
         return $imageUrl;
     }
 
+    public function developers()
+    {
+        return $this->belongsToMany(Developer::class,'compound_developer','compound_id','developer_id');
+    }
+
+    public function contractors()
+    {
+        return $this->belongsToMany(Contractor::class,'compound_contractor','compound_id','contractor_id');
+    }
+
     public function getCoverPathAttribute()
     {
         $imageUrl = url('images/compound_files/' . $this->cover);
