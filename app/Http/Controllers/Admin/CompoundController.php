@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\City;
+use App\CityDistrict;
 use App\Compound;
 use App\Contractor;
 use App\Developer;
@@ -90,6 +91,7 @@ class CompoundController extends Controller
 
         $compound = Compound::create([
             "city_id" => $request->city_id,
+            "district_id" => $request->district_id,
             "name" => json_encode($request->name),
             "about" => json_encode($request->about),
             "location_url" => $request->location_url,
@@ -145,11 +147,12 @@ class CompoundController extends Controller
         $details->name = json_decode($details->name, true);
         $details->about = json_decode($details->about, true);
         $cities = City::select("id", "name_ar", "name_en")->get();
+        $districts = CityDistrict::where("city_id", $details->city_id)->get();
         $data['developers'] = Developer::get();
         $data['selected_developers'] = DB::table('compound_developer')->where("compound_id", $id)->pluck("developer_id")->toArray();
         $data['contractors'] = Contractor::get();
         $data['selected_contractors'] = DB::table('compound_contractor')->where("compound_id", $id)->pluck("contractor_id")->toArray();
-        return view("admin.compounds.edit", compact('id', "details", "cities", "data"));
+        return view("admin.compounds.edit", compact('id', "details", "cities", "data", "districts"));
     }
 
     /**
@@ -182,6 +185,8 @@ class CompoundController extends Controller
         }
 
         $compound->update([
+            "city_id" => $request->city_id,
+            "district_id" => $request->district_id,
             "name" => json_encode($request->name),
             "about" => json_encode($request->about),
             "location_url" => $request->location_url,
@@ -352,5 +357,15 @@ class CompoundController extends Controller
             return redirect(route("compounds.attachments", $compound))->with("success_message", "Compound attachments has been deleted successfully.");
         }
         return redirect(route("compounds.attachments", $compound))->with("success_message", "Compound attachments has been deleted successfully.");
+    }
+
+    public function getDistricts($city_id)
+    {
+        $html = "<option value=''>Select district</option>";
+        $districts = CityDistrict::where("city_id", $city_id)->get();
+        foreach ($districts as $one) {
+            $html .= "<option value='$one->id'>$one->name_en - $one->name_ar</option>";
+        }
+        return $html;
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Compound extends Model
 {
-    protected $fillable = ["city_id", "name", "logo",
+    protected $fillable = ["city_id", 'district_id', "name", "logo",
         "cover", "gallery", 'attachments', "location_url", "about", "contact_details", "social_media"];
 
     protected $appends = [
