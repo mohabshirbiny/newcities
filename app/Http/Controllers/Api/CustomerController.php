@@ -179,7 +179,7 @@ class CustomerController extends Controller
         $customer->verification_code_sent = time();
         $customer->save();
         
-        // $response = $this->sendSMS($customer->mobile,"Verify your NewCities account: \n".$customer->verification_code);
+        $response = $this->sendSMS($customer->mobile,"Verify your NewCities account: \n".$customer->verification_code);
         $response = true;
 
         return $response;

@@ -60,11 +60,18 @@ class ArticleCategoryController extends Controller
             "icon" => "required"
         ]);
 
-        ArticleCategory::create([
-            "title_en" => $request->title_en,
-            "title_ar" => $request->title_ar,
-            "icon" => $request->icon,
-        ]);
+        $requestData = $request->except(['icon']);
+        
+        // send files to rename and upload
+        $icon = $this->uploadFile($request->icon , 'EventCategory','icon','image','article_categories_files');
+
+        $articleData = [
+            'icon'  => $icon,
+        ];
+        
+        $EventCategoryData = array_merge($requestData , $articleData);
+
+        ArticleCategory::create($EventCategoryData);
 
         return redirect(route("article-categories.index"))->with("success_message", "Article category has been stored successfully.");
     }
