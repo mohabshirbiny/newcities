@@ -51,9 +51,10 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Facilites</label>
-                                            <select name="use_facilities" class="form-control">
-                                                <option value="1">On</option>
-                                                <option value="0">Off</option>
+                                            <select name="facilities[]" class="select2" data-placeholder="Select a facility" style="width: 100%;" multiple>
+                                                @foreach ($facilities as $facility_id => $facility_name)
+                                                    <option value="{{ $facility_id }}">{{ json_decode($facility_name, true)['en'] . " - " . json_decode($facility_name, true)['ar'] }}</option>                                                    
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>

@@ -31,6 +31,7 @@
                                             <th>Name (en)</th>
                                             <th>Name (ar)</th>
                                             <th>Gallery</th>
+                                            <th>Floor Plans</th>
                                             <th>Attachment</th>
                                             <th>Actions</th>
                                         </tr>
@@ -65,6 +66,7 @@ $(function() {
             { data: 'name_en', name: 'name_en' },
             { data: 'name_ar', name: 'name_ar' },
             { data: 'gallery', name: 'gallery' },
+            { data: 'floor_plans', name: 'floor_plans' },
             { data: 'attachments', name: 'attachments' },
             { data: 'actions', name: 'actions' },
         ]

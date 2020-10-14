@@ -148,6 +148,11 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::post('properties/{property}/gallery', 'Admin\PropertyController@storeGallery')->name("properties.gallery.store");
     Route::get('properties/{property}/gallery/{gallery}', 'Admin\PropertyController@deleteGallery')->name("properties.gallery.delete");
     
+    Route::get('properties/{property}/floor-plans', 'Admin\PropertyController@floorPlans')->name("properties.floor-plans");
+    Route::get('properties/{property}/create-floor-plan', 'Admin\PropertyController@createFloorPlans')->name("properties.floor-plans.create");
+    Route::post('properties/{property}/floor-plans', 'Admin\PropertyController@storeFloorPlans')->name("properties.floor-plans.store");
+    Route::get('properties/{property}/floor-plans/{floor_plan}', 'Admin\PropertyController@deleteFloorPlans')->name("properties.floor-plans.delete");
+    
     Route::get('properties/{property}/attachments', 'Admin\PropertyController@attachments')->name("properties.attachments");
     Route::get('properties/{property}/create-attachments', 'Admin\PropertyController@createAttachments')->name("properties.attachments.create");
     Route::post('properties/{property}/attachments', 'Admin\PropertyController@storeAttachments')->name("properties.attachments.store");

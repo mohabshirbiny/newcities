@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "compounds")
+@section("page_title", "floor plans")
 @section("content")
 
     <div class="content-wrapper">
@@ -18,11 +18,11 @@
                         <!-- jquery validation -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Add new gallery</h3>
+                                <h3 class="card-title">Add new floor plans</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('properties.gallery.store', $property_id) }}" enctype="multipart/form-data">
+                            <form role="form" id="quickForm" method="post" action="{{ route('properties.floor-plans.store', $property_id) }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
 
@@ -40,7 +40,7 @@
                                             <label for="exampleInputFile">File</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
-                                                    <input type="file" name='gallery' required class="custom-file-input" id="exampleInputFile" accept="image/*">
+                                                    <input type="file" name='floor_plans' required class="custom-file-input" id="exampleInputFile" accept="image/*">
                                                     <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                                 </div>
                                             </div>
@@ -50,7 +50,7 @@
                                     <div class="row d-none" id="youtube_video_block">
                                         <div class="form-group col-md-12">
                                             <label for="exampleInputFile">Youtube Video ID</label>
-                                            <input type="text" name="gallery" class="form-control" placeholder="Enter youtube video ID" />
+                                            <input type="text" name="floor_plans" class="form-control" placeholder="Enter youtube video ID" />
                                         </div>
                                     </div>
                                 </div>

@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "compounds")
+@section("page_title", "floor plans")
 @section("content")
 
     <div class="content-wrapper">
@@ -18,7 +18,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <a class="btn btn-info btn-sm text-right" href="{{ route('properties.gallery.create', $property_id) }}">+ Add New</a>
+                                    <a class="btn btn-info btn-sm text-right" href="{{ route('properties.floor-plans.create', $property_id) }}">+ Add New</a>
                                 </h3>
                             </div>
                             <!-- /.card-header -->
@@ -34,7 +34,7 @@
                                     </thead>
                                     <tbody>
                                         @php $counter = 1; @endphp
-                                        @foreach ($gallery_decoded as $type => $record_arr)
+                                        @foreach ($floor_plans_decoded as $type => $record_arr)
                                             @foreach ($record_arr as $record)
                                                 <tr>
                                                     <td>{{ $counter }}</td>
@@ -46,7 +46,7 @@
                                                             {{ $record }}                                                            
                                                         @endif
                                                     </td>
-                                                    <td><a class="badge bg-danger" href="{{ route("properties.gallery.delete", [$property_id, $record]) }}">Delete</a></td>
+                                                    <td><a class="badge bg-danger" href="{{ route("properties.floor-plans.delete", [$property_id, $record]) }}">Delete</a></td>
                                                 </tr>
                                                 @php $counter++; @endphp
                                             @endforeach
