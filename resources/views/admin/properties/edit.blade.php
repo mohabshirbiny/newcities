@@ -51,40 +51,33 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Facilites</label>
-                                            <select name="use_facilities" class="form-control">
-                                                <option value="1" @if($details->use_facilities == 1) selected @endif>On</option>
-                                                <option value="0" @if($details->use_facilities == 0) selected @endif>Off</option>
+                                            <select name="facilities[]" class="select2" data-placeholder="Select a facility" style="width: 100%;" multiple>
+                                                @foreach ($facilities as $facility_id => $facility_name)
+                                                    <option value="{{ $facility_id }}" @if(in_array($record->id, $selected_facilities)) selected @endif>{{ json_decode($facility_name, true)['en'] . " - " . json_decode($facility_name, true)['ar'] }}</option>                                                    
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-12">
                                             <label for="exampleInputEmail1">Developer</label>
                                             <select name="developer_id" class="form-control">
                                                 <option value="">Select Developer</option>
                                                 @foreach ($developers as $record)
-                                                    <option value="{{ $record->id }}">{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
+                                                    <option value="{{ $record->id }}" @if($details->developer_id == $record->id) selected @endif>{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Property Items(s)</label>
-                                            <select name="property_items[]" class="select2" data-placeholder="Select a property items" style="width: 100%;" multiple>
-                                                @foreach ($property_items as $record)
-                                                    <option value="{{ $record->id }}">{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                        </div>                                        
                                     </div>
                                     
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Compound</label>
-                                            <select name="developer_id" class="form-control">
-                                                <option value="">Select Developer</option>
-                                                @foreach ($developers as $record)
-                                                    <option value="{{ $record->id }}">{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
+                                            <select name="compound_id" class="form-control">
+                                                <option value="">Select Compound</option>
+                                                @foreach ($compounds as $record)
+                                                    <option value="{{ $record->id }}" @if($details->compound_id == $record->id) selected @endif>{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -92,8 +85,8 @@
                                             <label for="exampleInputEmail1">Property Type</label>
                                             <select name="property_type_id" class="form-control">
                                                 <option value="">Choose Property Type</option>
-                                                @foreach ($property_items as $record)
-                                                    <option value="{{ $record->id }}">{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
+                                                @foreach ($property_types as $record)
+                                                    <option value="{{ $record->id }}" @if($details->property_type_id == $record->id) selected @endif>{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

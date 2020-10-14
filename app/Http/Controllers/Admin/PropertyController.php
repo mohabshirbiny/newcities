@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\City;
 use App\Compound;
 use App\Developer;
+use App\Facility;
 use App\Http\Controllers\Controller;
 use App\Property;
 use App\PropertyItem;
@@ -39,6 +40,10 @@ class PropertyController extends Controller
                 $link = route("properties.gallery", $record->id);
                 return "<a href='$link'>Gellery</a>";
             })
+            ->addColumn("floor_plans", function ($record) {
+                $link = route("properties.floor-plans", $record->id);
+                return "<a href='$link'>Floor Plans</a>";
+            })
             ->addColumn("attachments", function ($record) {
                 $link = route("properties.attachments", $record->id);
                 return "<a href='$link'>Attachments</a>";
@@ -54,7 +59,7 @@ class PropertyController extends Controller
                 ";
                 return $actions;
             })
-            ->rawColumns(['actions', "gallery", "attachments"])->make(true);
+            ->rawColumns(['actions', "gallery", "attachments", "floor_plans"])->make(true);
     }
 
     /**
@@ -68,7 +73,8 @@ class PropertyController extends Controller
         $developers = Developer::get();
         $compounds = Compound::get();
         $property_types = PropertyType::get();
-        return view("admin.properties.create", compact("cities", "developers", "compounds", "property_types"));
+        $facilities = Facility::pluck("name", "id");
+        return view("admin.properties.create", compact("cities", "developers", "compounds", "property_types", "facilities"));
     }
 
     /**
@@ -81,6 +87,8 @@ class PropertyController extends Controller
     {
         $this->validate($request, [
             "city_id" => "required",
+            "developer_id" => "required",
+            "property_type_id" => "required",
             "name.en" => "required",
             "name.ar" => "required",
             "about.en" => "required",
@@ -92,13 +100,20 @@ class PropertyController extends Controller
 
         $property = Property::create([
             "city_id" => $request->city_id,
-            "use_facilities" => $request->use_facilities,
+            "use_facilities" => (count($request->facilities) > 0) ? 1 : 0,
             "developer_id" => $request->developer_id,
             "property_type_id" => $request->property_type_id,
             "name" => json_encode($request->name),
             "about" => json_encode($request->about),
             "cover" => $cover,
         ]);
+
+        foreach ($request->facilities as $facility_id) {
+            DB::table('property_facilities')->insert([
+                "property_id" => $property->id,
+                "facility_id" => $facility_id,
+            ]);
+        }
 
         return redirect(route("properties.index"))->with("success_message", "Property has been stored successfully.");
     }
@@ -130,9 +145,10 @@ class PropertyController extends Controller
         $cities = City::select("id", "name_ar", "name_en")->get();
         $developers = Developer::get();
         $compounds = Compound::get();
-        $property_items = PropertyItem::get();
         $property_types = PropertyType::get();
-        return view("admin.properties.edit", compact('id', "details", "cities", "developers", "compounds", "property_items"));
+        $facilities = Facility::pluck("name", "id");
+        $selected_facilities = DB::table('property_facilities')->where("property_id", $id)->pluck("facility_id")->toArray();
+        return view("admin.properties.edit", compact('id', "details", 'facilities', 'selected_facilities', "cities", "developers", "compounds", "property_types"));
     }
 
     /**
@@ -145,19 +161,16 @@ class PropertyController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
+            "city_id" => "required",
+            "developer_id" => "required",
+            "property_type_id" => "required",
             "name.en" => "required",
             "name.ar" => "required",
             "about.en" => "required",
             "about.ar" => "required",
-            "location_url" => "required",
         ]);
 
         $property = Property::find($id);
-
-        $logo = $property->logo;
-        if ($request->logo) {
-            $logo = $this->uploadFile($request->logo, 'Property', 'logo', 'image', 'property_files');
-        }
 
         $cover = $property->cover;
         if ($request->cover) {
@@ -165,22 +178,22 @@ class PropertyController extends Controller
         }
 
         $property->update([
+            "city_id" => $request->city_id,
+            "use_facilities" => (count($request->facilities) > 0) ? 1 : 0,
+            "developer_id" => $request->developer_id,
+            "property_type_id" => $request->property_type_id,
             "name" => json_encode($request->name),
             "about" => json_encode($request->about),
-            "location_url" => $request->location_url,
-            "social_media" => json_encode($request->social_media),
-            "contact_details" => json_encode($request->contact_details),
-            "logo" => $logo,
             "cover" => $cover,
         ]);
 
-        // DB::table('property_item')->where("property_id", $id)->delete();
-        // foreach ($request->items as $one_item) {
-        //     DB::table('property_item')->insert([
-        //         "property_id" => $id,
-        //         "property_item_id" => $one_item,
-        //     ]);
-        // }
+        DB::table('property_facilities')->where("property_id", $id)->delete();
+        foreach ($request->facilities as $facility_id) {
+            DB::table('property_facilities')->insert([
+                "property_id" => $property->id,
+                "facility_id" => $facility_id,
+            ]);
+        }
 
         return redirect(route("properties.index"))->with("success_message", "Property has been updated successfully.");
     }
@@ -266,6 +279,72 @@ class PropertyController extends Controller
         return redirect(route("properties.gallery", $property))->with("success_message", "Property gallery has been deleted successfully.");
     }
 
+    public function floorPlans($property_id)
+    {
+        $property = Property::find($property_id);
+        $floor_plans = $property->floor_plans;
+        $floor_plans_decoded = [];
+        if ($floor_plans) {
+            $floor_plans_decoded = json_decode($floor_plans, true);
+        }
+
+        return view("admin.properties.floor_plans.index", compact("property_id", "floor_plans_decoded"));
+    }
+
+    public function createFloorPlans($property_id)
+    {
+        return view("admin.properties.floor_plans.create", compact("property_id"));
+    }
+
+    public function storeFloorPlans(Request $request, $property_id)
+    {
+        $property = Property::find($property_id);
+
+        if (in_array($request->file_type, ['image', 'video'])) {
+            $uploaded_floor_plans = $this->uploadFile($request->floor_plans, 'Compound', 'floor_plans', $request->file_type, 'property_files');
+        } else {
+            $uploaded_floor_plans = $request->floor_plans;
+        }
+
+        $floor_plans = $property->floor_plans;
+        $floor_plans_decoded = [];
+        if ($floor_plans) {
+            $floor_plans_decoded = json_decode($floor_plans, true);
+            $floor_plans_decoded[$request->file_type][] = $uploaded_floor_plans;
+        } else {
+            $floor_plans_decoded[$request->file_type][] = $uploaded_floor_plans;
+        }
+
+        $property->update([
+            "floor_plans" => json_encode($floor_plans_decoded),
+        ]);
+
+        return redirect(route("properties.floor-plans", $property))->with("success_message", "floor plans gallery has been stored successfully.");
+    }
+
+    public function deleteFloorPlans($property_id, $file_name)
+    {
+        $property = Property::find($property_id);
+
+        $floor_plans = $property->floor_plans;
+        if ($floor_plans) {
+            $new_floor_plans = [];
+            $floor_plans_decoded = json_decode($floor_plans, true);
+            foreach ($floor_plans_decoded as $type => $one_arr) {
+                foreach ($one_arr as $one_value) {
+                    if ($one_value != $file_name) {
+                        $new_floor_plans[$type][] = $one_value;
+                    }
+                }
+            }
+            $property->update([
+                "floor_plans" => json_encode($new_floor_plans),
+            ]);
+
+            return redirect(route("properties.floor-plans", $property))->with("success_message", "Property floor plans has been deleted successfully.");
+        }
+        return redirect(route("properties.floor-plans", $property))->with("success_message", "Property floor plans has been deleted successfully.");
+    }
 
     public function attachments($property_id)
     {
