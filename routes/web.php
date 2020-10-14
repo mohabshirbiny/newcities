@@ -133,6 +133,7 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::post('compounds/{compound}/attachments', 'Admin\CompoundController@storeAttachments')->name("compounds.attachments.store");
     Route::get('compounds/{compound}/attachments/{attachment}', 'Admin\CompoundController@deleteAttachments')->name("compounds.attachments.delete");
 
+    Route::get("compounds/get-districts/{city}", "Admin\CompoundController@getDistricts");
     Route::resource('compounds', 'Admin\CompoundController');
 
     Route::get('properties/grid', 'Admin\PropertyController@grid')->name("properties.grid");

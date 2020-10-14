@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\CityDistrict;
 use App\Compound;
 use App\Contractor;
 use App\Developer;
 use App\Http\Controllers\Controller;
+use App\SectionData;
 use Illuminate\Support\Facades\DB;
 
 class CompoundController extends Controller
@@ -18,9 +20,23 @@ class CompoundController extends Controller
             $query->where("city_id", request()->city_id);
         }
 
+        if (request()->district_id && request()->district_id != "") {
+            $query->where("district_id", request()->district_id);
+        }
+
         $records = $query->get();
 
-        return APIResponseController::respond(1, "Compounds", ["compounds" => $records], 200);
+        $districts = CityDistrict::where("city_id", request()->city_id)->get();
+
+        $section = SectionData::where('model', 'Compound')->first();
+
+        $data = [
+            "locations" => $districts,
+            "compounds" => $records,
+            "gallery" => ($section) ? $section->section_gallery : (object) [],
+        ];
+
+        return APIResponseController::respond(1, "Compounds", $data, 200);
     }
 
     public function getOne($id)

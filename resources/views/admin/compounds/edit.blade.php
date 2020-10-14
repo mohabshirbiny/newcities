@@ -50,6 +50,18 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">District</label>
+                                            <select name="district_id" class="form-control" id="district_id">
+                                                <option value="">Select district</option>
+                                                @foreach ($districts as $record)
+                                                    <option value="{{ $record->id }}" @if($details->district_id == $record->id) selected @endif>{{ $record->name_en . " - " . $record->name_ar }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>                                        
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Facilites</label>
                                             <select name="use_facilities" class="form-control">
                                                 <option value="1" @if($details->use_facilities == 1) selected @endif>On</option>
@@ -232,6 +244,18 @@
             },
             unhighlight: function (element, errorClass, validClass) {
                 $(element).removeClass('is-invalid');
+            }
+        });
+        $(document).on("change", "#city_id", function(e) {
+            let city_id = $(this).val();
+            if(city_id != "") {
+                $.ajax({
+                    url: "{{ url('admin/compounds/get-districts/') }}/" + city_id,
+                    type: "get",
+                    success: function(result) {
+                        $("#district_id").html(result);
+                    }
+                });
             }
         });
     });
