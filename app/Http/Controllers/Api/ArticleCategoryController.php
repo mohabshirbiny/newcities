@@ -9,7 +9,7 @@ class ArticleCategoryController extends Controller
 {
     public function getAll()
     {
-        $records = ArticleCategory::all();
+        $records = ArticleCategory::with('articles')->all();
         return api_response(1, "Categories retreived successfully.", $records);
     }
 
