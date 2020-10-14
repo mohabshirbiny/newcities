@@ -12,7 +12,7 @@ trait SendSMS
             "UserName"      => "NewCities",
             "Password"      => "9n5E919999",
             "SMSText"       => $body,
-            "SMSSender"     => "City Club",
+            "SMSSender"     => "New Cities",
             "SMSReceiver"   => $to,
             "SMSID"         => $GUID,
             "SMSLang"       => "a",

@@ -81,7 +81,7 @@ class Compound extends Model
 
         foreach ($attachments as $files) {
             foreach ($files as $video) {
-                $new_attachments['attachments'][] = url('public/files/compound_files/' . $video);
+                $new_attachments[] = url('public/files/compound_files/' . $video);
             }
         }
         return $new_attachments;
