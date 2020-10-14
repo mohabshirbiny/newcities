@@ -51,7 +51,7 @@
                                             <label for="exampleInputEmail1">sponsors (s)</label>
                                             <select name="sponsors[]" class="select2" data-placeholder="Select a contractor" style="width: 100%;" multiple>
                                                 @foreach ($sponsors as $record)
-                                                    <option value="{{ $record->id }}" @if(in_array($record->id, $city_sponsors)) selected @endif>{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
+                                                    <option value="{{ $record->id }}" @if(in_array($record->id, $city_sponsors)) selected @endif>{{ $record->title_en . " - " . $record->title_ar }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

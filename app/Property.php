@@ -154,4 +154,9 @@ class Property extends Model
         $property_facilities = Facility::whereIn("id", $facility_ids)->get();        
         return $property_facilities;
     }
+
+    public function interested_customers()
+    {
+        return $this->belongsToMany(Customer::class);
+    }
 }

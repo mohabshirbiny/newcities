@@ -101,6 +101,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::get("get-properties", "Api\PropertyController@getAll");
     Route::get("get-property/{id}", "Api\PropertyController@getOne");
+    Route::post("add-property-interest", "Api\PropertyController@addInterestedCustomer");
+    Route::post("remove-property-interest", "Api\PropertyController@removeInterestedCustomer");
 
     Route::get("get-sections-data", "Api\SectionDataController@getAll");
 
