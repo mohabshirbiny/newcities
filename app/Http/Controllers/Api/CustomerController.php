@@ -28,9 +28,9 @@ class CustomerController extends Controller
             'name' => 'required|string',
             'mobile' => 'required|regex:/(01)[0-9]{9}/|max:11',
         ]);
-
+        
         if ($validator->fails()) {
-            return APIResponseController::respond(0,'validation error',[],422); 
+            return APIResponseController::respond(0,'validation error',$validator->errors(),422); 
         }
 
         $customer = Customer::where('mobile',$request->mobile)->first();
@@ -55,6 +55,8 @@ class CustomerController extends Controller
 
         }
         
+        // return APIResponseController::respond(1,"login",["customer" => $customer],200);     
+
         $response = $this->sendVerificationSMS($customer);
         
         if($response->code == "0"){
@@ -182,10 +184,9 @@ class CustomerController extends Controller
         $customer->verification_code = random_int(100000,999999);
         $customer->verification_code_sent = time();
         $customer->save();
-        
+
         $response = $this->send($customer->mobile,"Verify your NewCities account: \n".$customer->verification_code);
-        // $response = true;
-        // dd($response,'d');
+
         return $response;
     }
 
