@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "Rooms")
+@section("page_title", "Articles")
 @section("content")
 
     <div class="content-wrapper">
@@ -18,11 +18,11 @@
                         <!-- jquery validation -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Edit room</h3>
+                                <h3 class="card-title">Edit article</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('rooms.update', $room->id) }}">
+                            <form role="form" id="quickForm" method="post" action="{{ route('articles.update', $article->id) }}">
                                 @csrf
                                 @method("PUT")
                                 <div class="card-body">

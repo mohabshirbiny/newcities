@@ -3,6 +3,8 @@
 @section("content")
 
     <div class="content-wrapper">
+        @include('layouts.alerts')
+
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid"></div>
@@ -22,7 +24,7 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('article-categories.store') }}">
+                            <form role="form" id="quickForm" method="post" action="{{ route('article-categories.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
@@ -35,7 +37,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Icon</label>
-                                        <input type="text" name="icon" class="form-control" placeholder="Enter icon" />
+                                        <input type="file" name="icon" class="form-control" accept="image/*"/>
                                     </div>
                                 </div>
                                 <!-- /.card-body -->

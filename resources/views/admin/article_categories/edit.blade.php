@@ -3,6 +3,8 @@
 @section("content")
 
     <div class="content-wrapper">
+        @include('layouts.alerts')
+
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid"></div>
@@ -22,7 +24,7 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" id="quickForm" method="post" action="{{ route('article-categories.update', $article_category->id) }}">
+                            <form role="form" id="quickForm" method="post" action="{{ route('article-categories.update', $article_category->id) }}" enctype="multipart/form-data">
                                 @csrf
                                 @method("PUT")
                                 <div class="card-body">
@@ -34,9 +36,23 @@
                                         <label for="exampleInputEmail1">Title (ar)</label>
                                         <input type="text" name="title_ar" class="form-control" placeholder="Enter title ar" value="{{ $article_category->title_ar }}" />
                                     </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Icon</label>
-                                        <input type="text" name="icon" class="form-control" placeholder="Enter icon" value="{{ $article_category->icon }}" />
+                                    <div class="row">
+                                        <div class="form-group col-md-3">
+                                            <img src="{{$article_category->icon_path}}" alt="" style="max-width: 100px;max-height: 100px;">
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="exampleInputFile">Icon</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" name='icon' class="custom-file-input" id="exampleInputFile" accept="image/*">
+                                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                    @if ($errors->has('icon'))
+                                                <span class="text-danger">{{ $errors->first('icon') }}</span>
+                                            @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
                                     </div>
                                 </div>
                                 <!-- /.card-body -->

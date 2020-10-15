@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>@yield("page_title")</title>
+        <title>Dashboard | @yield("page_title")</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <!-- Font Awesome -->
@@ -40,11 +40,6 @@
                     <li class="nav-item">
                         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                     </li>
-                    @if(session()->has('country_details'))
-                        <li class="nav-item">
-                            <button type="button" class="nav-link btn btn-default" id="user-country-modal-btn" data-toggle="modal" data-target="#user-country-modal">{{ session("country_details")->name }}</button>
-                        </li>
-                    @endif
                 </ul>
 
                 <!-- Right navbar links -->
@@ -65,9 +60,9 @@
             <!-- Main Sidebar Container -->
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
-                <a href="index3.html" class="brand-link">
+                <a href="{{ url('/') }}" class="brand-link">
                     <img src="{{ asset('admin_assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8;" />
-                    <span class="brand-text font-weight-light">Egyp New Cities</span>
+                    <span class="brand-text font-weight-light">Egypt New Cities</span>
                 </a>
 
                 <!-- Sidebar -->
@@ -84,15 +79,15 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
                             <li class="nav-item">
-                                <a href="{{ url('home') }}" class="nav-link @if(request()->segment(1) == 'home') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <a href="{{ url('/') }}" class="nav-link @if(request()->segment(1) == 'admin') active @endif">
+                                    <i class="nav-icon fas fa-home"></i>
                                     <p>Home</p>
                                 </a>
                             </li>
-                            <br>
-                            <li class="nav-item has-treeview @if(str_contains(request()->segment(2) , 'article')) menu-open @endif">
-                                <a href="#" class="nav-link @if(str_contains(request()->segment(2) , 'article')) active @endif">
-                                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                            
+                            <li class="nav-item has-treeview @if(request()->segment(2) && str_contains(request()->segment(2) , 'article')) menu-open @endif">
+                                <a href="#" class="nav-link @if(request()->segment(2) && str_contains(request()->segment(2) , 'article')) active @endif">
+                                  <i class="nav-icon fas fa-newspaper"></i>
                                   <p>
                                     Articles
                                     <i class="right fas fa-angle-left"></i>
@@ -101,23 +96,23 @@
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="{{ url('admin/article-categories') }}" class="nav-link @if(request()->segment(2) == 'article-categories') active @endif">
-                                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                                            <i class="nav-icon far fa-circle"></i>
                                             <p>Article Categories</p>
                                         </a>
                                     </li>
         
                                     <li class="nav-item">
                                         <a href="{{ url('admin/articles') }}" class="nav-link @if(request()->segment(2) == 'articles') active @endif">
-                                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                                            <i class="nav-icon far fa-circle"></i>
                                             <p>all Articles</p>
                                         </a>
                                     </li>
                                 </ul>
                               </li>
-<hr>
-                            <li class="nav-item has-treeview @if(str_contains(request()->segment(2) , 'cit')) menu-open @endif">
-                                <a href="#" class="nav-link @if(str_contains(request()->segment(2) , 'cit')) active @endif">
-                                  <i class="nav-icon fas fa-tachometer-alt"></i>
+
+                            <li class="nav-item has-treeview @if(request()->segment(2) && str_contains(request()->segment(2) , 'cit')) menu-open @endif">
+                                <a href="#" class="nav-link @if(request()->segment(2) && str_contains(request()->segment(2) , 'cit')) active @endif">
+                                  <i class="nav-icon fas fa-city"></i>
                                   <p>
                                     Cities
                                     <i class="right fas fa-angle-left"></i>
@@ -126,14 +121,14 @@
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="{{ route('city-districts.index') }}" class="nav-link @if(request()->segment(2) == 'city-districts') active @endif">
-                                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                                            <i class="nav-icon far fa-circle"></i>
                                             <p>Cities Districts</p>
                                         </a>
                                     </li>
         
                                     <li class="nav-item">
                                         <a href="{{ route('cities.index') }}" class="nav-link @if(request()->segment(2) == 'cities') active @endif">
-                                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                                            <i class="nav-icon far fa-circle"></i>
                                             <p>all Cities</p>
                                         </a>
                                     </li>
@@ -141,10 +136,9 @@
                               </li>
 
 
-                              <hr>
-                            <li class="nav-item has-treeview @if(str_contains(request()->segment(2) , 'tenders')) menu-open @endif">
-                                <a href="#" class="nav-link @if(str_contains(request()->segment(2) , 'tenders')) active @endif">
-                                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <li class="nav-item has-treeview @if(request()->segment(2) && str_contains(request()->segment(2) , 'tenders')) menu-open @endif">
+                                <a href="#" class="nav-link @if(request()->segment(2) && str_contains(request()->segment(2) , 'tenders')) active @endif">
+                                  <i class="nav-icon fas fa-gavel"></i>
                                   <p>
                                     Tenders
                                     <i class="right fas fa-angle-left"></i>
@@ -153,13 +147,13 @@
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="{{ route('tenders.index') }}" class="nav-link @if(request()->segment(2) == 'tenders') active @endif">
-                                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                                            <i class="nav-icon far fa-circle"></i>
                                             <p>all Tenders</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="{{ route('tenders-categories.index') }}" class="nav-link @if(request()->segment(2) == 'tenders-categories') active @endif">
-                                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                                            <i class="nav-icon far fa-circle"></i>
                                             <p>Tender Categories</p>
                                         </a>
                                     </li>
@@ -167,9 +161,9 @@
                               </li>
 
 
-                            <li class="nav-item has-treeview @if(str_contains(request()->segment(2) , 'offers')) menu-open @endif">
-                                <a href="#" class="nav-link @if(str_contains(request()->segment(2) , 'offers')) active @endif">
-                                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <li class="nav-item has-treeview @if(request()->segment(2) && str_contains(request()->segment(2) , 'offers')) menu-open @endif">
+                                <a href="#" class="nav-link @if(request()->segment(2) && str_contains(request()->segment(2) , 'offers')) active @endif">
+                                  <i class="nav-icon fas fa-bullhorn"></i>
                                   <p>
                                     Offers
                                     <i class="right fas fa-angle-left"></i>
@@ -178,14 +172,14 @@
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="{{ route('offers-categories.index') }}" class="nav-link @if(request()->segment(2) == 'offers-categories') active @endif">
-                                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                                            <i class="nav-icon far fa-circle"></i>
                                             <p>Offers Categories</p>
                                         </a>
                                     </li>
         
                                     <li class="nav-item">
                                         <a href="{{ route('offers.index') }}" class="nav-link @if(request()->segment(2) == 'offers') active @endif">
-                                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                                            <i class="nav-icon far fa-circle"></i>
                                             <p>Offers</p>
                                         </a>
                                     </li>
@@ -193,9 +187,9 @@
                               </li>
 
 
-                            <li class="nav-item has-treeview @if(str_contains(request()->segment(2) , 'events')) menu-open @endif">
-                                <a href="#" class="nav-link @if(str_contains(request()->segment(2) , 'events')) active @endif">
-                                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <li class="nav-item has-treeview @if(request()->segment(2) && str_contains(request()->segment(2) , 'events')) menu-open @endif">
+                                <a href="#" class="nav-link @if(request()->segment(2) && str_contains(request()->segment(2) , 'events')) active @endif">
+                                  <i class="nav-icon far fa-calendar-check"></i>
                                   <p>
                                     Events
                                     <i class="right fas fa-angle-left"></i>
@@ -204,26 +198,26 @@
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="{{ route('events-categories.index') }}" class="nav-link @if(request()->segment(2) == 'events-categories') active @endif">
-                                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                                            <i class="nav-icon far fa-circle"></i>
                                             <p>Events Categories</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="{{ route('events-sponsors.index') }}" class="nav-link @if(request()->segment(2) == 'events-sponsors') active @endif">
-                                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                                            <i class="nav-icon far fa-circle"></i>
                                             <p>Events Sponsors</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="{{ route('events-organizers.index') }}" class="nav-link @if(request()->segment(2) == 'events-organizers') active @endif">
-                                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                                            <i class="nav-icon far fa-circle"></i>
                                             <p>Events Organizers</p>
                                         </a>
                                     </li>
         
                                     <li class="nav-item">
                                         <a href="{{ route('events.index') }}" class="nav-link @if(request()->segment(2) == 'events') active @endif">
-                                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                                            <i class="nav-icon far fa-circle"></i>
                                             <p>Events</p>
                                         </a>
                                     </li>
@@ -231,9 +225,9 @@
                               </li>
 
 
-                            <li class="nav-item has-treeview @if(str_contains(request()->segment(2) , 'jobs')) menu-open @endif">
-                                <a href="#" class="nav-link @if(str_contains(request()->segment(2) , 'jobs')) active @endif">
-                                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <li class="nav-item has-treeview @if(request()->segment(2) && str_contains(request()->segment(2) , 'jobs')) menu-open @endif">
+                                <a href="#" class="nav-link @if(request()->segment(2) && str_contains(request()->segment(2) , 'jobs')) active @endif">
+                                  <i class="nav-icon fas fa-briefcase"></i>
                                   <p>
                                     Jobs
                                     <i class="right fas fa-angle-left"></i>
@@ -257,126 +251,158 @@
                               </li>
                             
 
-                            
-
-
-                            
-                            
-
-                            
-
-                            
-                            
-
                             <li class="nav-item">
-                                <a href="{{ route('sections.index') }}" class="nav-link @if(request()->segment(2) == 'sections-data') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <a href="{{ route('sections.index') }}" class="nav-link @if(request()->segment(1) == 'sections-data') active @endif">
+                                    <i class="nav-icon fas fa-cogs"></i>
                                     <p>Sections Data</p>
                                 </a>
                             </li>
-                            
-                            <li class="nav-item">
-                                <a href="{{ route('vendor-categories.index') }}" class="nav-link @if(request()->segment(2) == 'vendor-categories') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Vendors Categories</p>
-                                </a>
-                            </li>
 
-                            <li class="nav-item">
-                                <a href="{{ route('vendors.index') }}" class="nav-link @if(request()->segment(2) == 'vendors') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Vendors</p>
-                                </a>
-                            </li>
 
-                            <li class="nav-item has-treeview @if(str_contains(request()->segment(2) , 'jobs')) menu-open @endif">
-                                <a href="#" class="nav-link @if(str_contains(request()->segment(2) , 'jobs')) active @endif">
-                                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <li class="nav-item has-treeview @if(request()->segment(2) && str_contains(request()->segment(2) , 'vendor')) menu-open @endif">
+                                <a href="#" class="nav-link @if(request()->segment(2) && str_contains(request()->segment(2) , 'vendor')) active @endif">
+                                  <i class="nav-icon fas fa-briefcase"></i>
                                   <p>
-                                    real state
+                                    Vendors
                                     <i class="right fas fa-angle-left"></i>
                                   </p>
                                 </a>
                                 <ul class="nav nav-treeview">
-                                    
-                            <li class="nav-item">
-                                <a href="{{ route('service-categories.index') }}" class="nav-link @if(request()->segment(2) == 'service-categories') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Services Categories</p>
+                                    <li class="nav-item ">
+                                        <a href="{{ route('vendor-categories.index') }}" class="nav-link @if(request()->segment(2) == 'vendor-categories') active @endif">
+                                            <i class="nav-icon far fa-circle"></i>
+                                            <p>Vendor Categories</p>
+                                        </a>
+                                    </li>
+        
+                                    <li class="nav-item">
+                                        <a href="{{ route('vendors.index') }}" class="nav-link @if(request()->segment(2) == 'vendors') active @endif">
+                                            <i class="nav-icon far fa-circle"></i>
+                                            <p>Vendors</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                              </li>
+
+                            
+                            <li class="nav-item has-treeview @if(request()->segment(2) && str_contains(request()->segment(2) , 'service')) menu-open @endif">
+                                <a href="#" class="nav-link @if(request()->segment(2) && str_contains(request()->segment(2) , 'service')) active @endif">
+                                  <i class="nav-icon fas fa-briefcase"></i>
+                                  <p>
+                                    Services
+                                    <i class="right fas fa-angle-left"></i>
+                                  </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('service-categories.index') }}" class="nav-link @if(request()->segment(2) == 'service-categories') active @endif">
+                                            <i class="nav-icon far fa-circle"></i>
+                                            <p>Services Categories</p>
+                                        </a>
+                                    </li>
+        
+                                    <li class="nav-item">
+                                        <a href="{{ route('services.index') }}" class="nav-link @if(request()->segment(2) == 'services') active @endif">
+                                            <i class="nav-icon far fa-circle"></i>
+                                            <p>Services</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="{{ route('services.index') }}" class="nav-link @if(request()->segment(2) == 'services') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Services</p>
+
+                            
+                            <li class="nav-item has-treeview @if(request()->segment(2) && str_contains(request()->segment(2) , 'contractor')) menu-open @endif">
+                                <a href="#" class="nav-link @if(request()->segment(2) && str_contains(request()->segment(2) , 'contractor')) active @endif">
+                                  <i class="nav-icon fas fa-hospital-user"></i>
+                                  <p>
+                                    Contractors
+                                    <i class="right fas fa-angle-left"></i>
+                                  </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('contractor-categories.index') }}" class="nav-link @if(request()->segment(2) == 'contractor-categories') active @endif">
+                                            <i class="nav-icon far fa-circle"></i>
+                                            <p>Contractors Categories</p>
+                                        </a>
+                                    </li>
+        
+                                    <li class="nav-item">
+                                        <a href="{{ route('contractors.index') }}" class="nav-link @if(request()->segment(2) == 'contractors') active @endif">
+                                            <i class="nav-icon far fa-circle"></i>
+                                            <p>Contractors</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
 
+                            
+                            <li class="nav-item has-treeview @if(request()->segment(2) && str_contains(request()->segment(2) , 'propert')) menu-open @endif">
+                                <a href="#" class="nav-link @if(request()->segment(2) && str_contains(request()->segment(2) , 'propert')) active @endif">
+                                    <i class="nav-icon fas fa-building"></i>
+                                    <p>
+                                    Properties
+                                    <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('properties.index') }}" class="nav-link @if(request()->segment(2) == 'properties') active @endif">
+                                            <i class="nav-icon far fa-circle"></i>
+                                            <p>Properties</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('property-items.index') }}" class="nav-link @if(request()->segment(2) == 'property-items') active @endif">
+                                            <i class="nav-icon far fa-circle"></i>
+                                            <p>Property Items</p>
+                                        </a>
+                                    </li>
+        
+                                    <li class="nav-item">
+                                        <a href="{{ route('property-types.index') }}" class="nav-link @if(request()->segment(2) == 'property-types') active @endif">
+                                            <i class="nav-icon far fa-circle"></i>
+                                            <p>Property Types</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            
+                            
                             <li class="nav-item">
                                 <a href="{{ route('developers.index') }}" class="nav-link @if(request()->segment(2) == 'developers') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <i class="nav-icon fas fa-id-card-alt"></i>
                                     <p>Developers</p>
                                 </a>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="{{ route('contractor-categories.index') }}" class="nav-link @if(request()->segment(2) == 'contractor-categories') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Contractors Categories</p>
-                                </a>
-                            </li>
+                            
 
-                            <li class="nav-item">
-                                <a href="{{ route('contractors.index') }}" class="nav-link @if(request()->segment(2) == 'contractors') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Contractors</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="{{ route('property-items.index') }}" class="nav-link @if(request()->segment(2) == 'property-items') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Property Items</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="{{ route('property-types.index') }}" class="nav-link @if(request()->segment(2) == 'property-types') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Property Types</p>
-                                </a>
-                            </li>
+                            
 
                             <li class="nav-item">
                                 <a href="{{ route('facilities.index') }}" class="nav-link @if(request()->segment(2) == 'facilities') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <i class="nav-icon fas fa-hotel"></i>
                                     <p>Facilities</p>
                                 </a>
                             </li>
 
                             <li class="nav-item">
                                 <a href="{{ route('compounds.index') }}" class="nav-link @if(request()->segment(2) == 'compounds') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <i class="nav-icon fas fa-warehouse"></i>
                                     <p>Compounds</p>
                                 </a>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="{{ route('properties.index') }}" class="nav-link @if(request()->segment(2) == 'properties') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>Properties</p>
-                                </a>
-                            </li>
+                            
 
                             <li class="nav-item">
                                 <a href="{{ route('settings.index') }}" class="nav-link @if(request()->segment(2) == 'app-settings') active @endif">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <i class="nav-icon fas fa-cogs"></i>
                                     <p>App settings</p>
                                 </a>
                             </li>
-                                </ul>
-                              </li>
                               
                             
                         </ul>

@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\ArticleCategory;
 use App\Http\Controllers\Controller;
+use App\Traits\UploadFiles;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class ArticleCategoryController extends Controller
 {
+    use UploadFiles;
     /**
      * Display a listing of the resource.
      *
@@ -63,15 +65,15 @@ class ArticleCategoryController extends Controller
         $requestData = $request->except(['icon']);
         
         // send files to rename and upload
-        $icon = $this->uploadFile($request->icon , 'EventCategory','icon','image','article_categories_files');
+        $icon = $this->uploadFile($request->icon , 'ArticleCategory','icon','image','article_categories_files');
 
         $articleData = [
             'icon'  => $icon,
         ];
         
-        $EventCategoryData = array_merge($requestData , $articleData);
+        $ArticleCategoryData = array_merge($requestData , $articleData);
 
-        ArticleCategory::create($EventCategoryData);
+        ArticleCategory::create($ArticleCategoryData);
 
         return redirect(route("article-categories.index"))->with("success_message", "Article category has been stored successfully.");
     }
@@ -108,19 +110,28 @@ class ArticleCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $this->validate($request, [
             "title_en" => "required",
             "title_ar" => "required",
-            "icon" => "required"
+            "icon" => "file"
         ]);
 
-        $article_category = ArticleCategory::find($id);
+        $articleCategory = ArticleCategory::find($id);
 
-        $article_category->update([
-            "title_en" => $request->title_en,
-            "title_ar" => $request->title_ar,
-            "icon" => $request->icon,
-        ]);
+        $requestData = $request->except(['icon']);
+        
+        if ($request->icon) { 
+            // send files to rename and upload
+            $newIcon = $this->uploadFile($request->icon , 'ArticleCategory','icon','image','article_categories_files');
+            $cityData['icon'] = $newIcon;
+        }else{
+            $cityData['icon'] = $articleCategory->icon;
+        }
+        
+        $ArticleCategoryData = array_merge($requestData , $cityData);
+            //  dd($ArticleCategoryData);
+        $articleCategory->update($ArticleCategoryData);
 
         return redirect(route("article-categories.index"))->with("success_message", "Article category has been updated successfully.");
     }
