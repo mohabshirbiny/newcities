@@ -56,8 +56,12 @@ class CustomerController extends Controller
         }
         
         $response = $this->sendVerificationSMS($customer);
-
-        return APIResponseController::respond(1,"login",["customer" => $customer],200); 
+        
+        if($response->code == "0"){
+            return APIResponseController::respond(1,"login",["customer" => $customer],200);     
+        }else{
+            return APIResponseController::respond(0,'SMS gateway error '.$response->message,[],500); 
+        }
         
     }
 
@@ -179,9 +183,9 @@ class CustomerController extends Controller
         $customer->verification_code_sent = time();
         $customer->save();
         
-        // $response = $this->send($customer->mobile,"Verify your NewCities account: \n".$customer->verification_code);
-        $response = true;
-
+        $response = $this->send($customer->mobile,"Verify your NewCities account: \n".$customer->verification_code);
+        // $response = true;
+        // dd($response,'d');
         return $response;
     }
 
