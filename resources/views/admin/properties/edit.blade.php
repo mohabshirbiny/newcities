@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('admin_assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 
     <div class="content-wrapper">
+        @include('layouts.alerts')
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid"></div>
@@ -21,17 +22,9 @@
                         <!-- jquery validation -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">edit compound</h3>
+                                <h3 class="card-title">edit property</h3>
                             </div>
-                            @if (count($errors) > 0)
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+                            
                             <!-- /.card-header -->
                             <!-- form start -->
                             <form role="form" id="quickForm" method="post" action="{{ route('properties.update', $id) }}" enctype="multipart/form-data">
@@ -53,6 +46,7 @@
                                             <label for="exampleInputEmail1">Facilites</label>
                                             <select name="facilities[]" class="select2" data-placeholder="Select a facility" style="width: 100%;" multiple>
                                                 @foreach ($facilities as $facility_id => $facility_name)
+                                                
                                                     <option value="{{ $facility_id }}" @if(in_array($record->id, $selected_facilities)) selected @endif>{{ json_decode($facility_name, true)['en'] . " - " . json_decode($facility_name, true)['ar'] }}</option>                                                    
                                                 @endforeach
                                             </select>
@@ -117,7 +111,7 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputFile">cover</label>
-                                            <img style="width: 50px;" src="{{ url('images/property_files/' . $details->cover) }}" alt="">
+                                            <img style="width: 50px;" src="{{  $details->cover_path }}" alt="">
                                             <div class="input-group">
                                                 <div class="custom-file">
                                                     <input type="file" name='cover' class="custom-file-input" id="exampleInputFile" accept="image/*">

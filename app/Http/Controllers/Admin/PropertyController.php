@@ -88,12 +88,14 @@ class PropertyController extends Controller
         $this->validate($request, [
             "city_id" => "required",
             "developer_id" => "required",
+            "compound_id" => "required",
             "property_type_id" => "required",
             "name.en" => "required",
             "name.ar" => "required",
             "about.en" => "required",
             "about.ar" => "required",
             "cover" => "required",
+            "facilities" => "required",
         ]);
 
         $cover = $this->uploadFile($request->cover, 'Property', 'cover', 'image', 'property_files');
@@ -102,6 +104,7 @@ class PropertyController extends Controller
             "city_id" => $request->city_id,
             "use_facilities" => (count($request->facilities) > 0) ? 1 : 0,
             "developer_id" => $request->developer_id,
+            "compound_id" => $request->compound_id,
             "property_type_id" => $request->property_type_id,
             "name" => json_encode($request->name),
             "about" => json_encode($request->about),
@@ -163,6 +166,7 @@ class PropertyController extends Controller
         $this->validate($request, [
             "city_id" => "required",
             "developer_id" => "required",
+            "compound_id" => "required",
             "property_type_id" => "required",
             "name.en" => "required",
             "name.ar" => "required",
@@ -177,23 +181,32 @@ class PropertyController extends Controller
             $cover = $this->uploadFile($request->cover, 'Property', 'cover', 'image', 'property_files');
         }
 
+        $facilities = 0;
+
+        if ($request->facilities) {
+            $facilities = ($request->facilities > 0) ? 1 : 0;
+            
+            DB::table('property_facilities')->where("property_id", $id)->delete();
+            foreach ($request->facilities as $facility_id) {
+                DB::table('property_facilities')->insert([
+                    "property_id" => $property->id,
+                    "facility_id" => $facility_id,
+                ]);
+            }
+        }
+
         $property->update([
             "city_id" => $request->city_id,
-            "use_facilities" => (count($request->facilities) > 0) ? 1 : 0,
+            "use_facilities" => $facilities,
             "developer_id" => $request->developer_id,
+            "compound_id" => $request->compound_id,
             "property_type_id" => $request->property_type_id,
             "name" => json_encode($request->name),
             "about" => json_encode($request->about),
             "cover" => $cover,
         ]);
 
-        DB::table('property_facilities')->where("property_id", $id)->delete();
-        foreach ($request->facilities as $facility_id) {
-            DB::table('property_facilities')->insert([
-                "property_id" => $property->id,
-                "facility_id" => $facility_id,
-            ]);
-        }
+        
 
         return redirect(route("properties.index"))->with("success_message", "Property has been updated successfully.");
     }

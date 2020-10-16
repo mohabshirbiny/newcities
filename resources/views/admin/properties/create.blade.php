@@ -83,9 +83,9 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Compound</label>
-                                            <select name="developer_id" class="form-control">
-                                                <option value="">Select Developer</option>
-                                                @foreach ($developers as $record)
+                                            <select name="compound_id" class="form-control">
+                                                <option value="">Select Compound</option>
+                                                @foreach ($compounds as $record)
                                                     <option value="{{ $record->id }}">{{ json_decode($record->name, true)['en'] . " - " . json_decode($record->name, true)['ar'] }}</option>
                                                 @endforeach
                                             </select>

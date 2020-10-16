@@ -1,13 +1,15 @@
 @if ($errors->any())
         <div class="alert alert-danger alert-dismissible fade show">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-
+              <span>Please, review the errors below</span>
+              <br>
+              <br>
              <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
-            {{ __('messages.review_errors') }}
+            {{-- {{ __('messages.review_errors') }} --}}
         </div>
     @endif
     @if($errors->has('general_error'))
