@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("page_title", "compounds")
+@section("page_title", "properties")
 @section("content")
 
     <div class="content-wrapper">
@@ -18,7 +18,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    View all compounds
+                                    View all properties
                                     <a class="btn btn-info btn-sm text-right" href="{{ route('properties.create') }}">+ Add New</a>
                                 </h3>
                             </div>
