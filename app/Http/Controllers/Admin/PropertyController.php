@@ -97,7 +97,9 @@ class PropertyController extends Controller
             "about.en" => "required",
             "about.ar" => "required",
             "cover" => "required",
+            "status" => "required",
             "facilities" => "required",
+            "property_id" => "required",
         ]);
 
         $cover = $this->uploadFile($request->cover, 'Property', 'cover', 'image', 'property_files');
@@ -108,6 +110,8 @@ class PropertyController extends Controller
             "developer_id" => $request->developer_id,
             "compound_id" => $request->compound_id,
             "property_type_id" => $request->property_type_id,
+            "status" => $request->status,
+            "property_id" => $request->property_id,
             "name" => json_encode($request->name),
             "about" => json_encode($request->about),
             "cover" => $cover,
@@ -170,6 +174,8 @@ class PropertyController extends Controller
             "developer_id" => "required",
             "compound_id" => "required",
             "property_type_id" => "required",
+            "status" => "required",
+            "property_id" => "required",
             "name.en" => "required",
             "name.ar" => "required",
             "about.en" => "required",
@@ -203,6 +209,8 @@ class PropertyController extends Controller
             "developer_id" => $request->developer_id,
             "compound_id" => $request->compound_id,
             "property_type_id" => $request->property_type_id,
+            "property_id" => $request->property_id,
+            "status" => $request->status,
             "name" => json_encode($request->name),
             "about" => json_encode($request->about),
             "cover" => $cover,

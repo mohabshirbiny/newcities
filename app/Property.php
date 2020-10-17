@@ -8,7 +8,19 @@ use Illuminate\Support\Facades\DB;
 class Property extends Model
 {
     protected $fillable = [
-        "name", "city_id", "compound_id", "developer_id", "property_type_id", "attachments", "cover", "gallery", 'floor_plans', "about", "use_facilities",
+        "name",
+        "city_id",
+        "compound_id",
+        "developer_id",
+        "property_type_id",
+        "attachments",
+        "cover",
+        "gallery",
+        'floor_plans',
+        "about",
+        "use_facilities",
+        "status",
+        "property_id",
     ];
 
     protected $appends = [
@@ -69,7 +81,7 @@ class Property extends Model
     {
         $floor_plans = json_decode($this->floor_plans, true);
         if (!$floor_plans) {
-            return (object) [];
+            return [];
         }
 
         foreach ($floor_plans as $type => $files) {
@@ -96,7 +108,7 @@ class Property extends Model
     {
         $attachments = json_decode($this->attachments, true);
         if (!$attachments) {
-            return (object) [];
+            return [];
         }
 
         foreach ($attachments as $files) {

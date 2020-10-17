@@ -103,6 +103,23 @@
 
                                     <div class="row">
                                         <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Status</label>
+                                            <select name="status" class="form-control">
+                                                <option value="">Select Type</option>
+                                                <option value="1">Residential</option>
+                                                <option value="2">Commercial</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <div class="form-group col-md-6">
+                                                <label for="exampleInputEmail1">Property Id</label>
+                                                <input type="text" name="property_id" value='{{old('property_id')}}' class="form-control" placeholder="Enter property id" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">name (ar)</label>
                                             <input type="text" name="name[ar]" value='{{old('name.ar')}}' class="form-control" placeholder="Enter name ar" />
                                         </div>

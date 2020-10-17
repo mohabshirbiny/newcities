@@ -29,7 +29,7 @@ class CompoundController extends Controller
 
         $districts = CityDistrict::where("city_id", request()->city_id)->get();
 
-        $section = SectionData::where('model', 'Compound')->first();
+        $section = SectionData::where('model', 'real_state')->first();
 
         $data = [
             "locations" => $districts,
