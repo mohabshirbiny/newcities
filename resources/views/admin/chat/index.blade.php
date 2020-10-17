@@ -97,7 +97,7 @@
 
 @section("js")
     <script>
-        let url = "{{ url('/get-chat-history') }}";
+        let url = "{{ url('/admin/get-chat-history') }}";
         $(document).on("click", ".customer_chat", function(e) {
             $("#message_input").val("");
             let customer_id = $(this).data("customer_id");
@@ -107,6 +107,7 @@
                 type: "get",
                 success: function(result) {
                     $(".direct-chat-messages").html(result);
+                    $(".direct-chat-messages").scrollTop($(".direct-chat-messages")[0].scrollHeight);
                 }
             });
         })

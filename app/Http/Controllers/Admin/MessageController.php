@@ -65,4 +65,21 @@ class MessageController extends Controller
 
         return $html;
     }
+
+    public function receive(Request $request)
+    {
+        $this->validate($request, [
+            "customer_id" => "required",
+            "content" => "required",
+        ]);
+
+        $message = Message::create([
+            "customer_id" => $request->customer_id,
+            "admin_id" => null,
+            "content" => $request->content,
+            "sender_type" => 1,
+            "is_read" => 0,
+        ]);
+
+    }
 }

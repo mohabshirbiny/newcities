@@ -43,4 +43,15 @@ window.Echo = new Echo({
 window.Echo.channel('mobile-chat')
     .listen('.mobile-send-message', (e) => {
         console.log(e);
+        $.ajax({
+            url: base_url + "/mobile-send-message",
+            headers: {
+                "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content")
+            },
+            type: "post",
+            data: e.message_details,
+            success: function (result) {
+                console.log(result);
+            }
+        });
     });

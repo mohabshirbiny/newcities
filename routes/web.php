@@ -176,6 +176,7 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::post('chat', 'Admin\MessageController@store')->name('chat.store');
 
     Route::post("send-admin-message", "Admin\MessageController@send");
+    Route::post("mobile-send-message", "Admin\MessageController@receive");
     Route::get("get-chat-history/{customer}", "Admin\MessageController@history");
 
 });
