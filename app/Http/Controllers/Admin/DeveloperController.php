@@ -112,7 +112,7 @@ class DeveloperController extends Controller
         $details->social_media = json_decode($details->social_media, true);
         $details->name = json_decode($details->name, true);
         $details->about = json_decode($details->about, true);
-        $details->contact_details = json_decode($details->contact_details, true);
+        // $details->contact_details = json_decode($details->contact_details, true);
         return view("admin.developers.edit", compact('id', "details"));
     }
 

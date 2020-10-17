@@ -48,18 +48,20 @@ class PropertyController extends Controller
                 $link = route("properties.attachments", $record->id);
                 return "<a href='$link'>Attachments</a>";
             })
+            ->addColumn("items", function ($record) {
+                $link = route("properties.items", $record->id);
+                return "<a href='$link'>Items</a>";
+            })
             ->addColumn("actions", function ($record) {
-                $items_link = route("properties.items", $record->id);
                 $edit_link = route("properties.edit", $record->id);
                 $delete_link = route("properties.destroy", $record->id);
                 $actions = "
-                    <a href='$items_link' class='badge bg-info'>Item</a>
                     <a href='$edit_link' class='badge bg-warning'>Edit</a>
                     <a href='$delete_link' class='badge bg-danger'>Delete</a>
                 ";
                 return $actions;
             })
-            ->rawColumns(['actions', "gallery", "attachments", "floor_plans"])->make(true);
+            ->rawColumns(['actions', "gallery", "attachments", "floor_plans",'items'])->make(true);
     }
 
     /**

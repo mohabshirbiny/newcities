@@ -55,7 +55,7 @@ class CustomerController extends Controller
 
         }
         
-        // return APIResponseController::respond(1,"login",["customer" => $customer],200);     
+        return APIResponseController::respond(1,"login",["customer" => $customer],200);     
 
         $response = $this->sendVerificationSMS($customer);
         
@@ -171,6 +171,13 @@ class CustomerController extends Controller
         $customer->verification_code =(int)$customer->verification_code;
 
         return APIResponseController::respond(1,'Profile updated',["customer" => $customer, "token" => $token]); 
+    }
+
+    public function getMessages(Request $request)
+    {
+        $customer = auth('api')->user();
+        
+        return APIResponseController::respond(1,'customer messages',["messages" => $customer->messages]); 
     }
 
     public function logout()
