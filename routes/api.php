@@ -111,4 +111,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get("get-compound/{id}", "Api\CompoundController@getOne");
     
     Route::get("get-general-data", "Api\AppSettingController@getAll");
+
+    Route::get("messages-history", "Api\MessageController@getHistory");
 });

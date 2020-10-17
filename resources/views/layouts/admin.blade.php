@@ -30,6 +30,15 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css">
 
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+        
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <script>
+            var base_url = "{{ url('/admin') }}";
+        </script>
+
+        <script src="{{ asset("js/app.js") }}"></script>
+
     </head>
     <body class="hold-transition sidebar-mini layout-fixed">
         <div class="wrapper">
@@ -401,6 +410,13 @@
                                 <a href="{{ route('settings.index') }}" class="nav-link @if(request()->segment(2) == 'app-settings') active @endif">
                                     <i class="nav-icon fas fa-cogs"></i>
                                     <p>App settings</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('chat.index') }}" class="nav-link @if(request()->segment(2) == 'chat') active @endif">
+                                    <i class="nav-icon fas fa-cogs"></i>
+                                    <p>Chat</p>
                                 </a>
                             </li>
                               
