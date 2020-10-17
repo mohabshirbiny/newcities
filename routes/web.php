@@ -172,4 +172,6 @@ Route::group(['prefix' => 'admin','resource' => 'Admin','middleware' => 'auth'],
     Route::get('app-settings', 'Admin\AppSettingController@getAll')->name('settings.index');
     Route::post('app-settings', 'Admin\AppSettingController@store')->name('settings.store');
 
+    Route::post("admin-send-message", "Admin\ChatController@send");
+
 });
