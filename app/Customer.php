@@ -60,6 +60,11 @@ class Customer extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Property::class);
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function getImagePathAttribute(){
         $imageUrl = url('images/customer_files/'.$this->image);
         $imageUrl = url('public/images/customer_files/'.$this->image);

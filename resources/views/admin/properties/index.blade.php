@@ -33,6 +33,7 @@
                                             <th>Gallery</th>
                                             <th>Floor Plans</th>
                                             <th>Attachment</th>
+                                            <th>Items</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -68,6 +69,7 @@ $(function() {
             { data: 'gallery', name: 'gallery' },
             { data: 'floor_plans', name: 'floor_plans' },
             { data: 'attachments', name: 'attachments' },
+            { data: 'items', name: 'items' },
             { data: 'actions', name: 'actions' },
         ]
     });

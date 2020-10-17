@@ -118,8 +118,12 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
+        $categories = ArticleCategory::get();
+        $vendors = Vendor::get();
+        $compounds = Compound::get();
+        $cities = City::get();
         $article = Article::find($id);
-        return view("admin.articles.edit", compact("article"));
+        return view("admin.articles.edit", compact('article',"categories",'vendors','compounds','cities'));
     }
 
     /**

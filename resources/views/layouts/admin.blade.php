@@ -30,6 +30,8 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css">
 
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+        
+        <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
     <body class="hold-transition sidebar-mini layout-fixed">
         <div class="wrapper">

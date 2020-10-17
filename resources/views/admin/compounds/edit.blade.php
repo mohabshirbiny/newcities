@@ -181,7 +181,7 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputFile">logo</label>
-                                            <img style="width: 50px;" src="{{ url('images/compound_files/' . $details->logo) }}" alt="">
+                                            <img style="width: 50px;" src="{{  $details->logo_path }}" alt="">
                                             <div class="input-group">
                                                 <div class="custom-file">
                                                     <input type="file" name='logo' class="custom-file-input" id="exampleInputFile" accept="image/*">
@@ -191,7 +191,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputFile">cover</label>
-                                            <img style="width: 50px;" src="{{ url('images/compound_files/' . $details->cover) }}" alt="">
+                                            <img style="width: 50px;" src="{{ $details->cover_path }}" alt="">
                                             <div class="input-group">
                                                 <div class="custom-file">
                                                     <input type="file" name='cover' class="custom-file-input" id="exampleInputFile" accept="image/*">
