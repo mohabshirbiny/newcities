@@ -21,6 +21,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post("update-profile", "Api\CustomerController@updateProfile");
     Route::post("change-password", "Api\CustomerController@changePassword");
     Route::get("logout", "Api\CustomerController@logout");
+    Route::get("get-messages", "Api\CustomerController@getMessages");
 
     // cities
     Route::get("get-city-districts/{city_id}", "Api\CityDistrictController@getAll")->name('cities.districts.all');
