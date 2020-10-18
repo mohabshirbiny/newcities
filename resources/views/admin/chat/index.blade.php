@@ -112,7 +112,7 @@
             });
         })
 
-        let send_message = "{{ url('send-admin-message') }}";
+        let send_message = "{{ url('admin/send-admin-message') }}";
         $(document).on("submit", "#send-message-form", function(e) {
             e.preventDefault();
             let message = $("#message_input").val();
