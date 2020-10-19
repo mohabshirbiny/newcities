@@ -23,8 +23,19 @@ class PropertyController extends Controller
 
     public function getOne($id)
     {
-        $details = Property::find($id);
-        return APIResponseController::respond(1, "Property details", ["details" => $details], 200);
+        $property = Property::find($id);
+
+        $user = auth('api')->user();
+        
+        $interstedUsersIds = $property->interested_customers()->pluck('customer_id')->toArray();
+        
+        if(in_array($user->id ,$interstedUsersIds )){
+            $user_interested = 1;
+        }else{
+            $user_interested = 0;
+        }
+
+        return APIResponseController::respond(1, "Property details", ["details" => $property,'user_interested' => $user_interested], 200);
     }
 
     public function addInterestedCustomer()

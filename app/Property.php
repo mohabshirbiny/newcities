@@ -28,6 +28,8 @@ class Property extends Model
         'name_ar',
         "about_en",
         'about_ar',
+        "property_type_en",
+        'property_type_ar',
         'cover_path',
         'property_gallery',
         "attachments_paths",
@@ -136,6 +138,19 @@ class Property extends Model
 
     public function getAboutArAttribute()
     {
+        return json_decode($this->about, true)['ar'];
+    }
+
+    public function getPropertyTypeEnAttribute()
+    {
+        return PropertyType::find($this->property_type_id)->name_en;
+        
+        return json_decode($this->about, true)['en'];
+    }
+
+    public function getPropertyTypeArAttribute()
+    {
+        return PropertyType::find($this->property_type_id)->name_ar;
         return json_decode($this->about, true)['ar'];
     }
 
