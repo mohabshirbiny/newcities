@@ -55,6 +55,14 @@ class AddSectionsData extends Seeder
                     'ar' => '',
                     'en' => 'Cities']
                 ],
+            'Help' => ['title'=>[
+                    'ar' => '',
+                    'en' => 'Help']
+                ],
+            'About_us' => ['title'=>[
+                    'ar' => '',
+                    'en' => 'About us']
+                ],
         ];
 
         foreach ($models as $key => $value) {
