@@ -43429,6 +43429,19 @@ window.Echo.channel('mobile-chat').listen('.mobile-send-message', function (e) {
     }
   });
 });
+window.Echo.channel('mobile-chat').listen('.mobile-receive-message', function (e) {
+  console.log(e);
+  var customer_id = e.message_details.customer_id;
+  $("#sender_customer_id").val(customer_id);
+  $.ajax({
+    url: url + "/" + customer_id,
+    type: "get",
+    success: function success(result) {
+      $(".direct-chat-messages").html(result);
+      $(".direct-chat-messages").scrollTop($(".direct-chat-messages")[0].scrollHeight);
+    }
+  });
+});
 
 /***/ }),
 

@@ -59,6 +59,22 @@
                                             </div>
                                             <div class="row">
                                                 <div class="form-group col-md-6">
+                                                    <label for="exampleInputEmail1">Terms (en)</label>
+                                                    <textarea name="terms[en]" class="form-control" id="" cols="30" rows="2">{{$appSettingsData['terms']['en']}}</textarea>
+                                                    @if ($errors->has('terms.en'))
+                                                        <span class="text-danger">{{ $errors->first('terms.en') }}</span>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="exampleInputEmail1">Terms (ar)</label>
+                                                    <textarea name="terms[ar]" class="form-control" id="" cols="30" rows="2">{{$appSettingsData['terms']['ar']}}</textarea>
+                                                    @if ($errors->has('terms.ar'))
+                                                        <span class="text-danger">{{ $errors->first('terms.ar') }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-md-6">
                                                     <label for="exampleInputEmail1">Email </label>
                                                     <input type="email" value='{{$appSettingsData['contact_details']['email']}}' name="contact_details[email]" class="form-control" placeholder="Enter Email" />
                                                     @if ($errors->has('contact_details'))

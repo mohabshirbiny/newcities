@@ -18,6 +18,7 @@ class AppSettingsSeed extends Seeder
             'sponsors',
             'about_us',
             'social_links',
+            'terms',
         ];
         foreach ($settings as $key ) {
             if (!AppSetting::where('key',$key)->first()) {

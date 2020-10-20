@@ -22,11 +22,11 @@ class AppSettingController extends Controller
             $appSettingsData[$key] = unserialize( $value[0]['value'] );
         }
         
-        $data = array_merge($appSettings,[
+        $data = array_merge($appSettingsData,[
             "help_gallery" => ($sectionHelp) ? $sectionHelp->section_gallery : [],
             "about_us_gallery" => ($sectionAboutUs) ? $sectionAboutUs->section_gallery : [],
         ]);
-        
+
         return APIResponseController::respond(1,'', $data,200); 
     }
 }

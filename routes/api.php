@@ -113,4 +113,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get("get-general-data", "Api\AppSettingController@getAll");
 
     Route::get("messages-history", "Api\MessageController@getHistory");
+    Route::post("send-message", "Api\MessageController@sendMessage");
+    
 });
