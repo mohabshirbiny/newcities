@@ -16,7 +16,12 @@ class AppSettingController extends Controller
         $appSettingsData = [];
 
         foreach ($appSettings as $key => $value) {
-            $appSettingsData[$key] = unserialize( $value[0]['value'] );
+            try {
+                $appSettingsData[$key] = (unserialize( $value[0]['value']))? unserialize( $value[0]['value'] ): [];
+            } catch (\Throwable $th) {
+                throw $key;
+            }
+            
         }
         
         return view("admin.app_settings.index", compact("appSettingsData"));
@@ -26,7 +31,10 @@ class AppSettingController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        // dd($request->all());
+        if ($request->has('about_us_attachments')) {
+            $request['about_us_attachments'] = explode("\n", str_replace("\r", "", $request->about_us_attachments ));
+        }
+        // dd($request->all() );
         foreach ($data as $key => $value) {
             // $appSettings = AppSetting::where('key',$key)->first();
             // if ($key == 'help') {

@@ -17,6 +17,7 @@ class AppSettingsSeed extends Seeder
             'help',
             'sponsors',
             'about_us',
+            'about_us_attachments',
             'social_links',
             'terms',
         ];

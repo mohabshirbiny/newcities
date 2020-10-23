@@ -141,6 +141,19 @@
                                                 </div>
                                                 
                                             </div>
+                                            <div class="row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="exampleInputEmail1">Attachments</label>
+                                                    <textarea name="about_us_attachments" class="form-control" id="" cols="30" rows="4">{{$appSettingsData['about_us_attachments']}}</textarea>
+                                                    @if ($errors->has('location_url'))
+                                                        <span class="text-danger">{{ $errors->first('about_us_attachments') }}</span>
+                                                    @endif
+                                                    <span class="text-default">enter the attachment url and press enter</span>
+                                                </div>
+                                                
+                                                
+                                                
+                                            </div>
                                         </div>
                                         <div class="tab-pane fade" id="social_links" role="tabpanel" aria-labelledby="social_links-tab">
                                             <div class="row">
@@ -177,41 +190,118 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="help" role="tabpanel" aria-labelledby="help-tab">
-                                            <div class="row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="exampleInputEmail1">question (ar)</label>
-                                                    <input type="text" value="" name="help[ar][question]" class="form-control" placeholder="Enter location url  " />
-                                                    @if ($errors->has('location_url'))
-                                                        <span class="text-danger">{{ $errors->first('location_url') }}</span>
-                                                    @endif
-                                                </div>
+                                            @if ($appSettingsData['help'])
                                                 
-                                                <div class="form-group col-md-6">
-                                                    <label for="exampleInputEmail1">question (en)</label>
-                                                    <input type="text" value="" name="help[en][question]" class="form-control" placeholder="Enter working hours  " />
-                                                    @if ($errors->has('working_hours'))
-                                                        <span class="text-danger">{{ $errors->first('working_hours') }}</span>
-                                                    @endif
-                                                </div>
+                                                @php $lastItem = 0; @endphp
                                                 
-                                            </div>
-        
-                                            <div class="row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="exampleInputEmail1">Answer (en)</label>
-                                                    <textarea name="help[en][answer]" class="form-control" id="" cols="30" rows="2"></textarea>
-                                                    @if ($errors->has('about_us.en'))
-                                                        <span class="text-danger">{{ $errors->first('about.en') }}</span>
-                                                    @endif
+                                                @foreach ($appSettingsData['help'] as $item)
+                                                    <div class="row form-group">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="exampleInputEmail1">question (ar)</label>
+                                                            <input type="text" value="{{$item['question_ar']}}" name="help[{{$loop->index}}][question_ar]" class="form-control" placeholder="Enter location url  " />
+                                                            @if ($errors->has('location_url'))
+                                                                <span class="text-danger">{{ $errors->first('location_url') }}</span>
+                                                            @endif
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-md-6">
+                                                            <label for="exampleInputEmail1">question (en)</label>
+                                                            <input type="text" value="{{$item['question_en']}}" name="help[{{$loop->index}}][question_en]" class="form-control" placeholder="Enter working hours  " />
+                                                            @if ($errors->has('working_hours'))
+                                                                <span class="text-danger">{{ $errors->first('working_hours') }}</span>
+                                                            @endif
+                                                        </div>
+                                                        
+                                                    
+                                                        <div class="form-group col-md-6">
+                                                            <label for="exampleInputEmail1">Answer (en)</label>
+                                                            <textarea name="help[{{$loop->index}}][answer_ar]" class="form-control" id="" cols="30" rows="2">{{$item['answer_ar']}}</textarea>
+                                                            @if ($errors->has('about_us.en'))
+                                                                <span class="text-danger">{{ $errors->first('about.en') }}</span>
+                                                            @endif
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="exampleInputEmail1">Answer (ar)</label>
+                                                            <textarea name="help[{{$loop->index}}][answer_en]" class="form-control" id="" cols="30" rows="2">{{$item['answer_en']}}</textarea>
+                                                            @if ($errors->has('about_us.ar'))
+                                                                <span class="text-danger">{{ $errors->first('about.ar') }}</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    @php
+                                                        $lastItem++;
+                                                    @endphp
+
+                                                @endforeach
+                                                <div class="row form-group">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="exampleInputEmail1">question (ar)</label>
+                                                        <input type="text" value="" name="help[{{$lastItem}}][question_ar]" class="form-control" placeholder="Enter location url  " />
+                                                        @if ($errors->has('location_url'))
+                                                            <span class="text-danger">{{ $errors->first('location_url') }}</span>
+                                                        @endif
+                                                    </div>
+                                                    
+                                                    <div class="form-group col-md-6">
+                                                        <label for="exampleInputEmail1">question (en)</label>
+                                                        <input type="text" value="" name="help[{{$lastItem}}][question_en]" class="form-control" placeholder="Enter working hours  " />
+                                                        @if ($errors->has('working_hours'))
+                                                            <span class="text-danger">{{ $errors->first('working_hours') }}</span>
+                                                        @endif
+                                                    </div>
+                                                    
+                                                
+                                                    <div class="form-group col-md-6">
+                                                        <label for="exampleInputEmail1">Answer (en)</label>
+                                                        <textarea name="help[{{$lastItem}}][answer_ar]" class="form-control" id="" cols="30" rows="2"></textarea>
+                                                        @if ($errors->has('about_us.en'))
+                                                            <span class="text-danger">{{ $errors->first('about.en') }}</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="exampleInputEmail1">Answer (ar)</label>
+                                                        <textarea name="help[{{$lastItem}}][answer_en]" class="form-control" id="" cols="30" rows="2"></textarea>
+                                                        @if ($errors->has('about_us.ar'))
+                                                            <span class="text-danger">{{ $errors->first('about.ar') }}</span>
+                                                        @endif
+                                                    </div>
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="exampleInputEmail1">Answer (ar)</label>
-                                                    <textarea name="help[ar][answer]" class="form-control" id="" cols="30" rows="2"></textarea>
-                                                    @if ($errors->has('about_us.ar'))
-                                                        <span class="text-danger">{{ $errors->first('about.ar') }}</span>
-                                                    @endif
+                                            @else
+                                                <div class="row form-group">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="exampleInputEmail1">question (ar)</label>
+                                                        <input type="text" value="" name="help[0][question_ar]" class="form-control" placeholder="Enter location url  " />
+                                                        @if ($errors->has('location_url'))
+                                                            <span class="text-danger">{{ $errors->first('location_url') }}</span>
+                                                        @endif
+                                                    </div>
+                                                    
+                                                    <div class="form-group col-md-6">
+                                                        <label for="exampleInputEmail1">question (en)</label>
+                                                        <input type="text" value="" name="help[0][question_en]" class="form-control" placeholder="Enter working hours  " />
+                                                        @if ($errors->has('working_hours'))
+                                                            <span class="text-danger">{{ $errors->first('working_hours') }}</span>
+                                                        @endif
+                                                    </div>
+                                                    
+                                                
+                                                    <div class="form-group col-md-6">
+                                                        <label for="exampleInputEmail1">Answer (en)</label>
+                                                        <textarea name="help[0][answer_ar]" class="form-control" id="" cols="30" rows="2"></textarea>
+                                                        @if ($errors->has('about_us.en'))
+                                                            <span class="text-danger">{{ $errors->first('about.en') }}</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="exampleInputEmail1">Answer (ar)</label>
+                                                        <textarea name="help[0][answer_en]" class="form-control" id="" cols="30" rows="2"></textarea>
+                                                        @if ($errors->has('about_us.ar'))
+                                                            <span class="text-danger">{{ $errors->first('about.ar') }}</span>
+                                                        @endif
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
+                                            
                                         </div>
                                       </div>
 

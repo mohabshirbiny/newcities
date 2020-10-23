@@ -19,7 +19,12 @@ class AppSettingController extends Controller
         $appSettingsData = [];
 
         foreach ($appSettings as $key => $value) {
-            $appSettingsData[$key] = unserialize( $value[0]['value'] );
+            if ($key == 'about_us_attachments') {
+                $appSettingsData[$key] = (unserialize( $value[0]['value']))? explode("\r\n", unserialize( $value[0]['value'] )) : [];
+            }else{
+                $appSettingsData[$key] = (unserialize( $value[0]['value']))? unserialize( $value[0]['value'] ): [];
+            }
+            
         }
         
         $data = array_merge($appSettingsData,[

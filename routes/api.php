@@ -27,7 +27,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get("get-city-districts/{city_id}", "Api\CityDistrictController@getAll")->name('cities.districts.all');
     Route::get("get-city-district/{id}", "Api\CityDistrictController@getOne")->name('cities.districts.one');
     Route::get("get-cities", "Api\CityController@getAll")->name('cities.all');
-    Route::get("get-city/{id}", "Api\CityController@getOne")->name('cities.one');
 
     // tenders
     Route::get("get-tender-categories", "Api\TenderCategoryController@getAll")->name('tenders.category.all');
@@ -109,10 +108,12 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::get("get-compounds", "Api\CompoundController@getAll");
     Route::get("get-compound/{id}", "Api\CompoundController@getOne");
-    
-    Route::get("get-general-data", "Api\AppSettingController@getAll");
 
     Route::get("messages-history", "Api\MessageController@getHistory");
     Route::post("send-message", "Api\MessageController@sendMessage");
     
 });
+
+Route::get("get-general-data", "Api\AppSettingController@getAll");
+
+Route::get("get-city/{id}", "Api\CityController@getOne")->name('cities.one');
