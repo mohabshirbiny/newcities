@@ -24,6 +24,7 @@ class JobController extends Controller
         $jobs = Job::query()->with("job_category",'vendor')
                         // ->orWhereIn('vendor_id',$locationVendorsIds)
                         ->Where('vendor_id','LIKE',$vendor_id)
+                        ->Where('post_title','LIKE','%'.$keyword.'%')
                         ->Where('job_category_id','LIKE',$job_category_id)
                         ->get();
 

@@ -63,8 +63,8 @@ $(function() {
         ajax: '{!! route('events.index') !!}',
         columns: [
             { data: 'id', name: 'id' },
-            { data: 'title_en', name: 'title_en' },
-            { data: 'title_ar', name: 'title_ar' },
+            { data: 'title_en', name: 'title' },
+            { data: 'title_ar', name: 'title' },
             { data: 'gallery', name: 'gallery' },
             { data: 'actions', name: 'actions' },
         ]

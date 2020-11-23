@@ -64,8 +64,8 @@ $(function() {
         ajax: '{!! route('properties.grid') !!}',
         columns: [
             { data: 'id', name: 'id' },
-            { data: 'name_en', name: 'name_en' },
-            { data: 'name_ar', name: 'name_ar' },
+            { data: 'name_en', name: 'name' },
+            { data: 'name_ar', name: 'name' },
             { data: 'gallery', name: 'gallery' },
             { data: 'floor_plans', name: 'floor_plans' },
             { data: 'attachments', name: 'attachments' },

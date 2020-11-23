@@ -62,8 +62,8 @@ $(function() {
         ajax: '{!! route('compounds.grid') !!}',
         columns: [
             { data: 'id', name: 'id' },
-            { data: 'name_en', name: 'name_en' },
-            { data: 'name_ar', name: 'name_ar' },
+            { data: 'name_en', name: 'name' },
+            { data: 'name_ar', name: 'name' },
             { data: 'gallery', name: 'gallery' },
             { data: 'attachments', name: 'attachments' },
             { data: 'actions', name: 'actions' },

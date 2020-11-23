@@ -62,8 +62,8 @@ $(function() {
         ajax: '{!! route('jobs.index') !!}',
         columns: [
             { data: 'id', name: 'id' },
-            { data: 'post_title_en', name: 'post_title_en' },
-            { data: 'post_title_ar', name: 'post_title_ar' },
+            { data: 'post_title_en', name: 'post_title' },
+            { data: 'post_title_ar', name: 'post_title' },
             { data: 'actions', name: 'actions' },
         ]
     });

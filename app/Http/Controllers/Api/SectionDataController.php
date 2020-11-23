@@ -11,7 +11,9 @@ class SectionDataController extends Controller
     public function getAll()
     {
         
-        $sections = SectionData::all();
+        $sections = SectionData::all()->reject(function ($sectiond) {
+            return in_array($sectiond->id,[15,16,17,18])  ;
+        });
         
         $section = SectionData::where('model','home')->first();
         
